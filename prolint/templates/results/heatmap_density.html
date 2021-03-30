@@ -1,0 +1,306 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1>Interactive Applications</h1>
+    <!-- <h2>Role and purpose of the web server</h2> -->
+  </div>
+</section>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+
+<main id="main">
+  {% endblock header %}
+
+
+  {% block content %}
+
+  <style>
+    .docp {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    h4 {
+      color: black;
+    }
+
+    ol {
+      list-style: none;
+      counter-reset: li
+    }
+
+    ol li::before {
+      content: counter(li);
+      color: black;
+      display: inline-block;
+      width: 1.2em;
+      margin-left: -1em
+    }
+
+    ol li {
+      counter-increment: li
+    }
+
+    a {
+      color: black;
+      font-weight: 900;
+    }
+
+    #lipid_text {
+      float: left;
+      margin-top: 35px;
+      z-index: 10;
+      margin-left: -150px
+    }
+
+    #lipidSelect {
+      float: left;
+      margin-top: 60px;
+      margin-left: -190px;
+      z-index: 20;
+    }
+
+    #density_warning {
+      float: left;
+      margin-top: 105px !important;
+      margin-left: -150px
+    }
+
+    #button_loaddx {
+      position: fixed;
+      float: left;
+      margin-top: 130px;
+      margin-left: -190px
+    }
+
+    #density_warning {
+      float: left;
+      margin-top: 160px;
+      margin-left: -150px
+    }
+
+    #surface_type {
+      float: left;
+      margin-top: 185px;
+      margin-left: -190px
+    }
+
+    #toggle_density {
+      float: left;
+      margin-top: 220px;
+      margin-left: -190px
+    }
+
+    #toggle_slice {
+      float: left;
+      margin-top: 258px;
+      margin-left: -190px
+    }
+
+    #slice_text {
+      float: left;
+      margin-top: 295px;
+      margin-left: -190px
+    }
+
+    #slice_direction {
+      float: left;
+      margin-top: 320px;
+      margin-left: -190px
+    }
+
+    #slice_slider {
+      float: left;
+      margin-top: 320px;
+      margin-left: -95px
+    }
+
+    #heatmap_text {
+      position: absolute;
+      float: left;
+      margin-top: 360px;
+      margin-left: -150px
+    }
+
+    #button_heatmap {
+      float: left;
+      margin-top: 385px;
+      margin-left: -150px
+    }
+
+    #radii_text {
+      float: left;
+      margin-top: 417px;
+      margin-left: -190px
+    }
+
+    #param_text {
+      float: left;
+      margin-top: 417px;
+      margin-left: -120px;
+    }
+
+    #radiiSelect {
+      float: left;
+      margin-top: 440px;
+      margin-left: -190px
+    }
+
+    #paramSelect {
+      float: left;
+      margin-top: 440px;
+      margin-left: -120px
+    }
+
+    #label_header {
+      float: left;
+      margin-top: 480px;
+      margin-left: -150px
+    }
+
+    #label_button {
+      float: left;
+      margin-top: 505px;
+      margin-left: -150px
+    }
+
+    #label_text {
+      float: left;
+      margin-top: 540px;
+      margin-left: -150px
+    }
+
+    #label_slider {
+      float: left;
+      margin-top: 565px;
+      margin-left: -150px
+    }
+
+    #button5 {
+      float: left;
+      margin-top: 635px;
+      margin-left: -150px
+    }
+
+    #gpcr_text {
+      float: inline-end;
+      display: none;
+    }
+
+    #gpcr_struc_text {
+      float: inline-end;
+      display: none;
+    }
+
+    #lipid_isolevel {
+      display: none;
+      float: left;
+      margin-top: 660px;
+      margin-right: -190px;
+      color: green;
+      z-index: 50;
+    }
+  </style>
+
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pace.css' %}">
+  <link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+
+
+  <section id="about">
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">{{ app }}</span></h2>
+
+        <br>
+        <p class="docp">
+          Lipids and proteins are represented as nodes and their interactions with each other as edges.
+          The width of the latter corresponds to the degree of the underlying interaction.
+          The size of lipid nodes corresponds to the ratio of that particular lipid in the simulated system.
+          The size of residue nodes corresponds to the relative content of each residue in the corresponding protein.
+          <br>
+          For more information, please see the Visualization Reference on the documenation pages.
+        </p>
+
+        <div id="viewer-parent" style="
+        /* justify-content: left !important; */
+        margin-left: -50px;
+        position: absolute !important;
+        "></div>
+        <div id="gpcr-network" class="xnetwork" style="
+        border: 2px solid black;
+        /* margin-bottom: 150px !important; */
+        ">
+        </div>
+        <div style='text-align: right !important;'>
+          <small>
+            <a href="https://github.com/arose/ngl" target="_blank" rel="noopener">NGL</a>
+            is a WebGL based 3D viewer powered by <a href="http://mmtf.rcsb.org" target="_blank"
+              rel="noopener">MMTF</a>.
+          </small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
+
+  {% block javascript %}
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+  </script>
+
+
+  {{ task_result|safe }}
+
+  <script type="text/javascript">
+    var besi = "BESIAN SEJDIU";
+    var task_id = "{{ task_id }}";
+    var prot_name = "{{ prot_name }}";
+    var protein_name = "{{ prot_name }}";
+    var username = "{{ username }}"
+    var radii = "{{ radii }}"
+
+    gn = document.getElementById('gpcr-network')
+    height = 700;
+    width = 500;
+
+    navbar = document.getElementsByClassName('navbar')
+
+    subs = 0
+    for (i = 0; i < navbar.length; i++) {
+      el = navbar[i]
+      subs = subs + el.clientHeight;
+    }
+    gn.style.height = (height - (4.5 * subs)) + "px"
+  </script>
+
+  <!-- 3rd party JavaScript -->
+  <script src="{% static 'js/ngl.js' %}"></script>
+  <script src="{% static 'js/palette.js' %}"></script>
+  <script src="{% static 'js/pace.min.js' %}"></script>
+  {% if density_only == 'true' %}
+  <script src="{% static 'js/gpcrs.js' %}"></script>
+  {% else %}
+  <script src="{% static 'js/dx.js' %}"></script>
+  {% endif %}
+
+  <script>
+    // dealing with the nav-menu underline
+    if ($('.nav-menu').length) {
+      $('.nav-menu .menu-active').removeClass('menu-active');
+    }
+    $("#docs").addClass('menu-active');
+  </script>
+  {% endblock javascript %}

@@ -1,0 +1,55 @@
+{% extends '_base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+{% block css %}
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link href='http://fonts.googleapis.com/css?family=Poppins:400,300,700' rel='stylesheet' type='text/css'>
+
+
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+  <h2 class="card-title">ProLint Results</h2>
+  <p class="card-text">Webserver version: v0.7</p>
+  <p class="card-text">
+    <h5>The following are the results for the current system.</h5>
+  </p>
+
+  <p>
+  <span>{{ desc|linebreaks }}</span>
+  </p>
+
+  <section id="apps" class="pb-5">
+    <div class="container">
+      <div class="row">
+        {% for task, info, description in app_info %}
+          <!-- New Application -->
+          <div class="col-lg-6 col-md-6 col-sm-12 d-flex">
+            <div class="card">
+              <div class="card-body text-center flex-fill">
+                {% with "images/"|add:info|add:".png" as app_image %}
+                  <p><img class=" img-fluid" src="{% static app_image %}" alt="card image"></p>
+                {% endwith %}
+
+                <h4 class="card-title">{{ info }} Application</h4>
+                <p class="card-text">{{ description }}</p>
+                <a href="{% url task username task_id %}" target="_blank" class="btn btn-primary stretched-link">Explore</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}

@@ -1,0 +1,161 @@
+@font-face {
+	font-family: Montserrat-Regular;
+	src: url('../lib/font-awesome/fonts/Montserrat-Regular.ttf');
+  }
+
+  @font-face {
+	font-family: Montserrat-Medium;
+	src: url('../lib/font-awesome/fonts/Montserrat-Medium.ttf');
+  }
+
+  input {
+	display: block;
+	  outline: none;
+	  border: none !important;
+  }
+
+  textarea {
+	display: block;
+	outline: none;
+  }
+
+  textarea:focus, input:focus {
+	border-color: transparent !important;
+  }
+
+  button {
+	  outline: none !important;
+	  border: none;
+	  background: transparent;
+  }
+
+  button:hover {
+	  cursor: pointer;
+  }
+
+  iframe {
+	  border: none !important;
+  }
+
+
+  .limiter {
+	width: 100%;
+  }
+
+  .container-table100 {
+	width: 100%;
+	background: #d1d1d1;
+
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+  }
+
+  .wrap-table100 {
+	width: 100%;
+  }
+
+  table {
+	width: 100%;
+	background-color: #fff;
+  }
+
+  th, td {
+	font-weight: unset;
+	padding-right: 10px;
+  }
+
+  .column100 {
+	width: 20px;
+	padding-left: 25px;
+  }
+
+  .row100.head th {
+	border-top: 2px solid white;
+	padding-top: 24px;
+	padding-bottom: 20px;
+  }
+
+  .row100 td {
+	padding-top: 18px;
+	padding-bottom: 14px;
+  }
+
+  .table100.ver1 td {
+	font-family: Montserrat-Regular;
+	font-size: 14px;
+	color: #808080;
+	line-height: 1.4;
+  }
+
+  .table100.ver1 th {
+	font-family: Montserrat-Medium;
+	font-size: 12px;
+	color: #fff;
+	line-height: 1.4;
+	text-transform: uppercase;
+
+	background-color: firebrick;
+  }
+
+  .table100.ver1 .row100:hover {
+	background-color:  #f2f2f2;
+  }
+
+  .table100.ver1 .hov-column-ver1 {
+	background-color:  #f2f2f2;
+  }
+
+  .table100.ver1 .hov-column-head-ver1 {
+	background-color: #484848 !important;
+  }
+
+  .table100.ver1 .row100 td:hover {
+	background-color: #484848;
+	color: #fff;
+  }
+
+  /* #column1 {
+	width: 80px !important;
+	max-width: 80px !important;
+}
+
+ #column2 {
+	width: 150px !important;
+ }
+
+ #column3 {
+	width: 600px !important;
+	max-width: 600px !important;
+
+ }
+
+ #column4 {
+	 width: 10% !important;
+ }
+
+ #column5 {
+	 width: 150px !important;
+	 max-width: 150px !important;
+ }
+
+ .column100 .column1 {
+	width: 50px !important;
+ }
+
+ .column100 .column2 {
+	width: 100px !important;
+ }
+
+ .column100 .column3 {
+	width: 500px !important;
+ }
+
+ .column100 .column4 {
+	width: 200px !important;
+ } */

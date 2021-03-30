@@ -1,0 +1,99 @@
+#apps {
+    background: white !important;
+}
+
+section {
+    padding: 60px 0;
+}
+
+section .section-title {
+    text-align: center;
+    color: black;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+
+#apps .card {
+    border: none;
+    background: #ffffff;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    border-radius: 40px;
+    box-shadow: 5px 5px 10px 2px rgba(0,0,0,0.25), -5px -5px 10px 2px rgba(0,0,0,0.22);
+    transition: 0.4s;
+}
+
+.card:hover {
+    transform: scale(1.1, 1.1);
+    height: 450px;
+    box-shadow: 2px 2px 10px 7px rgba(0,0,0,0.25),
+      -2px -2px 10px 7px rgba(0,0,0,0.22);
+  }
+
+
+.card {
+    z-index: 2;
+    height: 350px;
+    margin-bottom: 60px;
+    justify-content: left;
+}
+
+.card .card-title {
+    color: black !important;
+    font-size: 30px;
+    margin-bottom: -10px;
+    transition: all 0.3s ease;
+}
+
+.card:hover .card-title {
+    color: black !important;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.card .card-body img {
+    width: inherit;
+    height: inherit;
+    border-radius: 40px;
+}
+
+.card .card-text {
+  color: #000;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.card:hover .card-text {
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
+
+.btn-primary {
+    opacity: 0;
+    transition: all 0.1s ease;
+    background-color: #635359;
+}
+
+.card:hover .btn-primary {
+    opacity: 1;
+    margin-top: -20px !important;
+    /* padding-bottom: 50px; */
+    outline-color: #635359;
+    box-shadow: none;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: rgb(187, 172, 177);
+}
+
+.card:hover .btn-primary:focus {
+  background-color: #635359;
+  outline-color: #635359;
+  border: none;
+  box-shadow: none;
+
+}
+

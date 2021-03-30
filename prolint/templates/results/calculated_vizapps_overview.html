@@ -1,0 +1,102 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1>Analysis of Lipid-Protein Interactions</h1>
+    <h2>Visualize lipid-protein interactions</h2>
+  </div>
+</section>
+
+<main id="main">
+  {% endblock header %}
+
+
+  {% block content %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+  <style>
+    .docp {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    h4 {
+      color: black;
+    }
+
+    ol {
+      list-style: none;
+      counter-reset: li
+    }
+
+    ol li::before {
+      content: counter(li);
+      color: black;
+      display: inline-block;
+      width: 1.2em;
+      margin-left: -1em
+    }
+
+    ol li {
+      counter-increment: li
+    }
+
+    a {
+      color: black;
+      font-weight: 900;
+    }
+  </style>
+
+  <section id="about" style="margin-bottom: -80px">
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">Visualization Apps</span></h2>
+        <br>
+        <p class="docp">
+          Each card below corrspond to a separate but unique application that displays calculated
+          lipid-protein interactions from your submitted system. A description of each application,
+          what they measure and what they show is given in the Help pages of this website as well as
+          summarized over each application.
+        </p>
+        <section id="apps" class="pb-5">
+          <div class="container">
+            <div class="row">
+              {% for task, info, description, status, images in app_info %}
+              {% if status == "true" %}
+              <div class="col-lg-6 col-md-6 col-sm-12 d-flex">
+                <div class="card">
+                  <div class="card-body text-center flex-fill">
+                    {% with "images/"|add:images|add:".png" as app_image %}
+                    <p><img class=" img-fluid" src="{% static app_image %}" alt="card image"></p>
+                    {% endwith %}
+                    <h4 class="card-title">{{ info }}</h4>
+                    <p class="card-text">{{ description }}</p>
+                    <a href="{% url task username task_id %}" target="_blank"
+                      class="btn btn-primary stretched-link">Explore</a>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
+
+  {% block javascript %}
+  <script>
+    // dealing with the nav-menu underline
+    if ($('.nav-menu').length) {
+      $('.nav-menu .menu-active').removeClass('menu-active');
+    }
+    $("#docs").addClass('menu-active');
+  </script>
+
+  {% endblock javascript %}

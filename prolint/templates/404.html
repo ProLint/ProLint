@@ -1,0 +1,67 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1>404 Page Not Found</h1>
+    <!-- <h2>Role and purpose of the web server</h2> -->
+  </div>
+</section>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+
+<style>
+
+</style>
+
+<main id="main">
+{% endblock header %}
+
+
+{% block content %}
+
+<style>
+    .docp {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    h4 {color: black;}
+
+    ol {list-style: none; counter-reset: li}
+    ol li::before {
+        content: counter(li);
+        color: black;
+        display: inline-block;
+        width: 1.2em;
+        margin-left: -1em
+    }
+    ol li {counter-increment: li}
+    a {
+        color: black;
+        font-weight: 900;
+    }
+</style>
+
+
+
+<section id="about">
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">We could not find the requested page</span></h2>
+
+        <p style="text-align: center;">
+            If you believe this is a mistake, please feel free to contact us.
+        </p>
+
+
+        <br>
+        <br>
+
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+

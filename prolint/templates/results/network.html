@@ -1,0 +1,133 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1>Interactive Applications</h1>
+    <!-- <h2>Role and purpose of the web server</h2> -->
+  </div>
+</section>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+<link rel="stylesheet" href="{% static 'css/pace.css' %}">
+<main id="main">
+  {% endblock header %}
+
+
+  {% block content %}
+
+  <style>
+    .docp {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    h4 {
+      color: black;
+    }
+
+    ol {
+      list-style: none;
+      counter-reset: li
+    }
+
+    ol li::before {
+      content: counter(li);
+      color: black;
+      display: inline-block;
+      width: 1.2em;
+      margin-left: -1em
+    }
+
+    ol li {
+      counter-increment: li
+    }
+
+    a {
+      color: black;
+      font-weight: 900;
+    }
+
+    #proteins_select {
+      width: 200px;
+    }
+
+    #metric_select {
+      width: 200px;
+    }
+
+    #radii_select {
+      width: 100px;
+    }
+  </style>
+
+
+  <section id="about">
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">{{ app }}</span></h2>
+
+        <br>
+        <p class="docp">
+          Lipids and proteins are represented as nodes and their interactions with each other as edges.
+          The width of the latter corresponds to the degree of the underlying interaction.
+          The size of lipid nodes corresponds to the ratio of that particular lipid in the simulated system.
+          The size of residue nodes corresponds to the relative content of each residue in the corresponding protein.
+          <br>
+          For more information, please see the Visualization Reference on the documenation pages.
+        </p>
+        <div id="network-container" style="border: 2px solid black">
+        <div id="network-parent-parent"
+          style="display: flex; justify-content: space-around; margin-bottom: -30px; color: black">
+          <p style="width:200px; padding-left: 65px;">Protein</p>
+          <p style="width:100px; padding-left: 25px;">Radius</p>
+          <p style="width:200px; padding-left: 65px;">Metric</p>
+        </div>
+        <div id="network-parent" style="display: flex; justify-content: space-around;"></div>
+        <div id="gpcr-network" class="network" style="max-width: 100em; height: 45em; text-align: justify;"></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
+
+  {% block javascript %}
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+  </script>
+  <script src="{% static 'js/pace.min.js' %}"></script>
+
+  <script type="text/javascript">
+    var task_id = "{{ task_id }}";
+    var username = "{{ username }}";
+    var netfiles = {}
+    {% for key, value in netfiles.items %}
+      netfiles["{{ key }}"] = []
+      {% for item in value %}
+        netfiles["{{ key }}"].push("{{item}}")
+      {% endfor %}
+    {% endfor %}
+  </script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+  <script src="{% static 'js/network.js' %}"></script>
+
+  <script>
+    // dealing with the nav-menu underline
+    if ($('.nav-menu').length) {
+      $('.nav-menu .menu-active').removeClass('menu-active');
+    }
+    $("#docs").addClass('menu-active');
+  </script>
+  {% endblock javascript %}

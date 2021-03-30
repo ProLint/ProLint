@@ -1,0 +1,11 @@
+libdir=/home/besian/Programs/Gromacs/gromacs-2016.4/source/lib
+
+Name: libgromacs
+Description: Gromacs library
+URL: http://www.gromacs.org
+Version: 2016.4
+Requires:  
+Libs.private: -lpthread -ldl -fopenmp
+Libs: -L${libdir} -lgromacs  -lm 
+Cflags:  -I/home/besian/Programs/Gromacs/gromacs-2016.4/source/include -DGMX_DOUBLE=0 -fopenmp -std=c++0x 
+

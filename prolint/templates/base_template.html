@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>The ProLint Web Server</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700"
+    rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- static/Libraries CSS Files -->
+  <link href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/e43a4cb0d4.js" crossorigin="anonymous"></script>
+
+  <!-- Main Stylesheet File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="/path/to/src/glowCookies.css" />
+</head>
+
+<body>
+
+  <header id="header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <a href="{% url 'home' %}"><img src="{% static 'img/logo-1.png' %}" alt="" title="" /></img></a>
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="{% url 'home' %}">Home</a></li>
+          <li id='aboutnav'><a href="{% url 'home' %}#about">About</a></li>
+          <!-- <li id='appnav'><a href="{% url 'home' %}#vizapps">Applications</a></li> -->
+          <li><a href="{% url 'home' %}#getstarted">Get Started</a></li>
+          <li><a href="{% url 'find_result' %}">Results</a></li>
+          <li class="menu-has-children"><a href="{% url 'whyprolint' %}">Documentation</a>
+            <ul>
+              <li><a href="{% url 'whyprolint' %}">Why ProLint?</a></li>
+              <!-- <li><a href="#">Tutorials</a></li> -->
+              <li class="menu-has-children" id="docs"><a href="{% url 'whyprolint' %}">Documentation</a>
+                <ul>
+                  <li><a href="{% url 'tutorial' %}">Tutorials</a></li>
+                  <li><a href="{% url 'anref' %}">Analysis Reference</a></li>
+                  <li><a href="{% url 'visref' %}">Visualization Reference</a></li>
+                </ul>
+              </li>
+              <li class="menu-has-children"><a href="#">Resources</a>
+                <ul>
+                  <li><a href="#">GitHub Page</a></li>
+                  <li><a href="#">Docker Image</a></li>
+                  <li><a href="#">Python Library</a></li>
+                  <li><a href="#">gsurf</a></li>
+                  <li><a href="#">Test Data</a></li>
+                  <div class="dropdown-divider"></div>
+                  <li class="menu-has-children"><a href="#">Other</a>
+                    <ul>
+                      <li><a href="#">Martini Website</a></li>
+                      <li><a href="#">Acknowledgments</a></li>
+                    </ul>
+                  <li>
+                </ul>
+              </li>
+              <div class="dropdown-divider"></div>
+              <li><a href="{% url 'contact' %}">Contact Us</a></li>
+            </ul>
+          </li>
+          <li class="submitbtn"><a href="{% url 'upload' %}" id="submit-btn">Submit</a></li>
+          <li class="menu-has-children"><a href="{% url 'database' %}">Database</a>
+            <ul>
+            <li id='precomputed'><a href="{% url 'database' %}">Database</a></li>
+            <li id='gpcrs'><a href="http://ec2-18-224-212-234.us-east-2.compute.amazonaws.com/start/" target="_blank">GPCRs</a></li>
+          </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  {% block header %}
+  {% endblock header %}
+
+  {% block content %}
+  {% endblock content %}
+
+  <footer id="footer" style='background-color: black'>
+    <div class="footer-top">
+      <div class="container"></div>
+    </div>
+
+    <div class="container">
+      <div style="display: flex; justify-content: space-between;">
+        <div>
+          <strong style="font-size: 2.1em;">ProLint, 2021</strong>
+        </div>
+        <div id='cms_uofc'>
+          <strong style="font-size: 1.2em;">Centre for Molecular Simulation</strong>
+          <br>
+          <p style="margin-bottom: -7%; text-align: center; font-size: 1.00em;">University of Calgary</p>
+        </div>
+        <div>
+          <ul style="display: inline-flex; list-style-type: none; justify-content: space-between; letter-spacing: 8px;">
+            <div>
+              <li>
+                <a id="footerlogo" href="https://github.com/bisejdiu" title="GitHub" target="_blank">
+                  <i class="fab fa-github fa-3x"></i>
+                </a>
+              </li>
+            </div>
+            <div>
+              <li>
+                <a id="footerlogo" href="https://twitter.com/bisejdiu" title="Twitter" target="_blank">
+                  <i class="fab fa-twitter fa-3x"></i>
+                </a>
+              </li>
+            </div>
+            <div>
+              <li>
+                <a id="footerlogo" href="https://www.ucalgary.ca/molsim/" title="Centre for Molecular Simulation"
+                  target="_blank">
+                  <i class="fab fa-canadian-maple-leaf fa-3x"></i>
+                </a>
+              </li>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  </main>
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+  <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+  <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'lib/superfish/hoverIntent.js' %}"></script>
+  <script src="{% static 'lib/superfish/superfish.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/gh/manucaralmo/GlowCookies@3.0.1/src/glowCookies.min.js"></script>
+  <script>
+      glowCookies.start('en', {
+          analytics: 'G-FH87DE17XF',
+          hideAfterClick: true,
+          border: 'none',
+          position: 'right',
+          policyLink: 'https://google.es',
+      });
+  </script> -->
+
+<script
+  data-cookie-notice='{ "learnMoreLinkEnabled": true, "learnMoreLinkHref": "/privacy.html" }'
+  src="https://unpkg.com/cookie-notice@^1/dist/cookie.notice.min.js"
+></script>
+
+<script>
+    new cookieNoticeJS({
+      'expiresIn': 30,
+      'fontFamily': 'inherit',
+      'fontSize': '16px',
+      'buttonBgColor': 'firebrick',
+      'buttonTextColor': '#fff',
+      'noticeBgColor': '#000',
+      'noticeTextColor': '#fff',
+    });
+</script>
+
+
+  {% block javascript %}
+  {% endblock javascript %}
+
+</body>
+
+</html>

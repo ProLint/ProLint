@@ -1,0 +1,94 @@
+{% extends 'form_template.html' %}
+{% load static %}
+{% load material_form %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1>Results Finder</h1>
+    <!-- <h2>Role and purpose of the web server</h2> -->
+  </div>
+</section>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+
+<style>
+  .home-container {
+    height: 100vh !important;
+  }
+
+</style>
+
+<main id="main">
+{% endblock header %}
+
+
+{% block content %}
+
+<style>
+    .docp {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    h4 {color: black;}
+
+    ol {list-style: none; counter-reset: li}
+    ol li::before {
+        content: counter(li);
+        color: black;
+        display: inline-block;
+        width: 1.2em;
+        margin-left: -1em
+    }
+    ol li {counter-increment: li}
+    a {
+        color: black;
+        font-weight: 900;
+    }
+</style>
+
+
+
+<section id="about">
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">Find a submission by using its unique ID</span></h2>
+
+        <br>
+        <p class="docp">
+          On the box below you can input your unique ID given to you when you submitted your job.
+          This is useful, if you saved your ID, but lost access to the webpage.
+          Results are automatically deleted from our servers 24 hours after their completion (regardless if resulted in a failure or not).
+        </p>
+
+        <!-- <form action="" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Submit">
+      </form> -->
+
+      <form name="findJob" method="POST">
+        {% csrf_token %}
+        {% form form=form %}
+        {% endform %}
+        <button type="submit" name="_submit" class="btn btn-danger">Submit</button>
+      </form>
+
+      <br><br><br>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  // dealing with the nav-menu underline
+  if ($('.nav-menu').length) {
+    $('.nav-menu .menu-active').removeClass('menu-active');
+  }
+//   console.log('docs: ', $("#docs"))
+  $("#docs").addClass('menu-active');
+</script>
+{% endblock javascript %}

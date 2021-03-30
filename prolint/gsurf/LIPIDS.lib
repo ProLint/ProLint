@@ -1,0 +1,790 @@
+;
+;       g_raft 1.0   A proud util :3 made in the MolSim group, Ucalgary
+;
+;       Lipid Parameters for g_raft and the MARTINI forcefield
+;       if you need definitions for any other forcefield you
+;       can move this file to a safe directory and substitute
+;       according to your specifications.
+;       The file is written with the gromacs format for mdp files
+;       LABEL = values ; comments
+;       as in all mdp's lines have to be cited once and need not be
+;       in a particular order. The label is decomposed as you can
+;       intuitively see, into LIPIDNAME_LipVariable where we have
+;       Ltop:   bead(s) used to define hydrophylic surface (top)
+;       Ldown:  bead(s) used to define hydrophobic surface (down)
+;               i.e. midplane on bilayers, hydrophobic surface on
+;               monolayers.
+;       Vnum:   Any number of beads used to proyect a surface for
+;               voronoi derived properties. You may select beginning
+;               of lipid tails (counting from first one next to
+;               hydrophilic beads) and intermediate beads. You may even
+;               include only one bead say from a center of mass (change
+;               this file accordingly to reflect your new numbering)
+;       P2trCh: This LipidVariable is used to define a treshold from
+;               which a lipid chain changes state (binary representation
+;               for now). Say, disordered is -0.3 and ordered is 0.3
+;               then your treshold may be 0.1 (need phase diagram of
+;               your lipid to define this).
+;               The number of elements in Pztrsh defines the numnber of
+;               lipid chains.
+;       tk_num: t1_num, t2_num, etc (k=number of tails) is a row of
+;               atom numbers for each lipid tails.
+;       tk_P2exc: The exclusion vector, of size num-2 defines those
+;               angles not included in the calculation of average order
+;               parameters for the entire chain. All order parameters
+;               are reported when required regardless of the values of
+;               PZexc. The values are used for change of phase
+;               properties.
+;       use ";" to preceed comments. Variables with names not used are
+;               ignored. The program only parses what it needs.
+;
+;       UNUSED FOR NOW
+;       Qnum:   Points used for the lateral order parameter, i.e. PHI_6,
+;               I put them at the end of the file, but would be nice to
+;               place them under Vnum
+;       P2trLip: Treshold value for lipid (as opposed to P2trCh)
+;       P6num: Defines beads for psi6 calcs (may us Vnum for now)
+; ====================================================
+;Lipid1 [ POPX ] 12
+;  1   2   3   4   5   6   7   8   9  10   11  12
+; NC3 PO4 GL1 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+POPX_Ltop = 2 ; PO4
+POPX_Vnum = 5 9 ; C1A C1B
+POPX_Qnum = 5 9
+POPX_Ldown = 8 12 ; C4A C4B
+POPX_P2trLip = 0.4
+POPX_P2trCh = 0.2 0.2
+POPX-t1_num = 5 6 7 8 ; C1A C2A D3A C4A
+POPX-t1_P2exc = 0 0
+POPX-t2_num = 9 10 11 12 ; C1B C2B C3B C4B
+POPX-t2_P2exc = 0 0
+
+;Lipid2 [ DOPC ] 12
+; NC3 PO4 GL1 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+DOPC_Ltop = 2 ; PO4
+DOPC_Vnum = 5 9
+DOPC_Ldown = 8 12
+DOPC_P2trLip = 0.4
+DOPC_P2trCh = 0.2 0.2
+DOPC-t1_num = 5 6 7 8
+DOPC-t1_P2exc = 0 0
+DOPC-t2_num = 9 10 11 12
+DOPC-t2_P2exc = 0 0
+
+;Lipid3 [ PIPX ] 12
+; NC3 PO4 GL1 GL2 C1A D2A D3A C4A C1B C2B C3B C4B
+PIPX_Ltop = 2 ; PO4
+PIPX_Vnum = 5 9
+PIPX_Ldown = 8 12
+PIPX_P2trCh = 0.2 0.2
+PIPX-t1_num = 5 6 7 8
+PIPX-t1_P2exc = 0 0
+PIPX-t2_num = 9 10 11 12
+PIPX-t2_P2exc = 0 0
+
+;Lipid4 [ PEPC ] 13
+; NC3 PO4 GL1 GL2 C1A D2A D3A C4A C5A C1B C2B C3B C4B
+PEPC_Ltop = 2 ; PO4
+PEPC_Vnum = 5 10
+PEPC_Ldown = 9 13
+PEPC_P2trCh = 0.2 0.2
+PEPC-t1_num = 5 6 7 8 9
+PEPC-t1_P2exc = 0 0 0
+PEPC-t2_num = 10 11 12 13
+PEPC-t2_P2exc = 0 0
+
+;Lipid5 [ PAPC ] 13
+PAPC_Ltop = 2 ; PO4
+PAPC_Ldown = 9 13
+PAPC_Vnum = 5 10
+PAPC_P2trCh = 0.2 0.2
+PAPC-t1_num = 5 6 7 8 9
+PAPC-t1_P2exc = 0 0 0
+PAPC-t2_num = 10 11 12 13
+PAPC-t2_P2exc = 0 0
+
+;Lipid6 [ DAPC ] 14
+DAPC_Ltop = 2 ; PO4
+DAPC_Ldown = 9 14
+DAPC_Vnum = 5 10
+DAPC_P2trCh = 0.2 0.2
+DAPC-t1_num   = 5  6  7  8  9
+DAPC-t1_P2exc = 1 1 1
+DAPC-t2_num   = 10 11 12 13 14
+DAPC-t2_P2exc = 1 1 1
+
+;Lipid7 [ PUPC ] 14
+PUPC_Ltop = 2 ; PO4
+PUPC_Ldown = 9 14
+PUPC_Vnum = 5 11
+PUPC_P2trCh = 0.2 0.2
+PUPC-t1_num = 5 6 7 8 9
+PUPC-t1_P2exc = 1 1 1
+PUPC-t2_num = 10 11 12 13 14
+PUPC-t2_P2exc = 0 0 0
+
+;Lipid8 [ POPE ] 12
+POPE_Ltop = 2 ; PO4
+POPE_Ldown = 8 12
+POPE_Vnum = 5 9
+POPE_P2trCh = 0.2 0.2
+POPE-t1_num = 5 6 7 8
+POPE-t1_P2exc = 0 0
+POPE-t2_num = 9 10 11 12
+POPE-t2_P2exc = 0 0
+
+;Lipid9 [ DOPE ] 12
+DOPE_Ltop = 2 ; PO4
+DOPE_Ldown = 8 12
+DOPE_Vnum = 5 9
+DOPE_P2trCh = 0.2 0.2
+DOPE-t1_num = 5 6 7 8
+DOPE-t1_P2exc = 0 0
+DOPE-t2_num = 9 10 11 12
+DOPE-t2_P2exc = 0 0
+
+;Lipid10 [ PIPE ] 12
+PIPE_Ltop = 2 ; PO4
+PIPE_Ldown = 8 12
+PIPE_Vnum = 5 9
+PIPE_P2trCh = 0.2 0.2
+PIPE-t1_num = 5 6 7 8
+PIPE-t1_P2exc = 0 0
+PIPE-t2_num = 9 10 11 12
+PIPE-t2_P2exc = 0 0
+
+;[ PQPE ] 13
+PQPE_Ltop = 2 ; PO4
+PQPE_Ldown = 9 13
+PQPE_Vnum = 5 10
+PQPE_P2trCh = 0.2 0.2
+PQPE-t1_num = 5 6 7 8 9
+PQPE-t1_P2exc = 0 0 0
+PQPE-t2_num = 10 11 12 13
+PQPE-t2_P2exc = 0 0
+
+; [ PAPE ] 13
+PAPE_Ltop = 2 ; PO4
+PAPE_Ldown = 9 13
+PAPE_Vnum = 5 10
+PAPE_P2trCh = 0.2 0.2
+PAPE-t1_num = 5 6 7 8 9
+PAPE-t1_P2exc = 0 0 0
+PAPE-t2_num = 10 11 12 13
+PAPE-t2_P2exc = 0 0
+
+; [ DAPE ] 14
+DAPE_Ltop = 2 ; PO4
+DAPE_Ldown = 9 14
+DAPE_Vnum = 5 10
+DAPE_P2trCh = 0.2 0.2
+DAPE-t1_num   = 5  6  7  8  9
+DAPE-t1_P2exc = 1 1 1
+DAPE-t2_num   = 10 11 12 13 14
+DAPE-t2_P2exc = 1 1 1
+
+;l14 [ PUPE ] 14
+PUPE_Ltop = 2 ; PO4
+PUPE_Ldown = 9 14
+PUPE_Vnum = 5 10
+PUPE_P2trCh = 0.2 0.2
+PUPE-t1_num   = 5  6  7  8  9
+PUPE-t1_P2exc = 1 1 1
+PUPE-t2_num   = 10 11 12 13 14
+PUPE-t2_P2exc = 1 1 1
+
+;l15 [ DUPE ] 16
+DUPE_Ltop = 2 ; PO4
+DUPE_Ldown = 10 16
+DUPE_Vnum = 5 11
+DUPE_P2trCh = 0.2 0.2
+DUPE-t1_num   = 5  6  7  8  9 10
+DUPE-t1_P2exc = 1 1 1 1
+DUPE-t2_num   = 11 12 13 14 15 16
+DUPE-t2_P2exc = 1 1 1 1
+
+;l16 [ DPSM ] 11
+DPSM_Ltop = 2 ; PO4
+DPSM_Ldown = 7 11
+DPSM_Vnum = 5 8
+DPSM_P2trCh = 0.2 0.2
+DPSM-t1_num = 5 6 7
+DPSM-t1_P2exc = 1
+DPSM-t2_num   = 8 9 10 11
+DPSM-t2_P2exc = 1 1
+
+;l17 [ DBSM ] 13
+DBSM_Ltop = 2  ; PO4
+DBSM_Ldown = 8 13
+DBSM_Vnum = 5 9
+DBSM_P2trCh = 0.2 0.2
+DBSM-t1_num = 5 6 7 8
+DBSM-t1_P2exc = 1 1
+DBSM-t2_num   = 9 10 11 12 13
+DBSM-t2_P2exc = 1 1 1
+
+;l18 [ DXSM ]  15
+DXSM_Ltop = 2 ; PO4
+DXSM_Ldown = 9 15
+DXSM_Vnum = 5 10
+DXSM_P2trCh = 0.2 0.2
+DXSM-t1_num   = 6 7 8 9
+DXSM-t1_P2exc = 1 1
+DXSM-t2_num   = 11 12 13 14 15
+DXSM-t2_P2exc = 1  1  1
+
+;l19 [ POSM ] 16
+POSM_Ltop = 2 ; PO4
+POSM_Ldown = 7 11
+POSM_Vnum = 5 8
+POSM_P2trCh = 0.2 0.2
+POSM-t1_num   = 5 6 7
+POSM-t1_P2exc = 1
+POSM-t2_num   = 8 9 10 11
+POSM-t2_P2exc = 1  1
+
+;l20 [ PGSM ] 12
+PGSM_Ltop = 2 ; PO4
+PGSM_Ldown = 7 12
+PGSM_Vnum = 5 8
+PGSM_P2trCh = 0.2 0.2
+PGSM-t1_num = 5 6 7
+PGSM-t1_P2exc = 0
+PGSM-t2_num = 8 9 10 11 12
+PGSM-t2_P2exc = 0 0 0
+
+;l21 [ PNSM ] 13
+PNSM_Ltop = 2 ; PO4
+PNSM_Vnum = 5 8
+PNSM_Ldown = 7 13
+PNSM_P2trCh = 0.2 0.2
+PNSM-t1_num = 5 6 7
+PNSM-t1_P2exc = 0
+PNSM-t2_num = 8 9 10 11 12 13
+PNSM-t2_P2exc = 0 0 0 0
+
+;l22 [ BNSM ] 14
+BNSM_Ltop = 2 ; PO4
+BNSM_Vnum = 5 9
+BNSM_Ldown = 8 14
+BNSM_P2trCh = 0.2 0.2
+BNSM-t1_num = 6 7 8
+BNSM-t1_P2exc = 0
+BNSM-t2_num = 9 10 11 12 13 14
+BNSM-t2_P2exc = 0 0 0 0
+
+;l23 [ XNSM ] 15
+XNSM_Ltop = 2 ; PO4
+XNSM_Vnum = 5 10
+XNSM_Ldown = 9 15
+XNSM_P2trCh = 0.2 0.2
+XNSM-t1_num = 5 6 7 8 9
+XNSM-t1_P2exc = 0 0 0
+XNSM-t2_num = 10 11 12 13 14 15
+XNSM-t2_P2exc = 0 0 0 0
+
+;l24 [ DPG1 ] 26
+; GM1 GM2 GM3 GM4 GM5 GM6 GM7 GM8 GM9 GM10 GM11 GM12 GM13 GM14 GM15 GM16 GM17 AM1 AM2 T1A C2A C3A C1B C2B C3B C4B
+DPG1_Ltop = 7 ; GM7
+DPG1_Vnum = 18 19 20 23
+DPG1_Ldown = 22 26
+DPG1_P2trCh = 0.2 0.2
+DPG1-t1_num = 20 21 22
+DPG1-t1_P2exc = 0
+DPG1-t2_num = 23 24 25 26
+DPG1-t2_P2exc = 0 0
+
+;l25 [ DXG1 ] 30
+; GM1 GM2 GM3 GM4 GM5 GM6 GM7 GM8 GM9 GM10 GM11 GM12 GM13 GM14 GM15 GM16 GM17 AM1 AM2 T1A C2A C3A C4A C5A C1B C2B C3B C4B C5B C5B
+DXG1_Ltop = 7
+DXG1_Vnum = 18 19 20 21 25
+DXG1_Ldown = 24 30
+DXG1_P2trCh = 0.2 0.2
+DXG1-t1_num = 21 22 23 24
+DXG1-t1_P2exc = 0 0
+DXG1-t2_num = 25 26 27 28 29 30
+DXG1-t2_P2exc = 0 0 0 0
+
+;  STRANGE RESIDUES
+; one leg in, one in surface, use only one for Pz calcs. ONLY SECOND ONE should count may be
+;l26 [ PNG1 ] 22
+PNG1_Ltop = 8
+PNG1_Vnum = 23 20 21 22
+PNG1_Ldown = 27 28
+PNG1_P2trCh 1.0 1.0
+PNG1-t1_num = 20 21 22
+PNG1-t1_P2exc = 0
+PNG1-t2_num = 23 24 25 26 27 28
+PNG1-t2_P2exc = 0 0 0 0
+
+;l27 [ XNG1 ] 30
+XNG1_Ltop = 8
+XNG1_Vnum = 18 19 20 21 25
+XNG1_Ldown = 24 30
+XNG1_P2trCh = 0.2 0.2
+XNG1-t1_num = 21 22 23 24
+XNG1-t1_P2exc = 0 0
+XNG1-t2_num = 25 26 27 28 29 30
+XNG1-t2_P2exc = 0 0 0 0
+
+;l20 [ DPG3 ]
+; has two legs only one immerse
+DPG3_Ltop = 8
+DPG3_Vnum = 12 13 14 17
+DPG3_Ldown = 20
+DPG3_P2trCh = 1.0
+DPG3-t1_num = 15 16 17 18 19 20
+DPG3-t1_P2exc = 0 0 0 0
+
+;l29 [ DXG3 ] 24
+DXG3_Ltop = 6
+DXG3_Vnum = 12 13 14 19
+DXG3_Ldown = 18 24
+DXG3_P2trCh 1.0 1.0
+DXG3-t1_num = 15 16 17 18 19 20
+DXG3-t1_P2exc = 0 0 0 0
+DXG3-t2_num = 19 20 21 22 23 24
+DXG3-t2_P2exc = 0 0 0 0
+
+;l30 [ PNG3 ] 22
+PNG3_Ltop = 6
+PNG3_Vnum = 12 13 14 17
+PNG3_Ldown = 22
+PNG3_P2trCh 1.0
+PNG3-t1_num = 17 18 19 20 21 22
+PNG3-t1_P2exc = 0 0 0 0
+
+;l31 [ XNG3 ] 22
+XNG3_Ltop = 6
+XNG3_Vnum = 12 13 14 17
+XNG3_Ldown = 22
+XNG3_P2trCh 1.0
+XNG3-t1_num = 17 18 19 20 21 22
+XNG3-t1_P2exc = 0 0 0 0
+
+;l32 [ DPCE ] 9
+DPCE_Ltop = 1 2
+DPCE_Vnum = 1 2
+DPCE_Ldown = 5 9
+DPCE_P2trCh = 0.25 0.25
+DPCE-t1_num = 3 4 5
+DPCE-t1_P2exc = 1
+DPCE-t2_num = 6 7 8 9
+DPCE-t2_P2exc = 1 1
+
+;l33 [ DXCE ] 13
+; AM1 AM2 T1A C2A C3A C4A C5A C1B C2B C3B C4B C5B C6B
+DXCE_Ltop = 1 2 ; AM1 AM2
+DXCE_Vnum = 3 4 8 ; T1A C2A C1B
+DXCE_Ldown = 7 13 ; C5A C6B
+DXCE_P2trCh = 0.25 0.25
+DXCE-t1_num = 4 5 6 7 ; C2A C3A C4A C5A
+DXCE-t1_P2exc = 1 1
+DXCE-t2_num = 8 9 10 11 12 13 ; C1B C2B C3B C4B C5B C6B
+DXCE-t2_P2exc = 1 1 1 1
+
+;l34 [ PNCE ] 11   WARNING SHOULD DEFINE TWO CHAINS!!
+; AM1 AM2 T1A C2A C3A C1B C2B C3B D4B C5B C6B
+PNCE_Ltop = 1 2 ; AM1 AM2
+PNCE_Vnum = 3 4 6 ; T1A C2A C1B
+PNCE_Ldown = 11 ; C6B
+PNCE_P2trCh = 0.25
+PNCE-t1_num = 6 7 8 9 10 11  ; C1B C2B C3B D4B C5B C6B
+PNCE-t1_P2exc = 1 1 1 1
+
+;l35 [ XNCE ] 13
+; AM1 AM2 T1A C2A C3A C4A C5A C1B C2B C3B D4B C4B C6B
+XNCE_Ltop = 1 2 ; AM1 AM2
+XNCE_Vnum = 3 4 8 ; T1A C2A C1B
+XNCE_Ldown = 7 13 ; C5A C6B
+XNCE_P2trCh = 0.3 0.3
+XNCE-t1_num = 4 5 6 7 ; C2A C3A C4A C5A
+XNCE-t1_P2exc = 1 1
+XNCE-t2_num = 8 9 10 11 12 13 14 ; C1B C2B C3B D4B C5B C6B
+XNCE-t2_P2exc = 1 1 1 1 1
+
+;l36 [ PPC ]  7
+; NC3 PO4 GL1 (C1A C2A C3A C4A)
+PPC_Ltop = 2
+PPC_Vnum = 4
+PPC_Ldown = 7
+PPC_P2trCh = 0.2
+PPC-t1_num = 4 5 6 7
+PPC-t1_P2exc = 0 0
+
+;l37 [ OPC ] 7
+; NC3 PO4 GL1 C1A C2A D3A C4A
+OPC_Ltop = 2
+OPC_Vnum = 4
+OPC_Ldown = 7
+OPC_P2trCh = 0.2
+OPC-t1_num = 4 5 6 7
+OPC-t1_P2exc = 0 0
+
+;l38 [ IPC ] 7
+; NC3 PO4 GL1 C1A D2A D3A C4A
+IPC_Ltop = 2
+IPC_Vnum = 4
+IPC_Ldown = 7
+IPC_P2trCh = 0.2
+IPC-t1_num = 4 5 6 7
+IPC-t1_P2exc = 0 0
+
+;l39 [ APC ] 8
+; NC3 PO4 GL1 GL2 D1A D2A D3A D4A C5A
+APC_Ltop = 2
+APC_Vnum = 3
+APC_Ldown = 8
+APC_P2trCh = 0.2
+APC-t1_num = 5 6 7 8
+APC-t1_P2exc = 0 0
+
+;l40 [ UPC ] 9
+; NC3 PO4 GL1 D1A D2A D3A D4A D5A C6A
+UPC_Ltop = 2
+UPC_Vnum = 4
+UPC_Ldown = 9
+UPC_P2trCh = 0.2
+UPC-t1_num = 4 5 6 7 8 9
+UPC-t1_P2exc = 0 0 0 0
+
+;l41 [ PODG ] 10
+; GL1 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+PODG_Ltop = 1 2
+PODG_Vnum = 3 7
+PODG_Ldown = 6 10
+PODG_P2trCh = 0.2 0.2
+PODG-t1_num = 3 4 5 6
+PODG-t1_P2exc = 0 0
+PODG-t2_num = 7 8 9 10
+PODG-t2_P2exc = 0 0
+
+;l42 [ PIDG ] 10
+; GL1 GL2 C1A D2A D3A C4A C1B C2B C3B C4B
+PIDG_Ltop = 1 2
+PIDG_Vnum = 3 7
+PIDG_Ldown = 6 10
+PIDG_P2trCh = 0.2 0.2
+PIDG-t1_num = 3 4 5 6
+PIDG-t1_P2exc = 0 0
+PIDG-t2_num = 7 8 9 10
+PIDG-t2_P2exc = 0 0
+
+;l43 [ PADG ] 11
+; GL1 GL2 D1A D2A D3A D4A C5A C1B C2B C3B C4B
+PADG_Ltop = 1 2
+PADG_Vnum = 3 8
+PADG_Ldown = 7 11
+PADG_P2trCh = 0.2 0.2
+PADG-t1_num = 3 4 5 6 7
+PADG-t1_P2exc = 0 0 0
+PADG-t2_num = 8 9 10 11
+PADG-t2_P2exc = 0 0
+
+;l44 [ PUDG ] 12
+; GL1 GL2 D1A D2A D3A D4A D5A C6A C1B C2B C3B C4B
+PUDG_Ltop = 1 2
+PUDG_Vnum = 3 9
+PUDG_Ldown = 7 12
+PUDG_P2trCh = 0.2 0.2
+PUDG-t1_num = 3 4 5 6 7 8
+PUDG-t1_P2exc = 0 0 0 0
+PUDG-t2_num = 9 10 11 12
+PUDG-t2_P2exc = 0 0
+
+;l45 [ CHOL ] 8
+; ROH R1 R2 R3 R4 R5 C1 C2
+CHOL_Ltop = 1
+CHOL_Vnum = 2
+CHOL_Ldown = 8
+CHOL_P2trCh = 0.2
+CHOL-t1_num = 2 3 7 8
+CHOL-t1_P2exc = 0 0
+
+;l46 [ POPC ] 12
+; NC3 PO4 GL1 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+POPC_Ltop = 2
+POPC_Vnum = 5 9
+POPC_Ldown = 8 12
+POPC_P2trCh = 0.2 0.2
+POPC-t1_num = 5 6 7 8
+POPC-t1_P2exc = 0 0
+POPC-t2_num = 9 10 11 12
+POPC-t2_P2exc = 0 0
+
+;l47 [ PIPC ] 12
+; NC3 PO4 GL1 GL2 C1A D2A D3A C4A C1B C2B C3B C4B
+PIPC_Ltop = 2
+PIPC_Vnum = 5 9
+PIPC_Ldown = 8 12
+PIPC_P2trCh = 0.2 0.2
+PIPC-t1_num = 5 6 7 8
+PIPC-t1_P2exc = 0 0
+PIPC-t2_num = 9 10 11 12
+PIPC-t2_P2exc = 0 0
+
+;l48 [ POPS ] 12
+; CNO PO4 GL1 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+POPS_Ltop = 2
+POPS_Vnum = 5 9
+POPS_Ldown = 8 12
+POPS_P2trCh = 0.2 0.2
+POPS-t1_num = 5 6 7 8
+POPS-t1_P2exc = 0 0
+POPS-t2_num = 9 10 11 12
+POPS-t2_P2exc = 0 0
+
+;l49 [ PIPS ] 12
+; CNO PO4 GL1 GL2 C1A D2A D3A C4A C1B C2B C3B C4B
+PIPS_Ltop = 2
+PIPS_Vnum = 5 9
+PIPS_Ldown = 8 12
+PIPS_P2trCh = 0.2 0.2
+PIPS-t1_num = 5 6 7 8
+PIPS-t1_P2exc = 0 0
+PIPS-t2_num = 9 10 11 12
+PIPS-t2_P2exc = 0 0
+
+;l50 [ PQPS ] 13
+; CNO PO4 GL1 GL2 C1A D2A D3A D4A C5A C1B C2B C3B C4B
+PQPS_Ltop = 2
+PQPS_Vnum = 5 10
+PQPS_Ldown = 9 13
+PQPS_P2trCh = 0.2 0.2
+PQPS-t1_num = 5 6 7 8 9
+PQPS-t1_P2exc = 0 0 0
+PQPS-t2_num = 10 11 12 13
+PQPS-t2_P2exc = 0 0
+
+;l51 [ PAPS ] 13
+; CNO PO4 GL1 GL2 D1A D2A D3A D4A C5A C1B C2B C3B C4B
+PAPS_Ltop = 2
+PAPS_Vnum = 5 10
+PAPS_Ldown = 9 13
+PAPS_P2trCh = 0.2 0.2
+PAPS-t1_num = 5 6 7 8 9
+PAPS-t1_P2exc = 0 0 0
+PAPS-t2_num = 10 11 12 13
+PAPS-t2_P2exc = 0 0
+
+;l52 [ DAPS ] 14
+; CNO PO4 GL1 GL2 D1A D3A D3A D4A C5A D1B D2B D3B D4B C5B
+DAPS_Ltop = 2
+DAPS_Vnum = 5 10
+DAPS_Ldown = 9 14
+DAPS_P2trCh = 0.2 0.2
+DAPS-t1_num = 5 6 7 8 9
+DAPS-t1_P2exc = 0 0 0
+DAPS-t2_num = 10 11 12 13 14
+DAPS-t2_P2exc = 0 0 0
+
+;l53 [ PUPS ] 14
+; CNO PO4 GL1 GL2 D1A D2A D3A D4A D5A C6A C1B C2B C3B C4B
+PUPS_Ltop = 2
+PUPS_Vnum = 5 10
+PUPS_Ldown = 9 14
+PUPS_P2trCh = 0.2 0.2
+PUPS-t1_num = 5 6 7 8 9
+PUPS-t1_P2exc = 0 0 0
+PUPS-t2_num = 10 11 12 13 14
+PUPS-t2_P2exc = 0 0 0
+
+;l54 [ DUPS ] 16
+; CNO PO4 GL1 GL2 D1A D2A D3A D4A D5A C6A D1B D2B D3B D4B D5B C6B
+DUPS_Ltop = 2
+DUPS_Vnum = 5 11
+DUPS_Ldown = 10 16
+DUPS_P2trCh = 0.2 0.2
+DUPS-t1_num = 5 6 7 8 9 10
+DUPS-t1_P2exc = 0 0 0 0
+DUPS-t2_num = 11 12 13 14 15 16
+DUPS-t2_P2exc = 0 0 0 0
+
+;l55 [ POPI ] 14
+; C1 C2 C3 CP GL1 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+POPI_Ltop = 4
+POPI_Vnum = 7 11
+POPI_Ldown = 10 14
+POPI_P2trCh = 0.2 0.2
+POPI-t1_num = 7 8 9 10
+POPI-t1_P2exc = 0 0
+POPI-t2_num = 11 12 13 14
+POPI-t2_P2exc = 0 0
+
+;l56 [ PIPI ] 14
+; C1 C2 C3 CP GL1 GL2 C1A D2A D3A C4A C1B C2B C3B C4B
+PIPI_Ltop = 4
+PIPI_Vnum = 7 11
+PIPI_Ldown = 10 14
+PIPI_P2trCh = 0.2 0.2
+PIPI-t1_num = 7 8 9 10
+PIPI-t1_P2exc = 0 0
+PIPI-t2_num = 11 12 13 14
+PIPI-t2_P2exc = 0 0
+
+;l57 [ PAPI ] 15
+; C1 C2 C3 CP GL1 GL2 D1A D2A D3A D4A C5A C1B C2B C3B C4B
+PAPI_Ltop = 4
+PAPI_Vnum = 7 12
+PAPI_Ldown = 11 15
+PAPI_P2trCh = 0.2 0.2
+PAPI-t1_num = 7 8 9 10 11
+PAPI-t1_P2exc = 0 0 0
+PAPI-t2_num = 12 13 14 15
+PAPI-t2_P2exc = 0 0
+
+;l58 [ PUPI ] 16
+; C1 C2 C3 CP GL1 GL2 D1A D2A D3A D4A D5A C6A C1B C2B C3B C4B
+PUPI_Ltop = 4
+PUPI_Vnum = 7 12
+PUPI_Ldown = 12 16
+PUPI_P2trCh = 0.2 0.2
+PUPI-t1_num = 7 8 9 10 11 12
+PUPI-t1_P2exc = 0 0 0 0
+PUPI-t2_num = 12 13 14 15 16
+PUPI-t2_P2exc = 0 0 0
+
+;l59 [ POPA ] 11
+; PO4 GL1 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+POPA_Ltop = 1
+POPA_Vnum = 4 8
+POPA_Ldown = 7 11
+POPA_P2trCh = 0.2 0.2
+POPA-t1_num = 4 5 6 7
+POPA-t1_P2exc = 0 0
+POPA-t2_num = 8 9 10 11
+POPA-t2_P2exc = 0 0
+
+;l60 [ PIPA ] 11
+; PO4 GL1 GL2 C1A D2A D3A C4A C1B C2B C3B C4B
+PIPA_Ltop = 1
+PIPA_Vnum = 4 8
+PIPA_Ldown = 7 11
+PIPA_P2trCh = 0.2
+PIPA-t1_num = 4 5 6 7
+PIPA-t1_P2exc = 0 0
+
+;l61 [ PAPA ] 12
+; PO4 GL1 GL2 D1A D2A D3A D4A C5A C1B C2B C3B C4B
+PAPA_Ltop = 1
+PAPA_Vnum = 4 9
+PAPA_Ldown = 9 12
+PAPA_P2trCh = 0 0
+PAPA-t1_num = 4 5 6 7 8
+PAPA-t1_P2exc = 0 0 0
+PAPA-t2_num = 9 10 11 12
+PAPA-t2_P2exc = 0 0
+
+;l62 [ PUPA ] 13
+; PO4 GL1 GL2 D1A D2A D3A D4A D5A C6A C1B C2B C3B C4B
+PUPA_Ltop = 1
+PUPA_Vnum = 2 3
+PUPA_Ldown = 9 13
+PUPA_P2trCh = 0.2 0.2
+PUPA-t1_num = 4 5 6 7 8 9
+PUPA-t1_P2exc = 0 0 0 0
+PUPA-t2_num = 10 11 12 13
+PUPA-t2_P2exc = 0 0
+
+;l63 [ POP1 ] 15
+; C1 C2 C3 CP P1 GL1 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+POP1_Ltop = 4
+POP1_Ldown = 11 15
+POP1_Vnum = 8 12
+POP1_P2trCh = 0.2 0.2
+POP1-t1_num = 8 9 10 11
+POP1-t1_P2exc = 0 0
+POP1-t2_num = 12 13 14 15
+POP1-t2_P2exc = 0 0
+
+;l64 [ POP2 ] 16
+; C1 C2 C3 CP P1 P2 GL2 GL2 C1A C2A D3A C4A C1B C2B C3B C4B
+POP2_Ltop = 4
+POP2_Ldown = 12 16
+POP2_Vnum = 9 13
+POP2_P2trCh = 0.2 0.2
+POP2-t1_num = 9 10 11 12
+POP2-t1_P2exc = 0 0
+POP2-t2_num = 13 14 15 16
+POP2-t2_P2exc = 0 0
+
+;l65 [ POP3 ] 17
+; C1 C2 C3 CP P1 P2 P3 GL1 GL2 C1A C@A D3A C4A C1B C2B C3B C4B
+POP3_Ltop = 4
+POP3_Vnum = 10 14
+POP3_Ldown = 13 17
+POP3_P2trCh = 0.2 0.2
+POP3-t1_num = 10 11 12 13
+POP3-t1_P2exc = 0 0
+POP3-t2_num = 14 15 16 17
+POP3-t2_P2exc = 0 0
+
+
+; Qnumbers
+DOPC_Qnum = 5 9
+PIPX_Qnum = 5 9
+PEPC_Qnum = 5 10
+PAPC_Qnum = 5 10
+DAPC_Qnum = 5 10
+PUPC_Qnum = 5 11
+POPE_Qnum = 5 9
+DOPE_Qnum = 5 9
+PIPE_Qnum = 5 9
+PQPE_Qnum = 5 10
+PAPE_Qnum = 5 10
+DAPE_Qnum = 5 10
+PUPE_Qnum = 5 10
+DUPE_Qnum = 5 11
+DPSM_Qnum = 5 8
+DBSM_Qnum = 5 9
+DXSM_Qnum = 5 10
+POSM_Qnum = 5 8
+PGSM_Qnum = 5 8
+PNSM_Qnum = 5 8
+BNSM_Qnum = 5 9
+XNSM_Qnum = 5 10
+DPG1_Qnum = 21 23
+DXG1_Qnum = 21 25 ; C2A C1B
+PNG1_Qnum = 21 23 ; C2A C1B
+XNG1_Qnum = 21 25 ; C2A C1B
+DPG3_Qnum = 15 17 ; C2A C1B
+DXG3_Qnum = 15 19 ; C2A C1B
+PNG3_Qnum = 21 25 ; C2A C1B
+XNG3_Qnum = 15 19 ; C2A C1B
+DPCE_Qnum = 1 2
+DXCE_Qnum = 4 8 ; C2A C1B
+PNCE_Qnum = 4 6 ; C2A C1B
+XNCE_Qnum = 4 8
+PPC_Qnum = 4
+OPC_Qnum = 5 9
+IPC_Qnum = 4
+APC_Qnum = 5 10
+UPC_Qnum = 4
+PODG_Qnum = 3 7
+PIDG_Qnum = 3 7
+PADG_Qnum = 3 8
+PUDG_Qnum = 3 9
+CHOL_Qnum = 2
+POPC_Qnum = 5 9
+PIPC_Qnum = 5 9
+POPS_Qnum = 5 9
+PIPS_Qnum = 5 9
+PQPS_Qnum = 5 10
+PAPS_Qnum = 5 10
+DAPS_Qnum = 5 10
+PUPS_Qnum = 5 10
+DUPS_Qnum = 5 11
+POPI_Qnum = 7 11
+PIPI_Qnum = 7 11
+PAPI_Qnum = 7 12
+PUPI_Qnum = 7 12
+POPA_Qnum = 4 8
+PIPA_Qnum = 4 8
+PAPA_Qnum = 4 9
+PUPA_Qnum = 2 3
+POP1_Qnum = 8 12
+POP2_Qnum = 9 13
+POP3_Qnum = 10 14
+
+;  END muff I need a random line here, buggy bugg
+

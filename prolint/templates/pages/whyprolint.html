@@ -1,0 +1,170 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1>Why ProLint?</h1>
+    <h2>Role and purpose of the web server</h2>
+  </div>
+</section>
+
+<main id="main">
+{% endblock header %}
+
+
+{% block content %}
+
+<style>
+    .docp {
+        /* color: green !important; */
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    h4 {color: black;}
+
+    ol {list-style: none; counter-reset: li}
+    ol li::before {
+        content: counter(li);
+        color: black;
+        display: inline-block;
+        width: 1.2em;
+        margin-left: -1em
+    }
+    ol li {counter-increment: li}
+    a {
+        color: black;
+        font-weight: 900;
+    }
+</style>
+
+
+
+
+<section id="about">
+    <!-- <div>
+        <img src="../static/img/at-bg.png" style="
+        width: 50%;
+        ">
+      </div> -->
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <!-- <h2 class="section-title"><span style="text-transform:none;">Why ProLint?</span></h2> -->
+        <div>
+            <img src="{% static 'img/at-bg.png' %}" style="
+            width: 100%;
+            margin-top: -70px;
+            margin-bottom: -25px;
+            ">
+          </div>
+
+        <br>
+        <p class="docp">
+        ProLint is a complete webserver that takes input data, analyses the underlying interaction and
+        visualizes the results, without requiring any input from the user. ProLint is also a webservice in that
+        it can store results and allow users world-wide to interact with the data regardless of their knowledge of
+        Molecular Dynamics (MD) Simulations or coding experience. Hosting and sharing of data files is done free
+        of charge. Finally, ProLint serves as a stand-alone program. It is easy to install and set up and the code
+        will be made freely available on GitHub. Interested users can download the code and use the webserver
+        locally.
+        <br><br>
+        ProLint as a webserver and webservice has <span style="color: black; font-weight: 900;">four</span> core objectives. These are listed below and
+        explained in more detail in this section.
+
+        <ol>
+            <li>- &nbspPowerful and customizable analysis of protein-lipid contacts</li>
+            <li>- &nbspModern and beautiful visualization</li>
+            <li>- &nbspData sharing and accessibility</li>
+            <li>- &nbspAutomation of protein-lipid contact generation</li>
+
+        </ol>
+    </p>
+
+    <h4>Powerful and customizable analysis of protein-lipid contacts</h4>
+    <p class="docp">
+        Currently, the time it takes to analyze and interpret data usually exceeds the time
+        to set up and perform MD Simulations. Add to this the
+        continuing trend of increased system sizes, simulated for longer time scales and
+        the need for a much bigger set of proteins, it becomes clear how analysis and
+        visualization of protein-lipid contacts can become a significant bottleneck. It is worth noting here that
+        the challenge is not large files in itself (i.e. the raw size of output files) as these can be usually trimmed
+        down quite significantly without losing much information. Rather the challenge lies in the increasing
+        complexity of the interaction networks involved in simulating more and more compositionally compolex systems.
+        ProLint aims to bridge this gap between data generation and obtaining important insight on what is happening in the simulation.
+        </p>
+
+        <h4>Modern and beautiful visualization to gain quick insight</h4>
+        <p class="docp">
+        ProLint provides a fully-fledged visualization library that quickly and effortlessly displays
+        protein-lipid interactions. It uses modern visualization libraries like
+        <a href="https://github.com/bokeh/bokeh" target="_blank">Bokeh</a><i class="fas fa-external-link-alt"> </i>,
+        <a href="https://github.com/d3/d3" target="_blank">D3.js</a> <i class="fas fa-external-link-alt"></i>,
+        <a href="https://github.com/nglviewer/ngl" target="_blank">NGL Viewer</a> <i class="fas fa-external-link-alt"></i>, and
+        <a href="https://github.com/mrdoob/three.js" target="_blank">Three.js</a> <i class="fas fa-external-link-alt"></i>
+        in the background. The set of visualization applications that are
+        supported by ProLint are distinct in the sense that each one offers a different insight into
+        the calculated interaction network between lipids and proteins.
+        </p>
+
+
+        <h4>Data sharing and accessibility</h4>
+        <p class="docp">
+        Scientific journals usually have rigid restrictions on the number and type of graphical elements allowed and
+        researchers must try to limit themselves to only what they believe to be the most relevant details of their work.
+        This leads to an inefficient and incomplete presentation of the experiments and/or simulations performed and
+        unintentional bias in only presenting positive and confirming results.
+        Obtaining the original data that was used in published works is also a significant challenge.
+        ProLint allows for contact information to be extracted from simulated systems and stored
+        in small files that can be easily downloaded and shared and made publicly available.
+        </p>
+
+
+        <h4>Automation of protein-lipid contact generation</h4>
+        <p class="docp">
+        Following the trend in lipid-protein interactions, it is clear that it will become increasingly important to automate the generation of protein-lipid contacts for
+        any arbitrary protein. Such tools will allow us to study how membrane proteins interact with their lipid environment and elucidate the importance of lipids
+        in regulating and/or modulating the activity of embedded membrane proteins. Developing such automation protocols is an essential step in creating lipid-protein
+        interaction databases - which will be the next major step in the field.
+        ProLint is a perfectly suited tool that can be used as part of such automation pipelines.
+        </p>
+
+
+
+        <h4>Webserver information</h4>
+        <p class="docp">
+
+        <ul>
+            <li><span style="color: black;font-weight:bold;">URL address:</span> www.prolint.ca  (public IP: 18.216.165.89)</li>
+            <li><span style="color: black;font-weight:bold;">Web server name: </span>ProLint
+                (acronym for <span style="color: black;font-weight:bold;">pro</span>tein-<span style="color: black;font-weight:bold;">l</span>ipid <span style="color: black;font-weight:bold;">int</span>eractions)
+            </li>
+            <li>
+                <span style="color: black;font-weight:bold;">Authors:</span>
+                <ul>
+                    <li>
+                        Besian I. Sejdiu (University of Calgary and St. Jude Children’s Research Hospital, besian.sejdiu@ucalgary.ca, bsejdiu@stjude.org)
+                    </li>
+                    <li>
+                        Peter Tieleman (University of Calgary, tieleman@ucalgary.ca)
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  // dealing with the nav-menu underline
+  if ($('.nav-menu').length) {
+    $('.nav-menu .menu-active').removeClass('menu-active');
+  }
+//   console.log('docs: ', $("#docs"))
+  $("#docs").addClass('menu-active');
+</script>
+{% endblock javascript %}

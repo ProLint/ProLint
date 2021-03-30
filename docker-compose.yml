@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dummypass
+    expose:
+      - 5432
+
+  web:
+    build: ./prolint
+    image: bisejdiu/prolint:latest
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./prolint:/usr/src/app/
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dbaa1_i7%*3rNOT-SECUREr-!qeed@(-a_r(g@k8jo8y3r27%m
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+      - db
+
+  celery:
+    build: ./prolint
+    command: celery --app prolint worker --loglevel=info --logfile=logs/celery.log
+    volumes:
+      - ./prolint:/usr/src/app
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dbaa1_i7%*3rNOT-SECUREr-!qeed@(-a_r(g@k8jo8y3r27%m
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+      - web
+      - redis
+
+  redis:
+    image: redis:5-alpine

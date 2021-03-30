@@ -1,0 +1,131 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/styles/default.min.css">
+
+<section id="hero">
+    <div class="hero-container">
+        <h1>Analysis Reference</h1>
+        <h2>What happens on the backend?</h2>
+    </div>
+</section>
+
+<main id="main">
+    {% endblock header %}
+
+
+    {% block content %}
+
+    <style>
+    </style>
+
+    <section id="about">
+        <div class="container" style="padding-left: 100px; padding-right: 100px">
+            <div class="section-header">
+                <div>
+                    <img src="{% static 'img/at-bg.png' %}" style="
+                    width: 100%;
+                    margin-top: -70px;
+                    margin-bottom: -10px;
+                    ">
+                  </div>
+
+                <p class="docp">
+                    ProLint carries out protein-lipid contact analysis and visualization. This
+                    section outlines how to use ProLint for analyzing contact information.
+                    <br>
+                    <p class="docp">
+                    ProLint uses MDTraj to read trajectories and both MDTraj.Trajectory and
+                    MDTraj.Topology objects are used as inputs. ProLint has its own topology classes that
+                    are used to define both Proteins and Lipids in the system. You typically start by loading
+                    your simulation files:
+                </p>
+                    <pre><code>
+                        import mdtraj as md
+                        import prolint as pl
+
+                        t = md.load('system.xtc', top='system.gro')
+                    </code></pre>
+                    <br>
+                    <p class="docp">
+                    MDTraj has many ways how you can manipulate the trajectory (e.g. use a stride, remove
+                    periodicity, concatenate trajectories, etc.). ProLint assumes that loaded data contains only
+                    proteins and lipids. As such, systems have to be preprocessed so that water, ions and ligand
+                    are removed before they are read by ProLint.
+                    Here we assume that <span style="color: black;font-weight:bold;">t</span> is a Martini system that
+                    contains only proteins and lipids.</p>
+                    <p class="docp">
+                    We start by defining the protein and lipid topologies. We define the lipid topology and
+                    select only cholesterols for our analysis:
+                    </p>
+                    <pre><code>
+                        lipids = pl.Lipids(t.topology, resolution="martini", lipid_names=['CHOL'])
+                    </code></pre>
+                    <br>
+                    <p class="docp">
+                    Note how we specify the resolution of the input data ("martini"). The backend is capable of working
+                    with atomistic simulations, but this requires further testing before we make it available on the
+                    webserver. Next, we define the protein topology:
+                    </p>
+                    <pre><code>
+                        p = pl.Proteins(t.topology, resolution="martini")
+                        proteins = p.system_proteins()
+                    </code></pre>
+                    <br>
+                    <p class="docp">
+                    GROMACS coordinate files do not contain protein names and count, so ProLint calculates this
+                    information itself. In the first line, we define the protein topology and in the second line we use it to
+                    extract information about the number and count of all proteins in the system.
+                </p>
+
+                    Now we use the protein and lipid topologies to calculate contact information. We do this by first
+                    calculating a ProLint.ComputeContacts object:</p>
+                    <pre><code>
+                        contacts = pl.ComputeContacts(t, proteins, lipids)
+                    </code></pre>
+                    <br>
+                    <p class="docp">
+                    That's it! Now, when we want to calculate interactions between proteins and lipids, all we have
+                    to do is call the compute_neighbors method, like so:
+                </p>
+                    <pre><code>
+                        contacts.compute_neighbors(t, [60, 70, 80])
+                        contacts.compute_neighbors(t, range(15, 31), cutoff=0.64, atom_names=[ROH])
+                    </code></pre>
+                    <br>
+                    <p class="docp">
+                    This will calculate contact information between proteins and lipids in the system.
+                    For example:
+                </p>
+                    <pre><code>
+                        n = contacts.compute_neighbors(t, [100])
+                        print (n)
+                        # {'protein_name': {replicate: {residue: <contact class>}}}
+                        > {'Protein0': {0: {15: <prolint.LPContacts for residue 15>}}}
+
+                        print (n['Protein0'][0][100].contacts)
+                        # {'lipid': [duration_chol1, duration_chol2, duration_chol3, duration_chol4]}
+                        > {'CHOL': [62000.0, 156000.0, 212000.0, 18000.0]}
+                    </code></pre>
+                    <p class="docp">
+                    In the above commands, we calculate contacts between residue <strong>100</strong> and cholesterol
+                    <strong>ROH</strong> beads. The dictionary output of ProLint, <strong>n</strong>, contains information for
+                    the requested residues for each replicate of each protein in the system.
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+    {% endblock %}
+
+    {% block javascript %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+
+    {% endblock javascript %}

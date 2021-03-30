@@ -1,0 +1,233 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.foundation.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"> -->
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/mat.css' %}">
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/jmat.css' %}"> -->
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/fdt.min.css' %}"> -->
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+
+<section id="hero">
+  <div class="hero-container">
+    <h1>DATABASE</h1>
+    <h2>Interact and Explore publicly available results</h2>
+  </div>
+</section>
+
+<style>
+.paginate_button {
+  color: white;
+  padding: 10px;
+}
+
+.dataTables_info {
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-bottom: 10px;
+}
+
+div.dataTables_wrapper {
+        width: 100%;
+        /* margin: 0 auto; */
+    }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+#column1 {
+	width: 150px !important;
+ }
+
+#column2 {
+	width: 30px !important;
+ }
+
+ #column3 {
+	width: 70px !important;
+ }
+
+ #column4 {
+	width: 120px !important;
+ }
+
+ #column5 {
+   width: 300px !important;
+ }
+
+ #column6 {
+   width: 40px !important;
+ }
+
+ #column7 {
+   width: 150px !important;
+ }
+
+ #column8 {
+   width: 100px !important;
+ }
+
+ #column9 {
+   width: 150px !important;
+ }
+
+
+#database {
+  width: 200% !important;
+}
+
+.dataTables_scrollHead {
+  width: 100% !important;
+}
+
+</style>
+
+<main id="main">
+  {% endblock header %}
+
+{% block content %}
+
+
+<section id="tutorials">
+  <div class="container" style="padding-left: -100px; padding-right: -100px">
+    <div class="section-header">
+      <div>
+        <img src="{% static 'img/at-bg.png' %}" style="
+        width: 100%;
+        margin-top: -70px;
+        margin-bottom: -10px;
+        ">
+    </div>
+
+      <p class="docp">
+        The following list are results that have been calculated and made publicly available to everyone to view.
+        Currently, these results are from projects with the Centre for Molecular Simulation at the University of Calgary, but
+        we welcome the interst of others who may want to share their results here. We will happily host your data free of
+        charge. To keep this list curated and of value to others, the data has to have undergone prior peer review before we make it
+        available here.
+      </p>
+      <br><br>
+
+      <div class="limiter">
+        <div class="container-table100">
+          <div class="wrap-table100">
+            <div class="table100 ver1 m-b-110">
+              <table data-vertable="ver1" id="database">
+                <thead>
+                  <tr class="row100 head">
+                    <th class="column100 column1" data-column="column1" id="column1">Title</th>
+                    <th class="column100 column2" data-column="column2" id="column2">Access</th>
+                    <th class="column100 column3" data-column="column3" id="column3">Protein Name(s)</th>
+                    <th class="column100 column4" data-column="column4" id="column4">Lipids</th>
+                    <th class="column100 column5" data-column="column5" id="column5">Description</th>
+                    <th class="column100 column6" data-column="column6" id="column6">Resolution</th>
+                    <th class="column100 column7" data-column="column7" id="column7">Authors</th>
+                    <th class="column100 column8" data-column="column8" id="column8">DOI</th>
+                    <th class="column100 column9" data-column="column9" id="column9">Contact</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                {% for qs in model %}
+                  <tr class="row100">
+                    <td class="column100 column1"  data-column="column1">
+                      <a href="{% url 'explore_one' qs.user.username qs.task_id %}" target="_blank">{{ qs.title }}</a>
+                    </td>
+                    <td class="column100 column2" data-column="column2">{{ qs.prot_name }}</td>
+                    <td class="column100 column3" data-column="column3">{{ qs.lipids }}</td>
+                    <td class="column100 column4" data-column="column4">{{ qs.description|linebreaks }}</td>
+                    <td class="column100 column5" data-column="column5">ABCDEFGHIJKLM</td>
+                    <td class="column100 column6" data-column="column6">ABCDEFGHIJKLM</td>
+                    <td class="column100 column7" data-column="column7">ABCDEFGHIJKLM</td>
+                    <td class="column100 column8" data-column="column8">ABCDEFGHIJKLM</td>
+                    <td class="column100 column9" data-column="column9">ABCDEFGHIJKLM</td>
+                  </tr>
+                {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br><br><br><br><br>
+
+
+
+  </div>
+  </div>
+</section>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script>
+
+(function ($) {
+      "use strict";
+      $('.column100').on('mouseover', function () {
+        var table1 = $(this).parent().parent().parent();
+        var table2 = $(this).parent().parent();
+        var verTable = $(table1).data('vertable') + "";
+        var column = $(this).data('column') + "";
+
+        $(table2).find("." + column).addClass('hov-column-' + verTable);
+        $(table1).find(".row100.head ." + column).addClass('hov-column-head-' + verTable);
+      });
+
+      $('.column100').on('mouseout', function () {
+        var table1 = $(this).parent().parent().parent();
+        var table2 = $(this).parent().parent();
+        var verTable = $(table1).data('vertable') + "";
+        var column = $(this).data('column') + "";
+
+        $(table2).find("." + column).removeClass('hov-column-' + verTable);
+        $(table1).find(".row100.head ." + column).removeClass('hov-column-head-' + verTable);
+      });
+
+
+    })(jQuery);
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.10.24/js/dataTables.foundation.min.js"></script> -->
+<script>
+
+  $(document).ready(function() {
+      $('#database').DataTable({
+        "scrollX": true
+      });
+  } );
+
+  // dealing with the nav-menu underline
+  if ($('.nav-menu').length) {
+    $('.nav-menu .menu-active').removeClass('menu-active');
+  }
+  $("#contactus").addClass('menu-active');
+</script>
+{% endblock javascript %}

@@ -1,0 +1,72 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1>Contact Us</h1>
+  </div>
+</section>
+
+<main id="main">
+{% endblock header %}
+
+
+
+{% block content %}
+
+<section id="tutorials">
+  <div class="container" style="padding-left: 100px; padding-right: 100px">
+    <div class="section-header">
+      <div>
+        <img src="{% static 'img/at-bg.png' %}" style="
+        width: 100%;
+        margin-top: -70px;
+        margin-bottom: -10px;
+        ">
+    </div>
+
+      <p class="docp">
+
+        If you have any question related to the webserver or any general inquiry about any aspect of its functionality,
+        please do not hesitate to contact us at the following address:
+      </p>
+        <!-- <p class="docp">
+        <span style="color: black; font-weight: 600;">Besian I. Sejdiu</span><br>
+        Bioinformatics Analyst<br>
+        besian.sejdiu@stjude.org<br>
+        <span style="padding-bottom: 50px !important;">M. Madan Babu Group</span><br>
+        Center for Data Driven Discovery<br>
+        Structural Biology Department<br>
+        St. Jude Children's Research Hospital<br>
+        <a style="color: black; font-weight: 900; text-decoration: underline;" href="https://mbgroup.bio/members" target="_blank">mbgroup.bio</a><br> -->
+<div>
+  <ul style="list-style: none;">
+    <li><span style="color: black; font-weight: 600;">Besian I. Sejdiu</span></li>
+    <li>besian.sejdiu@stjude.org</li>
+    <li>Bioinformatics Analyst</li>
+    <li></li>
+    <li style="margin-top: 10px !important;"><span>M. Madan Babu Group</span></li>
+    <li>Center for Data Driven Discovery</li>
+    <li>Structural Biology Department</li>
+    <li>St. Jude Children's Research Hospital</li>
+    <li><a style="color: black; font-weight: 900; text-decoration: underline;" href="https://mbgroup.bio/members" target="_blank">mbgroup.bio</a> <i class="fas fa-external-link-alt"></i></li>
+  </ul>
+</div>
+      </p>
+  </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  // dealing with the nav-menu underline
+  if ($('.nav-menu').length) {
+    $('.nav-menu .menu-active').removeClass('menu-active');
+  }
+  $("#docs").addClass('menu-active');
+</script>
+{% endblock javascript %}

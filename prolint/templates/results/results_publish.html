@@ -1,0 +1,53 @@
+<!-- {% extends '_base.html' %} -->
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h2>Project Overview</h2>
+
+<br><br>
+
+<h5> Title:<span>&nbsp;&nbsp;</span>
+<span style="color:black;"> {{ upload_data.title }}</span>
+</h5>
+
+
+<h5> Protein Name:<span>&nbsp;&nbsp;</span>
+<span style="color:black;"> {{ upload_data.prot_name }}</span>
+</h5>
+<h5> File Names:<span>&nbsp;&nbsp;</span>
+{% comment %} <span style="color:black;"> {{ upload_data.lipids }} {% endcomment %}
+<ul>
+{% for filename in upload_data.file_names %}
+<li>
+<span style="color:black;"> {{ filename }}
+</li>
+{% endfor %}
+</ul>
+</span>
+</h5>
+<h5> Lipids Analyzed:<span>&nbsp;&nbsp;</span>
+<span style="color:black;"> {{ upload_data.lipids }}</span>
+</h5>
+<h5> Radii Cutoff(s) (nm):<span>&nbsp;&nbsp;</span>
+{% comment %} <span style="color:black;"> {{ upload_data.radii }}</span> {% endcomment %}
+<ul>
+{% for radius in upload_data.radii %}
+<li>
+<span style="color:black;"> {{ radius }}
+</li>
+{% endfor %}
+</ul>
+
+
+</h5>
+
+
+<p>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Publish</button>
+  </form>
+</p>
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'form_template.html' %}
+{% load static %}
+{% load material_form %}
+
+
+{% block header %}
+
+<style>
+  /* django-material is stupidly opinionated */
+  /* we have to customize the following again */
+  @media (max-width: 1500px) {
+    #contactus {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    #aboutnav {
+      display: none;
+    }
+
+    #appnav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1300px) {
+    #header #logo h1 {
+      font-size: 26px;
+    }
+
+    #header #logo img {
+      max-height: 70px;
+      margin-left: -8vw;
+    }
+  }
+
+  .checkboxlabel #mainlabel {
+    color: black !important;
+  }
+
+  .checkboxlabel label {
+    font-size: 16px;
+  }
+
+  .checkboxvalues {
+    color: black !important;
+    font-weight: 500 !important;
+  }
+
+  #labeldesc {
+    font-size: 13px;
+    line-height: normal;
+    margin-bottom: 50px !important;
+  }
+</style>
+
+<section id="hero">
+  <div class="hero-container">
+    <h1>Job Submission</h1>
+  </div>
+</section>
+
+<main id="main">
+  {% endblock header %}
+
+
+  {% block content %}
+
+  </script>
+  <section id="submit-container" style="padding: 80px 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">Submit a job to ProLint</span></h2>
+        <p style="text-align: justify; padding-top: 1%; padding-left: 50px; padding-right: 50px">
+          Accessing and using ProLint is done using the form below. Please fill out all of the required sections, upload
+          your data and
+          hit Submit. Depending on the size of the loaded files and your network connection, this may take some time to
+          finish.
+          <br><br>
+          Once your form has been submitted, you will be redirected to a new page where you can monitor the status of
+          your job. There you
+          can check if the calculations were successful or if they failed. You will also
+          receive a <span style="text-decoration: underline">unique ID</span> that is associated with your submission.
+          Either bookmark the page
+          or note down the ID so that you can access your submission.<br><br>
+
+          When ProLint receives your job submission, it puts it into a task queue waiting for the computer resources to
+          become available - which
+          should not take too much time. After the calculations are done, trajectory and coordinate files are deleted
+          immediately
+          to perserve space, and the calculation results will be available and accessible for 24 more hours after job
+          completion. After that, all
+          data associated with your submission are purged from our server.<br></p>
+
+        <div style="border-top: 3px dashed #bbb; margin-top: 40px; padding-bottom: 15px; padding-left: 50px !important; padding-right: 50px !important"></div>
+        <div style="margin-left: 20%; margin-right: 20%">
+          <h4 style="color: black; text-align: center; padding-top: 10px; margin-bottom: -15px;">Submission Form</h4>
+
+          <form name="submitJob" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% form form=form %}
+            {% endform %}
+            <button type="submit" name="_submit" class="btn btn-danger">Submit</button>
+          </form>
+        </div>
+        <div style="border-top: 3px dashed #bbb; margin-top: 40px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="submit-container" style="padding: 10px 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">Dry run using example data</span></h2>
+        <p style="text-align: justify; padding-top: 1%; padding-left: 50px; padding-right: 50px">
+          If you would like to test the capabilities of ProLint and its potential usefulness to your work, we provide
+          example data that you can
+          use to submit. For testing purposes, we provide several different input files that you may use. These files
+          are located on the following
+          <a style="color: black; font-weight: 900; text-decoration: underline;"
+            href="https://github.com/bisejdiu/ProLintData" target="_blank">GitHub repository</a> <i
+            class="fas fa-external-link-alt"></i>.
+          <br>Simply download the files for one system and size category and follow the instructions on the
+          <a style="color: black; font-weight: 900; text-decoration: underline;"
+            href="http://www.prolint.ca/tutorial">tutorial</a> <i class="fas fa-external-link-alt"></i> page.
+          When you submit your data, you will be provided with a <span style="text-decoration: underline">unique
+            ID</span> that you can use to
+          access your data from the Results page for around 24 hours.
+          <br>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
+
+  {% block javascript %}
+  <script>
+    if ($('.nav-menu').length) {
+      $('.nav-menu .menu-active').removeClass('menu-active');
+    }
+
+    var cba = $("form[name='submitJob']").children()
+    var cf = $(cba).closest('.row.checkbox-field')
+    $(cf).children().first().addClass('checkboxlabel')
+    $(cf).children().first().html(
+      '<div id="mainlabel"><p>Distance cutoff:</p></div>' +
+      '<div id="labeldesc"><p>The is the value that is used to define contacts between lipids and residues. ' +
+      'Note that two cutoffs will roughly double the calculation time.</p></div>'
+    )
+    $(cf).children().next().addClass('checkboxvalues')
+
+    // var fpw = $('#id_traj')
+    // fpw.css('background-color', 'white')
+    $('#id_traj').css('border-bottom', '5px solid white')
+    $('#id_coor').css('border-bottom', '5px solid white')
+
+    // var xtc = $('#id_traj_container').children().first()
+    // xtc.text('TRAJECTORY FILE')
+    // xtc.css('width', '150px')
+    // var gro = $('#id_coor_container').children().first()
+    // gro.text('COORDINATE FILE')
+    // gro.css('width', '150px')
+
+</script>
+
+  {% endblock javascript %}

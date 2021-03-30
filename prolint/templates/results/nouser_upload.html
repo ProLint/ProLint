@@ -1,0 +1,394 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+<section id="hero">
+  <div class="hero-container">
+    <h1>Result Monitoring</h1>
+    <h2>Monitor the status and outcome of your submissions</h2>
+  </div>
+</section>
+
+<main id="main">
+  {% endblock header %}
+  {% block content %}
+
+  <style>
+    .docp {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    h4 {
+      color: black;
+    }
+
+    ol {
+      list-style: none;
+      counter-reset: li
+    }
+
+    ol li::before {
+      content: counter(li);
+      color: black;
+      display: inline-block;
+      width: 1.2em;
+      margin-left: -1em
+    }
+
+    ol li {
+      counter-increment: li
+    }
+
+    a {
+      color: black;
+      font-weight: 900;
+    }
+
+    #column1 {
+      width: 300px !important;
+    }
+
+    #column2 {
+      width: 30px !important;
+    }
+
+    #column3 {
+      width: 100px !important;
+    }
+
+    #column4 {
+      width: 100px !important;
+    }
+
+    #column5 {
+      width: 70px !important;
+    }
+
+    #column6 {
+      width: 70px !important;
+    }
+
+    .collapsible {
+      border-top: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      margin: .5rem 0 1rem 0
+    }
+
+    .collapsible-header {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      line-height: 1.5;
+      padding: 1rem;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      margin-left: -35px;
+    }
+
+    .collapsible-header:focus {
+      outline: 0
+    }
+
+    .collapsible-header i {
+      width: 2rem;
+      font-size: 1.6rem;
+      display: inline-block;
+      text-align: center;
+      margin-right: 1rem
+    }
+
+    .collapsible-body {
+      display: none;
+      border-bottom: 1px solid #ddd;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 2rem
+    }
+
+    .collapsible.popout {
+      border: none;
+      -webkit-box-shadow: none;
+      box-shadow: none
+    }
+
+    ul:not(.browser-default)>li {
+      list-style-type: none;
+    }
+
+    i.material-icons {
+      float: left;
+      font-size: 24px
+    }
+
+    .material-icons {
+      text-rendering: optimizeLegibility;
+      -webkit-font-feature-settings: 'liga';
+      -moz-font-feature-settings: 'liga';
+      font-feature-settings: 'liga'
+    }
+
+    .collapsible {
+      -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2)
+    }
+  </style>
+
+  <section id="about" style="margin-bottom: -50px;">
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+
+        <h2 class="section-title"><span style="text-transform:none;">Submission Status</span></h2>
+        <br>
+        <p class="docp">
+          This page will show you relevant information on your job submission. You can monitor your job and once
+          calculations are done
+          you can this space to access the visualization apps. You can also view the output of the backend calculations.
+          This is useful
+          in case errors have occured and/or some of the analysis calculations did not complete successfully.
+        </p>
+        <p class="docp">
+          Depending on the state and the outcome of your job submission, the following possibilities may be displayed
+          for the <span style='font-style: italic;'>status</span style='font-style: italic;'> of the submission:<br>
+
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <ul style="list-style: none; text-align: left;">
+                  <li style="color: black; font-weight: 900;">PENDING:</li>
+                </ul>
+              </div>
+              <div class="col-10">
+                <ul style="list-style: none; text-align: left;">
+                  <li>
+                    <span style="color: black; font-weight: 500;">
+                      Your submission has not yet been completed. The calculations are intensive and time-consuming, so
+                      please be patient.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <ul style="list-style: none; text-align: left;">
+                  <li style="color: blue; font-weight: 900;">SUCCESS:</li>
+                </ul>
+              </div>
+              <div class="col-10">
+                <ul style="list-style: none; text-align: left;">
+                  <li>
+                    <span style="color: black; font-weight: 500;">
+                      Your submission has completed successfully and you may view your results by clicking the link
+                      below.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <ul style="list-style: none; text-align: left;">
+                  <li style="color: red; font-weight: 900;">FAILURE:</li>
+                </ul>
+              </div>
+              <div class="col-10">
+                <ul style="list-style: none; text-align: left;">
+                  <li>
+                    <span style="color: black; font-weight: 500;">
+                      Your submission has been processed, however, it has not completed successfully. Please contact us,
+                      so we can resolve this.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </p>
+
+        <p class="docp">
+          Please either bookmark this page or write down your unique identifier associated with your job submission.
+          You can use it to access this page:
+          {% for upload in user_uploads %}
+          <span style="color:red;font-weight:bold;">
+            {{ upload.task_id }}
+          </span>
+          <br>
+        </p>
+        <div>
+          {% load file_name %}
+          <ul class="collapsible">
+            <li style="color: black">
+              <div class="collapsible-header"><i class="material-icons">code</i>Analysis Output</div>
+              <div class="collapsible-body">
+                <code style="color: black">
+                  {% if upload.status == "SUCCESS" %}
+                    {{ logs | linebreaks }}
+                  {% elif upload.status == "FAILURE" %}
+                    {{ logs | linebreaks }}
+                  {% else %}
+                    Your job is either in the queue or already running. Watch this space for updates.
+                  {% endif %}
+                </code>
+              </div>
+            </li>
+            <li style="color: black">
+              <div class="collapsible-header"><i class="material-icons">bug_report</i>Report Bug</div>
+              <div class="collapsible-body"><span>
+                  If your submission fails, please feel free to contact us:
+                  <a href="mailto:besian.sejdiu@stjude.org">besian.sejdiu@stjude.org</a>
+                  <i class="fas fa-envelope"></i>
+                  <br>
+                  Please include your Job ID with your email.
+
+                </span></div>
+            </li>
+          </ul>
+        </div>
+
+        <p class="docp">
+          {% endfor %}
+          You can access this page by providing your ID in the <strong>Results</strong> page of this website. Please
+          note that
+          when your files are processed, they are automatically tagged for deletion after 24 hours. After that, all the
+          data associated with your
+          submission will be permanently deleted.
+        </p>
+
+        <div class="limiter">
+          <div class="container-table100">
+            <div class="wrap-table100">
+              <div class="table100 ver1 m-b-110">
+                <table data-vertable="ver1">
+                  <thead>
+                    <tr class="row100 head">
+                      <th class="column100 column1" data-column="column1" id="column1">Title</th>
+                      <th class="column100 column2" data-column="column2" id="column2">Status</th>
+                      <th class="column100 column3" data-column="column3" id="column3">Trajectory</th>
+                      <th class="column100 column4" data-column="column4" id="column4">Structure</th>
+                      <th class="column100 column5" data-column="column5" id="column5">Download</th>
+                      <th class="column100 column6" data-column="column6" id="column6">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% load file_name %}
+                    <tr class="row100">
+                      {% for upload in user_uploads %}
+                      <td class="column100 column1" data-column="column1">
+                        {% if upload.status == "SUCCESS" %}
+                        <span>
+                        <a href="{% url 'results_detail' username upload.task_id %}" target="_blank" style="
+                          text-decoration: underline;
+                          font-weight: 900;
+                          font-size: 18px;
+                          ">
+                          {{ upload.title }} <i class="fas fa-external-link-alt"></i>
+                        </a>
+                      </span>
+                        {% else %}
+                        <span style="font-size: 18px;">{{ upload.title }}</span>
+                        {% endif %}
+                      </td>
+                      <td class="column100 column2" data-column="column2">
+                        {% if upload.status == "SUCCESS" %}
+                        <span style="color:blue; font-weight: 900;"> {{ upload.status }}</span>
+                        {% elif upload.status == "FAILURE" %}
+                        <span style="color:red; font-weight: 900;"> {{ upload.status }}</span>
+                        {% else %}
+                        <span style="color: black; font-weight: 900;"> {{ upload.status }}</span>
+                        {% endif %}
+                      </td>
+                      <td class="column100 column3" data-column="column3">
+                        {{ upload.traj|filename }}
+                      </td>
+                      <td class="column100 column4" data-column="column4">
+                        {{ upload.coor|filename }}
+                      </td>
+                      <td class="column100 column5" data-column="column5">
+                        {% if upload.status != "PENDING" %}
+                        <form method="post" action="{% url 'download_task' username upload.task_id %}">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-primary btn-sm">Download</button>
+                        </form>
+                        {% endif %}
+                      </td>
+                      <td class="column100 column6" data-column="column6">
+                        {% if upload.status != "PENDING" %}
+                        <form method="post" action="{% url 'delete_task' username upload.task_id %}">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="border-top: 3px dashed #bbb; margin-top: 40px"></div>
+        <br>
+        <p class="docp">
+          If your submission fails, please feel free to contact us. You can find instructions on how to do that above.
+          We would suggest that you first go over the <strong>FAQs</strong> to make sure your submission conforms with
+          ProLint requirements.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
+
+  {% block javascript %}
+  <script>
+    (function ($) {
+      "use strict";
+      $('.column100').on('mouseover', function () {
+        var table1 = $(this).parent().parent().parent();
+        var table2 = $(this).parent().parent();
+        var verTable = $(table1).data('vertable') + "";
+        var column = $(this).data('column') + "";
+
+        $(table1).find(".row100.head ." + column).css('background-color', 'firebrick')
+        $(table2).find("." + column).css('background-color', '#a7a4a4')
+      });
+
+      $('.column100').on('mouseout', function () {
+        var table1 = $(this).parent().parent().parent();
+        var table2 = $(this).parent().parent();
+        var verTable = $(table1).data('vertable') + "";
+        var column = $(this).data('column') + "";
+
+        $(table2).find("." + column).css('background-color', '#f2f2f2')
+        $(table1).find(".row100.head ." + column).css('background-color', 'firebrick')
+      });
+
+
+    })(jQuery);
+
+    if ($('.nav-menu').length) {
+      $('.nav-menu .menu-active').removeClass('menu-active');
+    }
+    $("#docs").addClass('menu-active');
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.collapsible');
+      var instances = M.Collapsible.init(elems, {});
+    });
+  </script>
+  {% endblock javascript %}

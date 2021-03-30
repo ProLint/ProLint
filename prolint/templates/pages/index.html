@@ -1,0 +1,410 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ProLint</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <!-- <link href="img/favicon.png" rel="icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <!-- <link href="../static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- static/Libraries CSS Files -->
+  <link href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <!-- <link href="static/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet"> -->
+  <script src="https://kit.fontawesome.com/e43a4cb0d4.js" crossorigin="anonymous"></script>
+  <!-- <link href="static/lib/animate/animate.min.css" rel="stylesheet"> -->
+
+  <!-- Main Stylesheet File -->
+  <!-- <link href="../static/css/style.css" rel="stylesheet"> -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <style>
+    #submit-btn {
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      font-weight: 500;
+      display: inline-block;
+      padding: 8px 28px;
+      border-radius: 50px;
+      border: 2px solid #fff;
+      color: #fff;
+      margin-top: -50%;
+    }
+
+    #submit-btn:hover {
+      background-color: firebrick;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!--==========================
+  Header
+  ============================-->
+  <header id="header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <a href="#hero"><img src="{% static 'img/logo-1.png' %}" alt="" title="" /></img></a>
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#vizapps">Applications</a></li>
+          <!-- <li><a href="#docs-banner"></a></li> -->
+          <li><a href="#tutorials">Tutorials</a></li>
+          <li class="menu-has-children"><a href="">Documentation</a>
+            <ul>
+              <li><a href="#">Why ProLint?</a></li>
+              <li><a href="#">Tutorials</a></li>
+              <li class="menu-has-children"><a href="#">Documentation</a>
+                <ul>
+                  <li><a href="#">Analysis Reference</a></li>
+                  <li><a href="#">Visualization Reference</a></li>
+                </ul>
+              </li>
+              <li class="menu-has-children"><a href="#">Resources</a>
+                <ul>
+                  <li><a href="#">GitHub Page</a></li>
+                  <li><a href="#">Docker Image</a></li>
+                  <li><a href="#">Python Library</a></li>
+                  <li><a href="#">gsurf</a></li>
+                  <li><a href="#">Test Data</a></li>
+                  <div class="dropdown-divider"></div>
+                  <li class="menu-has-children"><a href="#">Other</a>
+                    <ul>
+                      <li><a href="#">Martini Website</a></li>
+                      <li><a href="#">Acknowledgments</a></li>
+                    </ul>
+                  <li>
+                </ul>
+              </li>
+
+              <div class="dropdown-divider"></div>
+              <li><a href="#">Contact Us</a></li>
+            </ul>
+          </li>
+          <li><a href="#submit" id="submit-btn">Submit</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <!-- <li><a href="#submit" id="submit-btn">Submit</a></li> -->
+        </ul>
+      </nav><!-- #nav-menu-container -->
+    </div>
+  </header><!-- #header -->
+
+  <!--==========================
+    Hero Section
+  ============================-->
+  <section id="hero">
+    <div class="hero-container">
+      <h1>Welcome to ProLint</h1>
+      <h2>A web-based tool to analyze and visualize lipid-protein interactions</h2>
+      <a href="#about" class="btn-get-started">Get Started</a>
+    </div>
+  </section><!-- #hero -->
+
+  <main id="main">
+
+    <!--==========================
+      About Us Section
+    ============================-->
+    <section id="about">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title"><span style="text-transform:none;">What is ProLint?</span></h2>
+          <p style="text-align: center; padding-top: 1%;">
+            ProLint is a user-friendly framework for the <span style="font-weight: 900; color: black;">automated analysis</span> and
+            <span style="font-weight: 900; color: black;">interactive visualization</span> of
+            <span style="text-decoration: underline;">Pro</span>tein-<span style="text-decoration: underline;">L</span>ipid
+            <span style="text-decoration: underline;">int</span>eractions.
+            <br><br>
+            The time requirement to analyze and interpret data generated through Molecular Dynamics (MD) simulations usually exceeds the time to set up
+            and perform the simulations. Add to this the continuing trend of increased system sizes, simulated for longer time scales and the need for a
+            much larger set of proteins, it becomes clear how analysis and visualization of lipid-protein interactions can become a significant bottleneck.
+            <br><br>
+            ProLint aimes to bridge this widening gap between <span style="font-weight: 900; color: black;">data generation</span> and
+            <span style="font-weight: 900; color: black;">gaining insight</span> on biologically-relevant interactions between.
+          </p>
+          <br>
+          <!-- <div>
+            <img src="../static/img/at-bg.png" style="
+            width: 100%;
+            ">
+          </div> -->
+        <div class="row about-container">
+
+          <div class="col-lg-6 content order-lg-1 order-2">
+            <h2 class="title">Objectives</h2>
+            <p>
+              ProLint, along with all of its accompanying tools, has the following core objectives and features:
+
+
+            </p>
+
+            <div class="icon-box wow fadeInUp">
+              <div class="icon"><i style="margin-left: -2px; margin-bottom: 5px;" class="fa fa-project-diagram fa-rotate-180"></i></div>
+              <h4 class="title">Modular Analysis</h4>
+              <p class="description">Analysis is always context-dependent and users will have varying levels of interest for different aspects of the
+                same data. ProLint recognizes this and implements several analysis protocols to account for it.
+              </p>
+            </div>
+
+            <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
+              <div class="icon"><i class="fas fa-th"></i></div>
+              <h4 class="title">Interactive Visualization</h4>
+              <p class="description">The line betwen analysis and visualization becomes indistinguishable once users have the ability to interact with
+                the data being visualized. The design of all visualization applications by ProLint is centered around user interactivity!
+              </p>
+            </div>
+
+            <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
+              <div class="icon"><i class="fas fa-chart-line"></i></div>
+              <h4 class="title">Automation & Scalability</h4>
+              <p class="description">Analysis and visualization of lipid-protein interactions is entirely automated. ProLint also provides a standalone python
+                library that users can use to automate tasks and scale-up their workflow.</p>
+            </div>
+
+            <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
+              <div class="icon"><i style="margin-left: -3px; margin-bottom: 1px;"  class="fas fa-share-alt"></i></div>
+              <h4 class="title">Accessibility & Shareability</h4>
+              <p class="description">Web-based visualization and cloud-based hosting allow ProLint to share MD results
+                with the whole scientific community. Thanks to its intuitive visualization applications that require no coding knowledge or MD experience,
+                the benefit of the shared data extends far beyond the computational community.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight"></div>
+        </div>
+      </div>
+      </div>
+    </section><!-- #about -->
+
+    <!--==========================
+      Visualization Apps Section
+    ============================-->
+    <section id="vizapps" style="margin-top: -3%;">
+      <div class="container wow fadeIn">
+        <div class="section-header">
+          <h3 class="section-title"><span style="text-transform:none;">Applications Overview</span></h3>
+          <p class="section-description">Given MD files as input containing proteins embedded in a lipid environment,
+            ProLint automatically analysis the interplay between lipids and proteins and visualizes their interactions using applications such as the following</p>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="box">
+              <!-- <div class="icon"><a href=""><i class="fa fa-desktop"></i></a></div> -->
+              <div class="icon"><img class="vizapps-img" src="{% static 'img/nw.png' %}"></div>
+              <h4 class="title" style="color:black; text-transform: none;"><span>Network Graph</span></h4>
+              <p class="description">Lipids and proteins are represented as collapsible/expandible nodes and their interactions with each other as edges.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+            <div class="box">
+              <!-- <div class="icon"><a href=""><i class="fa fa-bar-chart"></i></a></div> -->
+              <div class="icon"><img class="vizapps-img" src="{% static 'img/heatmap.png' %}"></div>
+              <h4 class="title" style="color:black; text-transform: none;"><span>Heatmap Viewer</span></h4>
+              <p class="description">Interactive 3D visualization of lipid densities and projected contact heatmaps onto the surface of proteins.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+            <div class="box">
+              <!-- <div class="icon"><a href=""><i class="fa fa-paper-plane"></i></a></div> -->
+              <div class="icon"><img class="vizapps-img" src="{% static 'img/scatter.png' %}" style="width: 300%;"></div>
+              <h4 class="title" style="color:black; text-transform: none;"><span>Point Distribution</span></h4>
+              <p class="description">Interactions visualized as a point plot where each point represents the interaction of one residue with a particular lipid.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="box">
+              <!-- <div class="icon"><a href=""><i class="fa fa-photo"></i></a></div> -->
+              <div class="icon"><img class="vizapps-img" src="{% static 'img/radar.png' %}" style="width: 180%; height: 180%;"></div>
+              <!-- <h4 class="title"><a href="">Metric Compa</a></h4> -->
+              <h4 class="title" style="color:black; text-transform: none;"><span>Metric Comparison</span></h4>
+              <p class="description">Per residue comparison of calculated contact metrics. Employs an interactive radar plot to display values for two residues at a time.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+            <div class="box">
+              <!-- <div class="icon"><a href=""><i class="fa fa-road"></i></a></div> -->
+              <div class="icon"><img class="vizapps-img" src="{% static 'img/curv.png' %}" style="width: 300%; height: 100% !important;"></div>
+              <!-- <h4 class="title"><a href="">Nemo Enim</a></h4> -->
+              <h4 class="title" style="color:black; text-transform: none;"><span>Thickness & Curvature</span></h4>
+              <p class="description">The changes that proteins induce in their surrounding lipid environment are displayed using
+                thickness and curvature mesh files.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+            <div class="box">
+              <!-- <div class="icon"><a href=""><i class="fa fa-shopping-bag"></i></a></div> -->
+              <div class="icon"><img class="vizapps-img" src="{% static 'img/line.png' %}" style="width: 400%; height: 250% !important;"></div>
+              <!-- <h4 class="title"><a href="">Eiusmod Tempor</a></h4> -->
+              <h4 class="title" style="color:black; text-transform: none;"><span>Distance Lines</span></h4>
+              <p class="description">Distance timeseries for the most high-scoring lipid-protein contacts.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- #vizapps -->
+
+    <section id="docs-banner">
+      <div class="container wow fadeIn">
+        <div class="row">
+          <div class="col-lg-6 text-center text-lg-left">
+            <h5 class="cta-title" style="
+            font-size: 2.5em;
+            line-height: 1.4;
+            margin-bottom: 0;
+            color: #fff;
+            ">
+              ProLint is an open-source framework to analyze and visualize lipid-protein interactions</h5>
+          </div>
+
+          <div class="col-lg-6 text-center ">
+            <p class="cta-text" style="
+            font-size: 1.15em;
+            font-weight: bold;
+            color: #b7b7b7;
+            line-height: 1.5em;
+            margin-bottom: 1.5em;
+            ">
+              To get familiar with ProLint and how to read and interpret results, please read the provided documentation.
+              In particular, check the data requirements before submitting
+            any files. </p>
+            <a class="cta-btn" style="padding-top: -10%;" href="#">Documentation</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- #docs-banner -->
+
+    <section id="tutorials">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title"><span style="text-transform:none;">Testing & Tutorials</span></h2>
+          <p style="text-align: center; padding-top: 1%;">
+
+            We recommend that before you submit any jobs to ProLint, you first familiarize yourself with its capabilities and requirements.
+            Not all data files are supported and not every computational model is supported. ProLint has been tested and optimized with the
+            Martini model. All lipids that are part of the Martini lipidome should work. ProLint provides the option to submit atomistic data
+            too, but please be aware that this is, currently, an experimental feature.
+            <br><br>
+            For testing purposes, we provide several different input files that you may use. These files are located on the following
+           <a style="color: black; font-weight: 900; text-decoration: underline;"
+            href="https://github.com/bisejdiu/ProLintData" target="_blank">GitHub repository</a>  <i class="fas fa-external-link-alt"></i>.
+            Simply download the files for one system and size category and follow the instructions on the
+            <a style="color: black; font-weight: 900; text-decoration: underline;"
+            href="http://www.prolint.ca/tutorial">tutorial</a> <i class="fas fa-external-link-alt"></i> page.
+            When you submit your data, you will be provided with a <span style="text-decoration: underline">unique ID</span> that you can use to
+            access your data from the Results page for around 24 hours.
+            <br><br>
+            The <span style="font-weight: 900; color: black">Examples</span> page of ProLint, contains a set of applications that aggregate data
+            on the interaction of G Protein-Coupled Receptors (GPCRs) with lipid.
+            They highlight the full capabilities of the visualization applications implemented in ProLint.
+            Each application contains data for 28 different GPCRs with a complex (63) lipid environment.
+            Users can view, analyze and compare different aspects of the lipid interaction profile of these important receptors.
+            Applications are highly intuitive and support many layers of interactivity without requiring any specialized knowledge of lipid-protein interactions,
+            MD simulations, or coding experience. <br>If you use this dataset in your work, please cite:
+            <a style="color: black; font-weight: 900; text-decoration: underline;"
+            href="https://doi.org/10.1016/j.bpj.2020.03.008" target="_blank">Sejdiu, B. I., & Tieleman, D. P. (2020)</a> <i class="fas fa-external-link-alt"></i>.
+          </p>
+      </div>
+      </div>
+    </section>
+
+    <section id="run-locally" style="margin-top: -3%;">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title"><span style="text-transform:none;">Run ProLint Locally</span></h2>
+          <p style="text-align: center; padding-top: 1%;">
+            <style>
+              #counter {
+                color: grey;
+                font-weight: 900;
+                font-style: italic;
+              }
+            </style>
+            Often, it may be necessary to run ProLint locally.
+            This is especially useful if your use-case requires the <span id='counter'>(i)</span> definition of custom metrics,
+            <span id='counter'>(ii)</span> you require more fine-tuned analysis than is currently supported, <span id='counter'>(iii)</span>
+            your files are too large and cannot be preprecessed further without loss of critical information,
+            <span id='counter'>(iv)</span> you plan to incorporate ProLint within an automation workflow, and/or
+            <span id='counter'>(v)</span> you plan to customize any of the visualization applications.
+            <br><br>
+            To account for these cases, ProLint provides a fully-fledged python library that can be installed and run locally. It has full
+            support for analysing lipid-protein interactions with a much more detailed control over the process and implements all of the
+            visualization application that are part of the webserver. It is released under the MIT license and is openly available on the
+            <a style="color: black; font-weight: 900; text-decoration: underline;"
+            href="https://github.com/bisejdiu/prolint" target="_blank">ProLint GitHub repository</a>  <i class="fas fa-external-link-alt"></i>.
+          </p>
+          <br>
+      </div>
+      </div>
+    </section>
+
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="container"></div>
+    </div>
+
+    <div class="container">
+      <div style="display: flex; justify-content: space-between;">
+      <div>
+        <strong style="font-size: 2.1em;">ProLint, 2021</strong>
+      </div>
+      <div>
+        <strong  style="font-size: 1.2em;">Centre for Molecular Simulation</strong>
+        <br>
+        <p style="margin-bottom: -7%; text-align: center; font-size: 1.00em;">University of Calgary</p>
+      </div>
+      <div>
+        <ul style="display: inline-flex; list-style-type: none; justify-content: space-between; letter-spacing: 8px;">
+          <div>
+            <li><a href="https://github.com/bisejdiu" title="GitHub" target="_blank"><i class="fab fa-github fa-3x"></i></a></li>
+          </div>
+          <div>
+            <li><a href="https://twitter.com/bisejdiu" title="Twitter" target="_blank"><i class="fab fa-twitter fa-3x"></i></a></li>
+          </div>
+          <div>
+            <li><a href="https://www.ucalgary.ca/molsim/" title="Centre for Molecular Simulation" target="_blank"><i class="fab fa-canadian-maple-leaf fa-3x"></i></a></li>
+          </div>
+        </ul>
+      </div>
+  </div>
+    </div>
+  </footer>
+
+
+  </main>
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- JavaScript ../static/Libraries -->
+  <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+  <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+  <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'lib/superfish/hoverIntent.js' %}"></script>
+  <script src="{% static 'lib/superfish/superfish.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

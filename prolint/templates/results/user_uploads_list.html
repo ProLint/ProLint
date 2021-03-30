@@ -1,0 +1,95 @@
+{% extends '_base.html' %}
+
+
+
+{% comment %} {% block top_body %}
+    <h2>Submitted Projects</h2>
+    <p>
+      <a href="{% url 'class_upload_filemd' %}" class="btn btn-primary">Submitt New Project</a>
+    </p>
+
+{% endblock %} {% endcomment %}
+
+{% block content %}
+  <h2 class="card-title">Results List View: HomePage for all Results of all Projects</h2>
+  <p class="card-text">Project start example: v0.4</p>
+  <p class="card-text">
+    <h5>Here you will find a listed view of all projects run by user.</h5>
+  </p>
+
+
+  <table class="table mb-0">
+    <thead>
+      <tr>
+        {% comment %} <th>ID</th> {% endcomment %}
+        <th>Title</th>
+        <th>Status</th>
+        <th>Protein Name</th>
+        <th>Trajectory File</th>
+        <th>Structure File</th>
+        {% comment %} <th>Download</th> {% endcomment %}
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% load file_name %}
+
+      {% for upload in user_uploads %}
+        <tr>
+          {% comment %} <td>
+            {% if book.cover %}
+              <img src="{{ book.cover.url }}" alt="{{ book.title }}" style="width:100px;">
+            {% else %}
+              <span class="text-muted">No cover</span>
+            {% endif %}
+          </td> {% endcomment %}
+          <td>
+            <a href="{% url 'results_list' username upload.task_id %}" target="_blank">{{ upload.title }}</a>
+          </td>
+          <td>
+            {% if upload.status == "PENDING" %}
+                {{ upload.status }}
+            {% elif upload.status == "FAILURE" %}
+                <span style="color:red;font-weight:bold;"> {{ upload.status }}</span>
+            {% elif upload.status == "SUCCESS" %}
+                <span style="color: blue;font-weight:bold;"> {{ upload.status }}</span>
+            {% else %}
+                <span style="color: black;font-weight:bold;"> {{ upload.status }}</span>
+            {% endif %}
+
+          </td>
+          <td>{{ upload.prot_name }}</td>
+          {% comment %} <td>{{ upload.title }}</td> {% endcomment %}
+          <td>{{ upload.traj|filename }}</td>
+          <td>{{ upload.coor|filename }}</td>
+          {% comment %} <td>
+            <a href="{{ book.pdf.url }}" class="btn btn-primary btn-sm" target="_blank">
+              Download PDF
+            </a>
+          </td> {% endcomment %}
+          <td>
+          {% if upload.status != "PENDING" %}
+            <form method="post" action="{% url 'download_task' username upload.task_id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary btn-sm">Download</button>
+            </form>
+          {% endif %}
+          </td>
+
+          <td>
+          {% if upload.status != "PENDING" %}
+            <form method="post" action="{% url 'delete_task' username upload.task_id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+
+
+{% endblock %}
