@@ -26,7 +26,7 @@ When installation finishes, open a browser and navigate to: 127.0.0.1:8000
 
 #### Tested
 The installation process above has been test on MacOS and confirmed to work. Linux should work too. <br>
-The thickness & curvature application is currently not working because of some permission issue with the main program g_surf, which we'll fix very soon.<br>
+~~The thickness & curvature application is currently not working because of some permission issue with the main program g_surf, which we'll fix very soon.~~ FIXED NOW!<br>
 For Windows there is a bug with the termination of line-endings on the entrypoint.sh script which will be fixed soon too. 
 
 ## What you need to know
