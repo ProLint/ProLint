@@ -31,6 +31,5 @@ SHELL ["conda", "run", "-n", "prolint", "/bin/bash", "-c"]
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 
 COPY . /usr/src/app/
-RUN chmod +x /usr/src/app/gsurf/g_surf
 
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "prolint", "/bin/bash", "/usr/src/app/entrypoint.sh"]
