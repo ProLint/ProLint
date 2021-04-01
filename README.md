@@ -40,7 +40,21 @@ The following are a list of things I think are important to know:
 - The docker build will show useful information about your session, and you can use terminals to access the docker images. 
 - Celery output is saved on the `logs/celery.log` file, so keep an eye on that when you submit jobs. 
 - Submissions are saved in the media/user-data/prolint folder. They are not deleted automatically yet, so please keep an eye on that. 
-- The functions to download and delete submissions are kept, but their usefulness is limited since now you have the data locally. 
+- The functions to download and delete submissions are kept, but their usefulness is limited since now you have the data locally. The reason why these buttons are kept is clear from the development roadmap provided below. 
+
+## Roadmap 
+ProLint is the result of a lot of work and it already provides many features. It is also in very active development and the following is a rough roadmap of what is planned to come to ProLint: 
+
+- A cleaner installation without the notifications and warning messages given by Docker currently. 
+- Full support for atomistic simulations. Currently, atomistic data are supported as a beta-feature and we want to fix bugs and add stability to fully handle data at this resolution. 
+- Martini 3 should be supported already, but we still need to test it. 
+- Allow the user to specify residues manually in the submission form. 
+- Provide additional metric support and add the ability for the user to select the preferred ones. 
+- Provide support for systems containing multiple different proteins. Currently, support for these systems is partial. 
+- Support user-requested features. 
+
+### Support for deployment on local networks. 
+This can already be done, but the current config is not secure. We want to allow people to deploy ProLint on a local network where multiple users/members of research groups can use it. For this reason, ProLint already has a working setup with support for secure user accounts and individual pages to track all the submitted jobs and ability to make them available to other members of the local network. This allows members of a group, for example, to share data with others, prepare for group meetings, use the data during presentations (e.g. during zoom calls), and in general, collaborate. This functionality **already exists and has been implemented** in ProLint but currently it has been disabled!
 
 ## Development
 All you need to contribute to the development of ProLint is open the ProLint directory with a code editor such as <a href="https://code.visualstudio.com/" target="_blank">VS Code<a/>. Your saves will automatically trigger docker to autoload the build and update the website. 
