@@ -35,7 +35,11 @@ git config --global core.autocrlf input
 docker-compose up --build
 ```
 
-## What you need to know
+## Installation from source
+You can also install ProLint directly from source. You can use the provided `environment.yml` file to create the conda environmet. You'll also need to have gromacs installed and sourced for g_surf to work. 
+
+
+## Important things to know
 The following are a list of things I think are important to know:
 - The docker build will show useful information about your session, and you can use terminals to access the docker images. 
 - Celery output is saved on the `logs/celery.log` file, so keep an eye on that when you submit jobs. 
