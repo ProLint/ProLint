@@ -37,6 +37,7 @@ docker-compose up --build
 
 ## Installation from source
 You can also install ProLint directly from source. You can use the provided `environment.yml` file to create the conda environmet. You'll also need to have gromacs installed and sourced for g_surf to work. 
+Once installed, remember that you have to run `redis-server`, then in the prolint directory you have to run the `celery` worker and then you also have to run the actual server `python manage.py runserver`. 
 
 
 ## Important things to know
