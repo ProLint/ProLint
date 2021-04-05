@@ -24,7 +24,7 @@ You may get warning and notifications about missing files, but they are harmless
 
 When installation finishes, open a browser and navigate to: 127.0.0.1:8000 
 
-#### Tested
+#### Docker Installation Tested
 The installation process above has been test on MacOS and confirmed to work. Linux should work too. I assume WSL 2 would also work, although I have not tested it yet. <br>
 
 If you are using Windows OS directly (e.g., through the command prompt, or powershell, or anaconda prompt for windows), then you may get errors because of the different line-ending termination. To fix this, you need to tell git to keep line endings as they are. You can do that globally or on a per-repo basis. The instructions below are for configuring git globally, but if you want to do it for the repo specifically please <a href="https://docs.github.com/en/github/getting-started-with-github/configuring-git-to-handle-line-endings" target="_blank"> read here<a/> for instructions.
@@ -36,8 +36,42 @@ docker-compose up --build
 ```
 
 ## Installation from source
-You can also install ProLint directly from source. You can use the provided `environment.yml` file to create the conda environmet. You'll also need to have gromacs installed and sourced for g_surf to work. 
-Once installed, remember that you have to run `redis-server`, then in the prolint directory you have to run the `celery` worker and then you also have to run the actual server `python manage.py runserver`. 
+You can also install ProLint directly from source. You can use the provided `environment.yml` file to create the conda environmet. You'll also need to have gromacs installed and sourced for g_surf to work (if you do not need thickness&curvature app, then you can skip this). 
+Once you have all dependencies installed, you should activate your new conda environment and do the following: 
+Open the terminal and run the redis server: 
+```sh
+# simply execute: 
+redis-server
+```
+Then you need to open `prolint/settings.py` and change the `CELERY_BROKER_URL` and `CELERY_RESULT_BACKEND` variables like so: 
+```sh
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://127.0.0.1:6379")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://127.0.0.1:6379")
+```
+After that, you will need to open another terminal, navigate to the root django directory (that's the directory that contains `manage.py` in it) and execute: 
+```sh
+# run the celery worker, if you have celery version 4:
+celery -A prolint worker -l info
+
+# run the celery worker, if you have celery version 5: 
+celery --app prolint worker --loglevel=info
+
+# if you are on windows - for which celery has dropped support since version 4, 
+# you will need to install a program like gevent and run the command like this: 
+# celery -A prolint worker -l info -P gevent              # v4
+# celery --app prolint worker --loglevel=info -P gevent   # v5
+```
+
+Once that is done, you have to open a third terminal, navigate to the root django directory and run the django server: 
+```sh
+python manage.py managemigrations
+python manage.py migrate
+python manage.py runserver
+```
+
+Of course you can run these commands in the background so you do not need to have three terminals open, but for ProLint to work you need at least the following components: 
+the django web application, celery to run tasks asynchronously, and a message broker such as redis to keep track of submitted tasks. 
+This is why the docker installation is preferred, because it reduces installation to one single command. 
 
 
 ## Important things to know
@@ -58,13 +92,12 @@ ProLint is the result of a lot of work and it already provides many features. It
 - Provide support for systems containing multiple different proteins. Currently, support for these systems is partial. 
 - Support user-requested features. 
 
-### Support for deployment on local networks. 
+### Roadmap: support for deployment on local networks. 
 This can already be done, but the current config is not secure. We want to allow people to deploy ProLint on a local network where multiple users/members of research groups can use it. For this reason, ProLint already has a working setup with support for secure user accounts and individual pages to track all the submitted jobs and ability to make them available to other members of the local network. This allows members of a group, for example, to share data with others, prepare for group meetings, use the data during presentations (e.g. during zoom calls), and in general, collaborate. This functionality **already exists and has been implemented** in ProLint but currently it has been disabled!
 
 ## Development
 All you need to contribute to the development of ProLint is open the ProLint directory with a code editor such as <a href="https://code.visualstudio.com/" target="_blank">VS Code<a/>. Your saves will automatically trigger docker to autoload the build and update the website. 
 These updates are, however, not transmitted when you make changes to the `calcul` app which is used by Celery. Celery auto-reload on file save is on the to-do list, however.<br>
-
   
 ## Bug report
 Please feel free to open an issue or contact us if you encounter any problem or bug while working with ProLint. 
