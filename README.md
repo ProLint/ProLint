@@ -18,11 +18,12 @@ cd ProLint
 docker-compose up
 ```
 
-The main and only installation command is `docker-compose up`. It will create a Docker build that contains all of the software packages, python libraries and environment configuration required by ProLint to work. 
+The main and only installation command is `docker-compose up`. It will create a Docker build that contains all of the software packages, python libraries and environment configuration required by ProLint to work. As such, this will take a few minutes to finish. 
 
 You may get warning and notifications about missing files, but they are harmless. 
+If Docker asks to share the image, make sure to click 'Share It'. 
 
-When installation finishes, open a browser and navigate to: 127.0.0.1:8000 
+When installation finishes, open a browser and navigate to: **127.0.0.1:8000** (not 0.0.0.0:8000).
 
 #### Docker Installation Tested
 The installation process above has been test on MacOS and confirmed to work. Linux should work too. I assume WSL 2 would also work, although I have not tested it yet. <br>
