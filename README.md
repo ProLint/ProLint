@@ -21,7 +21,7 @@ docker-compose up
 The main and only installation command is `docker-compose up`. It will create a Docker build that contains all of the software packages, python libraries and environment configuration required by ProLint to work. As such, this will take a few minutes to finish. 
 
 You may get warning and notifications about missing files, but they are harmless. 
-If Docker asks to share the image, make sure to click 'Share It'. 
+If Docker asks to share the image, make sure to click **Share It** (I think this is Windows specific). 
 
 When installation finishes, open a browser and navigate to: **127.0.0.1:8000** (not 0.0.0.0:8000).
 
