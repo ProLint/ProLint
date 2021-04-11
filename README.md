@@ -1,7 +1,19 @@
-# ProLint
-This is the source-code for the ProLint Webserver. 
+<h3 align="center"><img src="https://i.imgur.com/mzAGIMf.png" alt="logo" height="200px"></h3>
+<p align="center">A web-based tool to analyze and visualize lipid-protein interactions.</p>
+
+
+<p align="center">
+<a href="https://gitter.im/ProLint/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/ProLint/community.svg"><a/>
+<a href="./LICENSE"><img src="https://img.shields.io/badge/license-GPL-blue.svg"></a>
+<a href="https://github.com/ProLint/ProLint/releases"><img src="https://img.shields.io/github/v/release/ProLint/ProLint.svg"></a>
+</p>
+
+
+
 
 ## Installation
+
+This is the source-code for the ProLint Webserver. 
 
 #### Install Docker
 You need to have <a href="https://docs.docker.com/get-docker/" target="_blank">Docker<a/> installed first, in order to install ProLint. 
