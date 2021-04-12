@@ -38,8 +38,6 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
     coor_path = os.path.join(upload_dir, coor_path)
     radii = user_inputs.get('radii')
     group_lipids = user_inputs.get('group_lipids')
-    # Convert cutoffs to nanometer
-    # radii = [x / 10 for x in radii]
 
     resolution = user_inputs.get('resolution')
     merge = user_inputs.get('chains')
@@ -220,32 +218,6 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
     ####################################################
     ###############   Network Graph  ###################
     ####################################################
-    # Depends on Contact Analysis
-    # if CALCULATIONS_REQUESTED['contacts']:
-    #     if CALCULATED_CONTACTS:
-    #         try:
-    #             for r in radii:
-    #                 graph_json = pl.network(
-    #                     lipids,
-    #                     protein_dataframe,
-    #                     protein_dataframe.columns[1],
-    #                     grouped=group_lipids,
-    #                     radius=r,
-    #                     webserver=True
-    #                     )
-
-    #                 file_name = os.path.join(upload_dir, task_id + "_" + str(r) + '_network.json')
-    #                 json.dump(graph_json, open(file_name, 'w'))
-    #             OUTPUT_COLLECTION.write('Network Graph completed successfully.\n')
-    #             APPS_CALCULATED_SUCCESSFULLY['network'] = True
-    #         except Exception:
-    #             OUTPUT_COLLECTION.write('Network Graph returned the following error:\n#######################\n')
-    #             OUTPUT_COLLECTION.write(traceback.format_exc())
-    #             APPS_CALCULATED_SUCCESSFULLY['network'] = False
-
-    #     else:
-    #         OUTPUT_COLLECTION.write('Contact Analysis was unsuccessful. Skipping Network Graph Analysis as it depends on it.\n')
-
     if CALCULATIONS_REQUESTED['contacts']:
         if CALCULATED_CONTACTS:
             try:
@@ -286,15 +258,17 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
                 radii_list = df.Radius.unique().tolist()
                 lipids_list = df.Lipids.unique().tolist()
 
-
                 column_axis = {
-                    'Sum_of_all_Contacts': "NUMBER",
-                    'Longest_Duration': "DURATION"
+                    'Sum_of_all_Contacts': "Sum of Contacts",
+                    'Longest_Duration': "Longest Contact",
+                    'Mean_Duration': 'Average Contacts',
+                    'Lipid_Number': 'Nr. Lipids per Residue',
+                    'Occupancy': 'Occupancy',
                 }
                 json_data = {}
                 for r in radii_list:
                     for l in lipids_list:
-                        for column in ['Sum_of_all_Contacts', 'Longest_Duration']:
+                        for column in ['Sum_of_all_Contacts', 'Longest_Duration', 'Mean_Duration', 'Lipid_Number', 'Occupancy']:
                             if merge:
                                 bfactor = save_heatmap(l, r, column, df, proteins[0].counter)
                                 json_data[f'{r}_{l}_{column_axis[column]}'] = list(bfactor)
@@ -430,7 +404,7 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
         groups=group_lipids,
         errors={k:str(v).lower() for k,v in APPS_CALCULATED_SUCCESSFULLY.items()},
         web_server_name="ProLint",
-        web_server_version="v1.0",
+        web_server_version="v2.0",
     )
 
     return rent_or_maratonomak

@@ -1,0 +1,100 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1></h1>
+    <!-- <h2>Role and purpose of the web server</h2> -->
+  </div>
+</section>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+
+<style>
+  .home-container {
+    height: 100vh !important;
+  }
+  h1 {
+      margin-bottom: -50px !important;
+    }
+
+</style>
+
+<main id="main">
+{% endblock header %}
+
+
+{% block content %}
+
+<style>
+    .docp {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    h4 {color: black;}
+
+    ol {list-style: none; counter-reset: li}
+    ol li::before {
+        content: counter(li);
+        color: black;
+        display: inline-block;
+        width: 1.2em;
+        margin-left: -1em
+    }
+    ol li {counter-increment: li}
+    a {
+        color: black;
+        font-weight: 900;
+    }
+</style>
+
+
+
+<section id="about">
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">{{ app }}</span></h2>
+
+        <br>
+        <p class="docp">
+          2D density maps are one of the most used visualization tools to highlight lipid-protein interactions.
+          Using a color-gradient they show differences in the density of a lipid molecule/group in the system, making them an
+          easy and effective way to plot the higher or lower localization of lipids. <br>
+          This application gives the user the possibility to tweak and change many of the option that go into the calculation of 2D density maps.
+          Most notably, the ability to choose what part of the bilayer (in terms of z-axis range) to use in the calculation of densities.<br>
+          Several other options are also interactive: the number of bins to use for the binning of the data, the color-scheme employed, the possibility to show/hide the protein, and to
+          hide density values lower than a cutoff value using the colorbar specific slider.
+
+
+          <span>{{ app }}</span>
+        </p>
+
+        {{ script | safe }}
+        <br><br>
+      <p>
+        This difference between this application and the other ones, is that here analysis is done in <strong>real-time</strong>.
+        The densities are not pre-computed, rather they are calculated upon user input.<br><br>
+        Please note: changint the z-axis slider range will trigger the re-calculation of densities, which,
+        while very fast, is not instantenous and so it may take a few seconds for the app to update.
+        <br>
+        For more information, please see the Visualization Reference on the documenation pages.
+
+      </p>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  // dealing with the nav-menu underline
+  if ($('.nav-menu').length) {
+    $('.nav-menu .menu-active').removeClass('menu-active');
+  }
+//   console.log('docs: ', $("#docs"))
+  $("#docs").addClass('menu-active');
+</script>
+{% endblock javascript %}

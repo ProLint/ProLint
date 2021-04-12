@@ -4,7 +4,7 @@
 {% block header %}
 <section id="hero">
   <div class="hero-container">
-    <h1>Interactive Applications</h1>
+    <h1></h1>
     <!-- <h2>Role and purpose of the web server</h2> -->
   </div>
 </section>
@@ -49,160 +49,11 @@
       font-weight: 900;
     }
 
-    #lipid_text {
-      float: left;
-      margin-top: 35px;
-      z-index: 10;
-      margin-left: -150px
+    h1 {
+      margin-bottom: -50px !important;
     }
 
-    #lipidSelect {
-      float: left;
-      margin-top: 60px;
-      margin-left: -190px;
-      z-index: 20;
-    }
 
-    #density_warning {
-      float: left;
-      margin-top: 105px !important;
-      margin-left: -150px
-    }
-
-    #button_loaddx {
-      position: fixed;
-      float: left;
-      margin-top: 130px;
-      margin-left: -190px
-    }
-
-    #density_warning {
-      float: left;
-      margin-top: 160px;
-      margin-left: -150px
-    }
-
-    #surface_type {
-      float: left;
-      margin-top: 185px;
-      margin-left: -190px
-    }
-
-    #toggle_density {
-      float: left;
-      margin-top: 220px;
-      margin-left: -190px
-    }
-
-    #toggle_slice {
-      float: left;
-      margin-top: 258px;
-      margin-left: -190px
-    }
-
-    #slice_text {
-      float: left;
-      margin-top: 295px;
-      margin-left: -190px
-    }
-
-    #slice_direction {
-      float: left;
-      margin-top: 320px;
-      margin-left: -190px
-    }
-
-    #slice_slider {
-      float: left;
-      margin-top: 320px;
-      margin-left: -95px
-    }
-
-    #heatmap_text {
-      position: absolute;
-      float: left;
-      margin-top: 360px;
-      margin-left: -150px
-    }
-
-    #button_heatmap {
-      float: left;
-      margin-top: 385px;
-      margin-left: -150px
-    }
-
-    #radii_text {
-      float: left;
-      margin-top: 417px;
-      margin-left: -190px
-    }
-
-    #param_text {
-      float: left;
-      margin-top: 417px;
-      margin-left: -120px;
-    }
-
-    #radiiSelect {
-      float: left;
-      margin-top: 440px;
-      margin-left: -190px
-    }
-
-    #paramSelect {
-      float: left;
-      margin-top: 440px;
-      margin-left: -120px
-    }
-
-    #label_header {
-      float: left;
-      margin-top: 480px;
-      margin-left: -150px
-    }
-
-    #label_button {
-      float: left;
-      margin-top: 505px;
-      margin-left: -150px
-    }
-
-    #label_text {
-      float: left;
-      margin-top: 540px;
-      margin-left: -150px
-    }
-
-    #label_slider {
-      float: left;
-      margin-top: 565px;
-      margin-left: -150px
-    }
-
-    #button5 {
-      float: left;
-      margin-top: 635px;
-      margin-left: -150px
-    }
-
-    #gpcr_text {
-      float: inline-end;
-      display: none;
-    }
-
-    #gpcr_struc_text {
-      float: inline-end;
-      display: none;
-    }
-
-    #lipid_isolevel {
-      display: none;
-      float: left;
-      margin-top: 660px;
-      margin-right: -190px;
-      color: green;
-      z-index: 50;
-    }
   </style>
 
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -218,12 +69,12 @@
 
         <br>
         <p class="docp">
-          Lipids and proteins are represented as nodes and their interactions with each other as edges.
-          The width of the latter corresponds to the degree of the underlying interaction.
-          The size of lipid nodes corresponds to the ratio of that particular lipid in the simulated system.
-          The size of residue nodes corresponds to the relative content of each residue in the corresponding protein.
-          <br>
-          For more information, please see the Visualization Reference on the documenation pages.
+          The following application aims to highlight the structural details of lipid-protein interactions.<br>
+          First, the calculated metrics from the contact-based analysis are used to color residues with a white-to-red
+          color gradient. Basically, the redder the color the higher the metric. These contact heatmaps options will only
+          display if contact-based analysis was selected in the submission form. <br>
+          Click <strong>Show Contact Heatmaps</strong> and switch between the different metrics calculated.
+          analysis in the submission form, then the options to visualize the contacts as projection heatmaps will not show for you.
         </p>
 
         <div id="viewer-parent" style="
@@ -233,6 +84,7 @@
         "></div>
         <div id="gpcr-network" class="xnetwork" style="
         border: 2px solid black;
+        /* margin-right: -50px; */
         /* margin-bottom: 150px !important; */
         ">
         </div>
@@ -243,6 +95,20 @@
               rel="noopener">MMTF</a>.
           </small>
         </div>
+        <br>
+        <p class="docp">
+          To change for which lipid you want to visualize contacts, simply use the "Showing lipid" dropdown menu. <br>
+          You can also load the density of the lipid that is being displayed. Please note, however, that the file size of the
+          density will be around 15 MB and so depending on your internet connection it may take some time until it is
+          displayed on your screen. <br>
+          To change the isolevel of the density, hold shift and use the scroll wheel (or the equivalent of the scroll wheel for laptops).
+          After loading the density, several other options will appear to change the type of rendering and to view the density as a slice
+          representation (basically, a moving 2D density).
+          <br>
+          Please also note that density calculations makes sense if the protein was fixed during the simulation or has been been
+          postprocessed so that it is centered.<br>
+          For more information, please see the Visualization Reference on the documenation pages.
+        </p>
       </div>
     </div>
   </section>
@@ -265,7 +131,6 @@
   {{ task_result|safe }}
 
   <script type="text/javascript">
-    var besi = "BESIAN SEJDIU";
     var task_id = "{{ task_id }}";
     var prot_name = "{{ prot_name }}";
     var protein_name = "{{ prot_name }}";
@@ -291,7 +156,7 @@
   <script src="{% static 'js/palette.js' %}"></script>
   <script src="{% static 'js/pace.min.js' %}"></script>
   {% if density_only == 'true' %}
-  <script src="{% static 'js/gpcrs.js' %}"></script>
+  <script src="{% static 'js/heatmap_density.js' %}"></script>
   {% else %}
   <script src="{% static 'js/dx.js' %}"></script>
   {% endif %}

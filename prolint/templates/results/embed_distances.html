@@ -1,0 +1,96 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1></h1>
+    <!-- <h2>Role and purpose of the web server</h2> -->
+  </div>
+</section>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+
+<style>
+  .home-container {
+    height: 100vh !important;
+  }
+  h1 {
+      margin-bottom: -50px !important;
+    }
+
+</style>
+
+<main id="main">
+{% endblock header %}
+
+
+{% block content %}
+
+<style>
+    .docp {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    h4 {color: black;}
+
+    ol {list-style: none; counter-reset: li}
+    ol li::before {
+        content: counter(li);
+        color: black;
+        display: inline-block;
+        width: 1.2em;
+        margin-left: -1em
+    }
+    ol li {counter-increment: li}
+    a {
+        color: black;
+        font-weight: 900;
+    }
+</style>
+
+
+
+<section id="about">
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">{{ app }}</span></h2>
+
+        <br>
+        <p class="docp">
+           When calculating contact-based parameters to measure lipid-protein interactions we are, in effect, averaging over the simulation time and different lipid species
+           to arrive at a single number. Regardless of how sofisticated the metric we use is, we are still giving up on a lot of information. To overcome this
+           problem, ProLint takes the calculated metrics and sorts them based on their preferential interaction and for the best scoring residue/lipid combination, it
+           calculates the distances over time. <br>
+           Because many systems contain multiple copies of the same protein, and we are usually interested to know how the same residue
+           interacting with the same lipid fares on all copies, ProLint calculates and shows the same distances for all copies in the system. If a selection of protein/residue/lipid
+           does not show a specific binding of the lipid, that is the reason why.<br>
+          <br>
+        </p>
+
+        {{ script | safe }}
+        <br><br>
+
+        Please note that for efficiency reasons, when calcualting distances, we select the backbone atom/bead of the residue as a reference and one atom/bead from the lipid as a reference
+        (usually one of the headgroup atoms). So, a binding at 1 nm, for example, does not imply that it is better than a binding at 0.5 nm. <br>No amount of analysis can substitute for
+        visualizing the trajectory. ProLint accelerates research by revealing which residues are interacting with which lipids and by quantifying that interaction in meaningful and physically-grounded ways.
+        <br><br>
+        For more information, please see the Visualization Reference on the documenation pages.
+
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  // dealing with the nav-menu underline
+  if ($('.nav-menu').length) {
+    $('.nav-menu .menu-active').removeClass('menu-active');
+  }
+//   console.log('docs: ', $("#docs"))
+  $("#docs").addClass('menu-active');
+</script>
+{% endblock javascript %}

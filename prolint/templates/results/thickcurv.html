@@ -12,38 +12,52 @@
 <link rel="stylesheet" href="{% static 'css/viewer.css' %}">
 
 <main id="main">
-{% endblock header %}
+  {% endblock header %}
 
 
-{% block content %}
+  {% block content %}
 
-<style>
+  <style>
     .docp {
-        text-align: justify;
-        text-justify: inter-word;
+      text-align: justify;
+      text-justify: inter-word;
     }
-    h4 {color: black;}
 
-    ol {list-style: none; counter-reset: li}
+    h4 {
+      color: black;
+    }
+
+    ol {
+      list-style: none;
+      counter-reset: li
+    }
+
     ol li::before {
-        content: counter(li);
-        color: black;
-        display: inline-block;
-        width: 1.2em;
-        margin-left: -1em
+      content: counter(li);
+      color: black;
+      display: inline-block;
+      width: 1.2em;
+      margin-left: -1em
     }
-    ol li {counter-increment: li}
+
+    ol li {
+      counter-increment: li
+    }
+
     a {
-        color: black;
-        font-weight: 900;
+      color: black;
+      font-weight: 900;
     }
 
-#gui { float: right; margin-bottom: -500px; position: sticky;}
+    #gui {
+      float: right;
+      margin-bottom: -500px;
+      position: sticky;
+    }
+  </style>
 
-</style>
 
-
-<section id="about">
+  <section id="about">
 
     <div class="container" style="padding-left: 100px; padding-right: 100px">
       <div class="section-header">
@@ -59,78 +73,73 @@
           For more information, please see the Visualization Reference on the documenation pages.
         </p>
 
-		<div id="gui-container"></div>
-		<div id="thickcurve" style="
+        <div id="gui-container"></div>
+        <div id="thickcurve" style="
 			height: 700px;
 			text-align: justify;
 			border:2px solid black;
 			">
-		</div>
+        </div>
         <div><br><br></div>
         <p class="docp">
-			Lipids and proteins are represented as nodes and their interactions with each other as edges.
-			The width of the latter corresponds to the degree of the underlying interaction.
-			The size of lipid nodes corresponds to the ratio of that particular lipid in the simulated system.
-			The size of residue nodes corresponds to the relative content of each residue in the corresponding protein.
-			<br>
-			For more information, please see the Visualization Reference on the documenation pages.
-		  </p>
-		</div>
+          Lipids and proteins are represented as nodes and their interactions with each other as edges.
+          The width of the latter corresponds to the degree of the underlying interaction.
+          The size of lipid nodes corresponds to the ratio of that particular lipid in the simulated system.
+          The size of residue nodes corresponds to the relative content of each residue in the corresponding protein.
+          <br>
+          For more information, please see the Visualization Reference on the documenation pages.
+        </p>
+      </div>
     </div>
   </section>
 
-{% endblock %}
+  {% endblock %}
 
-{% block javascript %}
+  {% block javascript %}
 
-<script src="{% static 'js/threejs/three.min.js' %}"></script>
-<script src="{% static 'js/threejs/PLYLoader.js' %}"></script>
-<script src="{% static 'js/threejs/TrackballControls.js' %}"></script>
-<script src="{% static 'js/threejs/WebGL.js' %}"></script>
-<script src="{% static 'js/threejs/Lut.js' %}"></script>
-<script src="{% static 'js/threejs/dat.gui.min.js' %}"></script>
-<script src="{% static 'js/thickcurve.js' %}"></script>
+  <script src="{% static 'js/threejs/three.min.js' %}"></script>
+  <script src="{% static 'js/threejs/PLYLoader.js' %}"></script>
+  <script src="{% static 'js/threejs/TrackballControls.js' %}"></script>
+  <script src="{% static 'js/threejs/WebGL.js' %}"></script>
+  <script src="{% static 'js/threejs/Lut.js' %}"></script>
+  <script src="{% static 'js/threejs/dat.gui.min.js' %}"></script>
+  <script src="{% static 'js/thickcurve.js' %}"></script>
 
-<script>
-
-var task_id = "{{ task_id }}";
-var prot_name = "{{ prot_name }}";
-var protein_name = "{{ prot_name }}";
-var username = "{{ username }}"
-
-
-guis = {}
-
-function createElement(name, properties, style) {
-	var el = document.createElement(name)
-	Object.assign(el, properties)
-	Object.assign(el.style, style)
-	return el
-}
-
-function createSelect(options, properties, style) {
-	var select = createElement("select", properties, style)
-	options.forEach(function (d) {
-		select.add(createElement("option", {
-			value: d[0],
-			text: d[1]
-		}))
-	})
-	return select
-}
-
-// exampleSelect.setAttribute("id", "soflow-color");
-// document.getElementById("thickcurve").appendChild(exampleSelect)
-// document.getElementsByTagName("select")[0].value = prot_name
-
-scene = thickcurve(prot_name);
+  <script>
+    var task_id = "{{ task_id }}";
+    var prot_name = "{{ prot_name }}";
+    var protein_name = "{{ prot_name }}";
+    var username = "{{ username }}"
 
 
-  // dealing with the nav-menu underline
-  if ($('.nav-menu').length) {
-    $('.nav-menu .menu-active').removeClass('menu-active');
-  }
-  $("#docs").addClass('menu-active');
-</script>
+    guis = {}
 
-{% endblock javascript %}
+    function createElement(name, properties, style) {
+      var el = document.createElement(name)
+      Object.assign(el, properties)
+      Object.assign(el.style, style)
+      return el
+    }
+
+    function createSelect(options, properties, style) {
+      var select = createElement("select", properties, style)
+      options.forEach(function (d) {
+        select.add(createElement("option", {
+          value: d[0],
+          text: d[1]
+        }))
+      })
+      return select
+    }
+
+    scene = thickcurve(prot_name);
+
+
+    // dealing with the nav-menu underline
+    if ($('.nav-menu').length) {
+      $('.nav-menu .menu-active').removeClass('menu-active');
+    }
+    $("#docs").addClass('menu-active');
+  </script>
+
+  {% endblock javascript %}

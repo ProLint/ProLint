@@ -1,0 +1,92 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1></h1>
+    <!-- <h2>Role and purpose of the web server</h2> -->
+  </div>
+</section>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+
+<style>
+  .home-container {
+    height: 100vh !important;
+  }
+  h1 {
+      margin-bottom: -50px !important;
+    }
+
+</style>
+
+<main id="main">
+{% endblock header %}
+
+
+{% block content %}
+
+<style>
+    .docp {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    h4 {color: black;}
+
+    ol {list-style: none; counter-reset: li}
+    ol li::before {
+        content: counter(li);
+        color: black;
+        display: inline-block;
+        width: 1.2em;
+        margin-left: -1em
+    }
+    ol li {counter-increment: li}
+    a {
+        color: black;
+        font-weight: 900;
+    }
+</style>
+
+
+
+<section id="about">
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">{{ app }}</span></h2>
+
+        <br>
+        <p class="docp">
+          The following application is designed to compare how different metrics compare against each other. That is, for each residue and for each lipid,
+          within the selected distance cutoff, how do the different metrics that are calculated compare? The importance of this application lies in the fact
+          that defining parameters to measure lipid-protein interactions is easy, but it is still important to have a comparison between all the different
+          ways we are measuring interactions.<br>
+          <span style="color: black; font-weight: 900;">Therefore, the focus for the Metric Comparison app are different contact-based metrics.</span>
+          <br>
+        </p>
+
+        {{ script | safe }}
+        <br>
+
+        <br>
+        For more information, please see the Visualization Reference on the documenation pages.
+        <br>
+
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  // dealing with the nav-menu underline
+  if ($('.nav-menu').length) {
+    $('.nav-menu .menu-active').removeClass('menu-active');
+  }
+//   console.log('docs: ', $("#docs"))
+  $("#docs").addClass('menu-active');
+</script>
+{% endblock javascript %}
