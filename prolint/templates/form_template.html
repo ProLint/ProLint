@@ -65,11 +65,11 @@
               </li>
               <li class="menu-has-children"><a href="#">Resources</a>
                 <ul>
-                  <li><a href="#">GitHub Page</a></li>
-                  <li><a href="#">Docker Image</a></li>
-                  <li><a href="#">Python Library</a></li>
-                  <li><a href="#">gsurf</a></li>
-                  <li><a href="#">Test Data</a></li>
+                  <li><a href="https://github.com/ProLint">GitHub Page</a></li>
+                  <li><a href="https://github.com/ProLint/ProLint">Get ProLint</a></li>
+                  <li><a href="https://github.com/ProLint/prolintpy">Python Library</a></li>
+                  <li><a href="https://github.com/ProLint/g_surf">gsurf</a></li>
+                  <li><a href="https://github.com/bisejdiu/ProLintData">Test Data</a></li>
                   <div class="dropdown-divider"></div>
                   <li class="menu-has-children"><a href="#">Other</a>
                     <ul>
@@ -121,15 +121,15 @@
           <ul style="display: inline-flex; list-style-type: none; justify-content: space-between; letter-spacing: 8px;">
             <div>
               <li>
-                <a id="footerlogo" href="https://github.com/bisejdiu" title="GitHub" target="_blank">
+                <a id="footerlogo" href="https://github.com/ProLint" title="GitHub" target="_blank">
                   <i class="fab fa-github fa-3x"></i>
                 </a>
               </li>
             </div>
             <div>
               <li>
-                <a id="footerlogo" href="https://twitter.com/bisejdiu" title="Twitter" target="_blank">
-                  <i class="fab fa-twitter fa-3x"></i>
+                <a id="footerlogo" href="https://github.com/ProLint/ProLint/issues" title="Bugs" target="_blank">
+                  <i class="fas fa-bug fa-3x"></i>
                 </a>
               </li>
             </div>
@@ -168,7 +168,6 @@
   <link href="{% static 'css/materialize.css' %}" rel="stylesheet">
   <link href="{% static 'css/materialize.forms.css' %}" rel="stylesheet">
   <link href="{% static 'css/jquery.datetimepicker.css' %}" rel="stylesheet">
-  <!-- {% include 'material/includes/material_css.html' %} -->
   {% include 'material/includes/material_js.html' %}
   <script></script>
 
@@ -179,11 +178,6 @@
   jQuery.validator.addMethod("alphanumeric", function(value, element) {
     return this.optional(element) || /^[a-z,\- 0-9]+$/i.test(value);
 }, "Only alpha numeric, spaces, hyphens, and commas characters are allowed.");
-
-// jQuery.validator.addMethod("commalphanumeric", function(value, element) {
-//     return this.optional(element) || /^[a-z, 0-9]+$/i.test(value);
-// }, "Only alpha numeric, spaces and commas characters are allowed.");
-
 
     $("form[name='submitJob']").validate({
       rules: {

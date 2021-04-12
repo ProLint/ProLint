@@ -76,8 +76,36 @@
           Accessing and using ProLint is done using the form below. Please fill out all of the required sections, upload
           your data and
           hit Submit. Depending on the size of the loaded files and your network connection, this may take some time to
-          finish.
-          <br><br>
+          finish. Obviously, if you are using ProLint locally, this does not apply. <br>
+          Please note the following information, before submitting any jobs:
+          <ol style="text-align: justify; padding-top: 1%; padding-left: 70px; padding-right: 70px">
+            <li>Files submitted should only contain the protein and lipids. No water, ions, or ligands.</li>
+            <li>Make sure you choose the correct resolution and match it with the appropriate cutoff distance (e.g. for
+              atomistic simulations you want to use something like 0.3-0.4 nm, but for martini you may want to use 0.6 or 0.7 nm.
+            </li>
+            <li>Different analysis require different amount of time. The most time intensive is contact-based analysis, and most of the
+              applications are tailored towards it, but density-based and thickness/curvature profile calcualtions is much faster in
+              comparison.
+            </li>
+            <li>For the density measurements to make sense, you must make sure to first center your protein.
+            </li>
+          </ol>
+          </p>
+
+        <div style="border-top: 3px dashed #bbb; margin-top: 40px; padding-bottom: 15px; padding-left: 50px !important; padding-right: 50px !important"></div>
+        <div style="margin-left: 20%; margin-right: 20%">
+          <h4 style="color: black; text-align: center; padding-top: 10px; margin-bottom: -15px;">Submission Form</h4>
+
+          <form name="submitJob" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% form form=form %}
+            {% endform %}
+            <button type="submit" name="_submit" class="btn btn-danger">Submit</button>
+          </form>
+        </div>
+        <div style="border-top: 3px dashed #bbb; margin-top: 40px"></div>
+        <br><br>
+        <p style="text-align: justify; padding-top: 1%; padding-left: 50px; padding-right: 50px">
           Once your form has been submitted, you will be redirected to a new page where you can monitor the status of
           your job. There you
           can check if the calculations were successful or if they failed. You will also
@@ -93,26 +121,14 @@
           completion. After that, all
           data associated with your submission are purged from our server.<br></p>
 
-        <div style="border-top: 3px dashed #bbb; margin-top: 40px; padding-bottom: 15px; padding-left: 50px !important; padding-right: 50px !important"></div>
-        <div style="margin-left: 20%; margin-right: 20%">
-          <h4 style="color: black; text-align: center; padding-top: 10px; margin-bottom: -15px;">Submission Form</h4>
-
-          <form name="submitJob" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% form form=form %}
-            {% endform %}
-            <button type="submit" name="_submit" class="btn btn-danger">Submit</button>
-          </form>
-        </div>
-        <div style="border-top: 3px dashed #bbb; margin-top: 40px"></div>
       </div>
     </div>
   </section>
 
-  <section id="submit-container" style="padding: 10px 0;">
+  <section id="about" style="margin-top: -100px;">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title"><span style="text-transform:none;">Dry run using example data</span></h2>
+        <h2 class="section-title"><span style="text-transform:none;">Test run using example data</span></h2>
         <p style="text-align: justify; padding-top: 1%; padding-left: 50px; padding-right: 50px">
           If you would like to test the capabilities of ProLint and its potential usefulness to your work, we provide
           example data that you can
