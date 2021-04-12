@@ -200,8 +200,7 @@
     cursor: pointer;
   }
 
-
-   select#soflow, select#soflow-color {
+  select#soflow, select#soflow-color {
     -webkit-appearance: button;
     -webkit-border-radius: 2px;
     border-radius: 2px;
@@ -331,3 +330,223 @@
     background-color: rgb(187, 172, 177);
     -webkit-border-radius: 20px;
   }
+
+
+
+
+
+  #lipid_text {
+    float: left;
+    margin-top: 35px;
+    z-index: 10;
+    margin-left: -190px
+  }
+
+  #lipidSelect {
+    float: left;
+    margin-top: 60px;
+    margin-left: -190px;
+    width: 100px;
+  }
+
+  #density_label {
+    float: left;
+    margin-top: 105px !important;
+    margin-left: -190px
+  }
+
+  #button_loaddx {
+    position: fixed;
+    float: left;
+    margin-top: 130px;
+    margin-left: -190px
+  }
+
+  #density_warning {
+    float: left;
+    margin-top: 160px;
+    margin-left: -190px
+  }
+
+  #surface_type {
+    float: left;
+    margin-top: 185px;
+    margin-left: -190px
+  }
+
+  #toggle_density {
+    float: left;
+    margin-top: 220px;
+    margin-left: -190px
+  }
+
+  #toggle_slice {
+    float: left;
+    margin-top: 258px;
+    margin-left: -190px
+  }
+
+  #slice_text {
+    float: left;
+    margin-top: 295px;
+    margin-left: -190px
+  }
+
+  #slice_direction {
+    float: left;
+    margin-top: 320px;
+    margin-left: -190px
+  }
+
+  #slice_slider {
+    float: left;
+    margin-top: 327px;
+    margin-left: -120px;
+    width: 155px;
+  }
+
+  #heatmap_text {
+    position: absolute;
+    float: left;
+    margin-top: 360px;
+    margin-left: -190px
+  }
+
+  #button_heatmap {
+    float: left;
+    margin-top: 385px;
+    margin-left: -190px
+  }
+
+  #radii_text {
+    float: left;
+    margin-top: 417px;
+    margin-left: -190px
+  }
+
+  #param_text {
+    float: left;
+    margin-top: 417px;
+    margin-left: -110px;
+  }
+
+  #radiiSelect {
+    float: left;
+    margin-top: 440px;
+    margin-left: -190px
+  }
+
+  #paramSelect {
+    float: left;
+    margin-top: 440px;
+    margin-left: -110px
+  }
+
+  #label_header {
+    float: left;
+    margin-top: 480px;
+    margin-left: -190px
+  }
+
+  #label_button {
+    float: left;
+    margin-top: 505px;
+    margin-left: -190px
+  }
+
+  #label_text {
+    float: left;
+    margin-top: 540px;
+    margin-left: -190px
+  }
+
+  #label_slider {
+    float: left;
+    margin-top: 565px;
+    margin-left: -190px;
+    width: 230px;
+  }
+
+  #button5 {
+    float: left;
+    margin-top: 635px;
+    margin-left: -190px
+  }
+
+  #gpcr_text {
+    float: inline-end;
+    display: none;
+  }
+
+  #gpcr_struc_text {
+    float: inline-end;
+    display: none;
+  }
+
+  #lipid_isolevel {
+    /* display: none; */
+    float: left !important;
+    margin-top: 600px !important;
+    margin-left: -190px !important;
+    color: black !important;
+    z-index: 5000 !important;
+    /* font-weight: 900 !important; */
+
+  }
+
+  select {
+    -webkit-appearance: button;
+    -webkit-border-radius: 20px;
+    border-radius: 2px;
+    -webkit-padding-end: 20px;
+    -webkit-padding-start: 2px;
+    -webkit-user-select: none;
+    user-select: none;
+    background-position: 97% center;
+    background-repeat: no-repeat;
+    border: 1px solid #AAA;
+    color: #555;
+    /* font-size: inherit; */
+    border-radius: 5em;
+    border: none;
+    color: #fff;
+    /* font-weight: 500; */
+    cursor: pointer;
+    background-color: #635359;
+  }
+
+  select#lipidSelect {
+  width: 120px;
+  }
+
+  select#radiiSelect {
+    width: 70px;
+  }
+
+  select#paramSelect{
+    width: 150px;
+  }
+
+  select#surface_type {
+    width: 130px;
+  }
+
+  .primary-btn {
+    font-weight: normal !important;
+    width: 230px !important;
+    height: 25px !important;
+    line-height: normal !important;
+    text-align: left !important;
+  }
+
+  @media (max-width: 1450px) {
+    .gpcr-network {
+      width: 300 !important;
+      height: 500 !important;
+      margin-right: -150px !important;
+    }
+  }
+
+
+
+

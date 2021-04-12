@@ -1,0 +1,93 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block header %}
+<section id="hero">
+  <div class="hero-container">
+    <h1></h1>
+    <!-- <h2>Role and purpose of the web server</h2> -->
+  </div>
+</section>
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+
+<style>
+  .home-container {
+    height: 100vh !important;
+  }
+  h1 {
+      margin-bottom: -50px !important;
+    }
+
+</style>
+
+<main id="main">
+{% endblock header %}
+
+
+{% block content %}
+
+<style>
+    .docp {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    h4 {color: black;}
+
+    ol {list-style: none; counter-reset: li}
+    ol li::before {
+        content: counter(li);
+        color: black;
+        display: inline-block;
+        width: 1.2em;
+        margin-left: -1em
+    }
+    ol li {counter-increment: li}
+    a {
+        color: black;
+        font-weight: 900;
+    }
+</style>
+
+
+
+<section id="about">
+
+    <div class="container" style="padding-left: 100px; padding-right: 100px">
+      <div class="section-header">
+        <h2 class="section-title"><span style="text-transform:none;">{{ app }}</span></h2>
+
+        <br>
+        <p class="docp">
+          The point distribution app allows you to view all the data points at once.
+          Several interactive tools are provided to visualize different aspects of lipid-protein interactions with all lipid groups defined either in the submission or found
+          in the submitted system. You can filter the data using the dropdown options.
+          <br>
+        </p>
+
+        {{ script | safe }}
+        <br><br>
+
+        A slider functionally allows for tweaking the displaying of individual data points based on their metric value.
+        Another way to filter the data is by specifying the amino-acid three letter code (e.g. arg, leu, tyr). There is a dropdown menu to select the different metrics
+        calculated. The colormaps are linear from lowest to the highest value. We use the <a href="https://colorcet.holoviz.org/", target="_blank">colorcet</a> library for the colormaps.
+        <br>
+        <strong>Tip:</strong> You can put metrics on both the x and y axis and compare them against each other. <br><br>
+        For more information, please see the Visualization Reference on the documenation pages.
+
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  // dealing with the nav-menu underline
+  if ($('.nav-menu').length) {
+    $('.nav-menu .menu-active').removeClass('menu-active');
+  }
+//   console.log('docs: ', $("#docs"))
+  $("#docs").addClass('menu-active');
+</script>
+{% endblock javascript %}

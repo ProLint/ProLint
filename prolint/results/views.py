@@ -423,16 +423,16 @@ class TaskViewThickcurv(View):
 
 def scatter(request, task_id, username):
     script = server_document(request._current_scheme_host + "/scatter", arguments=dict(task_id=task_id, username=username))
-    return render(request, "results/embed.html", dict(script=script, app='Point Distribution'))
+    return render(request, "results/embed_points.html", dict(script=script, app='Point Distribution'))
 
 def radar(request, task_id, username):
     script = server_document(request._current_scheme_host + "/radar", arguments=dict(task_id=task_id, username=username))
-    return render(request, "results/embed.html", dict(script=script, app='Metric Comparison'))
+    return render(request, "results/embed_radar.html", dict(script=script, app='Metric Comparison'))
 
 def density(request, task_id, username):
     script = server_document(request._current_scheme_host + "/density", arguments=dict(task_id=task_id, username=username))
-    return render(request, "results/embed.html", dict(script=script, app='Density Distribution'))
+    return render(request, "results/embed_density.html", dict(script=script, app='Density Distribution'))
 
 def line(request, task_id, username):
     script = server_document(request._current_scheme_host + "/line", arguments=dict(task_id=task_id, username=username))
-    return render(request, "results/embed.html", dict(script=script, app='Distance Lines'))
+    return render(request, "results/embed_distances.html", dict(script=script, app='Distance Lines'))

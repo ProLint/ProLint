@@ -1,3 +1,4 @@
+// var stage = new NGL.Stage("viewport");
 document.addEventListener("DOMContentLoaded", function () {
     stage = new NGL.Stage("gpcr-network");
     stage.mouseControls.remove("scroll-shift");
@@ -52,11 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadStructure(input, name = "N/A", pdbID = "#") {
         struc = undefined
         surfCHOL = undefined
+        labelPosition.value = 10
+        toggleLabelButton.value = "Show Labels"
         isolevelCHOLText.innerText = ""
         stage.setFocus(0)
         stage.removeAllComponents()
         return stage.loadFile(input).then(function (o) {
 
+            gpcrNameText.innerHTML = '<span style="font-weight: bold">' + prot_name + '</span>'
             STATE = 2
             struc = o
 
@@ -145,11 +149,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function loadCHOL(input, color_surface = "#f40f68") {
         return stage.loadFile(input).then(function (o) {
-            isolevelCHOLText.innerText = "Density isolevel: 2.0\u03C3"
+            isolevelCHOLText.innerText = "Lipid level: 2.0\u03C3"
+            // scrollSelect.value = "both"
             scrollCHOL = true
+            // cs = new String(color_surface)
             surfCHOL = o.addRepresentation("surface", {
                 color: "#" + color_surface,
                 isolevel: 2.0,
+                // boxSize: 40,
                 useWorker: true,
                 contour: false,
                 opaqueBack: false,
@@ -160,6 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
             sliceReprCHOL = o.addRepresentation("slice", {
                 dimension: "x",
                 positionType: "percent",
+                // colorScale: "Viridis",
                 filter: "cubic-catmulrom",
             })
             sliceReprCHOL.toggleVisibility()
@@ -181,6 +189,8 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     addElement(exampleSelect)
 
+    // document.getElementById("gpcr-network").appendChild(exampleSelect)
+    // document.getElementsByTagName("select")[0].id = "lipidSelect"
     if (task_result.includes("CHOL")) {
         document.getElementById('lipidSelect').value = "CHOL";
     } else if (task_result.includes("PIP")) {
@@ -190,7 +200,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         var item = task_result[Math.floor(Math.random() * task_result.length)]
         document.getElementById('lipidSelect').value = item
+
     }
+    // document.getElementById('lipidSelect').value = task_result[0]
+
 
     radii_select_list = []
     radii_list = []
@@ -212,13 +225,176 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    var radiiButton = createSelect(
+        radii_select_list, {
+            id: 'radiiSelect',
+            onchange: function (e) {
+                state = document.getElementById("button_heatmap").state;
+                label_state = document.getElementById("label_button").state;
+
+                if (state) {
+
+                    radius = document.getElementById("radiiSelect").value;
+                    lipid = document.getElementById("lipidSelect").value;
+                    param = document.getElementById("paramSelect").value;
+
+                    bfactor_to_load = radius + '_' + lipid + '_' + param
+
+                    if (bfactors.hasOwnProperty(bfactor_to_load)) {
+                        reprlist = stage.compList[0].reprList
+                        for (let i = 0; i < reprlist.length; i++) {
+                            const e = reprlist[i];
+                            if (e.name == "surface") {
+
+                                surface.setParameters({
+                                    colorScheme: "white"
+                                })
+
+                                e.parent.structure.atomStore.bfactor = bfactors[bfactor_to_load]
+                                surface.setParameters({
+                                    colorScheme: "bfactor"
+                                })
+
+                            }
+                        }
+
+                    } else {
+
+                        fetch('/media/user-data/' + username + '/' + task_id + '/' + 'data.json')
+                            .then((response) => {
+                                return response.json();
+                            })
+                            .then((actual_JSON) => {
+                                reprlist = stage.compList[0].reprList
+                                for (let i = 0; i < reprlist.length; i++) {
+                                    const e = reprlist[i];
+                                    if (e.name == "surface") {
+
+                                        surface.setParameters({
+                                            colorScheme: "white"
+                                        })
+
+                                        e.parent.structure.atomStore.bfactor = actual_JSON[bfactor_to_load]
+                                        surface.setParameters({
+                                            colorScheme: "bfactor"
+                                        })
+
+                                    }
+                                }
+                            });
+                    }
+
+                    if (label_state) {
+                        labels.toggleVisibility();
+                        set_label_state(label_state);
+                        document.getElementById("label_text").hidden = true;
+                        document.getElementById("label_slider").hidden = true;
+
+                    }
+
+                }
+
+            }
+        })
+    addElement(radiiButton)
+
+    var paramButton = createSelect([
+        ["Sum of Contacts", "Sum of Contacts"],
+        ["Longest Contact", "Longest Contact"],
+        ["Average Contacts", "Average Contacts"],
+        ["Nr. Lipids per Residue", "Nr. Lipids per Residue"],
+        ["Occupancy", "Occupancy"],
+    ], {
+        id: 'paramSelect',
+        onchange: function (e) {
+            state = document.getElementById("button_heatmap").state;
+            label_state = document.getElementById("label_button").state;
+
+            if (state) {
+
+                radius = document.getElementById("radiiSelect").value;
+                lipid = document.getElementById("lipidSelect").value;
+                param = document.getElementById("paramSelect").value;
+
+                bfactor_to_load = radius + '_' + lipid + '_' + param
+                if (bfactors.hasOwnProperty(bfactor_to_load)) {
+                    reprlist = stage.compList[0].reprList
+                    for (let i = 0; i < reprlist.length; i++) {
+                        const e = reprlist[i];
+                        if (e.name == "surface") {
+
+                            surface.setParameters({
+                                colorScheme: "white"
+                            })
+
+                            e.parent.structure.atomStore.bfactor = bfactors[bfactor_to_load]
+                            surface.setParameters({
+                                colorScheme: "bfactor"
+                            })
+
+                        }
+                    }
+
+                } else {
+
+                    fetch('/media/user-data/' + username + '/' + task_id + '/' + 'data.json')
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((actual_JSON) => {
+                            reprlist = stage.compList[0].reprList
+                            for (let i = 0; i < reprlist.length; i++) {
+                                const e = reprlist[i];
+                                if (e.name == "surface") {
+
+                                    surface.setParameters({
+                                        colorScheme: "white"
+                                    })
+
+                                    e.parent.structure.atomStore.bfactor = actual_JSON[bfactor_to_load]
+                                    surface.setParameters({
+                                        colorScheme: "bfactor"
+                                    })
+
+                                }
+                            }
+                        });
+                }
+
+
+                if (label_state) {
+                    labels.toggleVisibility();
+                    set_label_state(label_state);
+                    document.getElementById("label_text").hidden = true;
+                    document.getElementById("label_slider").hidden = true;
+
+                }
+
+            }
+        }
+    })
+    addElement(paramButton)
+
+    addElement(createElement("span", {
+        id: 'radii_text',
+        innerText: "Radius:"
+    }))
+
+    addElement(createElement("span", {
+        id: 'param_text',
+        innerText: "Parameter:"
+    }))
+
+
+
     var loadDXButton = createElement("input", {
         id: "button_loaddx",
         type: "button",
         value: "Load Density",
         onclick: function (e) {
-            // get the current state of the button
+
             state = document.getElementById("button_loaddx").state;
+
             if (state) {
                 compList = stage.compList
                 for (let i = 0; i < compList.length; i++) {
@@ -229,13 +405,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 // update button states
                 document.getElementById('surface_type').hidden = true;
+
                 document.getElementById("button_loaddx").state = false;
                 document.getElementById("button_loaddx").value = "Load Density";
+
                 document.getElementById("toggle_density").hidden = true;
                 document.getElementById("toggle_slice").hidden = true;
+
                 document.getElementById('slice_text').hidden = true;
                 document.getElementById('slice_slider').hidden = true;
                 document.getElementById('slice_direction').hidden = true;
+
                 document.getElementById('density_warning').hidden = false;
 
                 isolevelCHOLText.innerText = ""
@@ -257,7 +437,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('slice_slider').hidden = false;
                 document.getElementById('slice_direction').hidden = false;
                 document.getElementById('density_warning').hidden = true;
-
             }
         }
     })
@@ -274,6 +453,102 @@ document.addEventListener("DOMContentLoaded", function () {
         id: 'density_label',
         innerText: "Density viewing:"
     }))
+
+
+
+    var heatmapButton = createElement("input", {
+        id: "button_heatmap",
+        type: "button",
+        value: "Show Contact Heatmaps",
+        onclick: function (e) {
+
+            state = document.getElementById("button_heatmap").state;
+
+            if (state) {
+
+                reprlist = stage.compList[0].reprList
+                for (let i = 0; i < reprlist.length; i++) {
+                    const e = reprlist[i];
+                    if (e.name == "surface") {
+
+                        e.parent.structure.atomStore.bfactor = 0
+                        surface.setParameters({
+                            colorScheme: "white"
+                        })
+                    }
+                };
+                document.getElementById("button_heatmap").value = "Show Contact Heatmaps"
+                document.getElementById("button_heatmap").state = false;
+
+            } else {
+
+                radius = document.getElementById("radiiSelect").value;
+                lipid = document.getElementById("lipidSelect").value;
+                param = document.getElementById("paramSelect").value;
+
+                bfactor_to_load = radius + '_' + lipid + '_' + param
+                // console.log(bfactors[bfactor_to_load])
+
+
+                if (bfactors.hasOwnProperty(bfactor_to_load)) {
+                    reprlist = stage.compList[0].reprList
+                    for (let i = 0; i < reprlist.length; i++) {
+                        const e = reprlist[i];
+                        if (e.name == "surface") {
+
+                            surface.setParameters({
+                                colorScheme: "white"
+                            })
+
+                            e.parent.structure.atomStore.bfactor = bfactors[bfactor_to_load]
+                            surface.setParameters({
+                                colorScheme: "bfactor"
+                            })
+
+                        }
+                    }
+
+                } else {
+
+                    fetch('/media/user-data/' + username + '/' + task_id + '/' + 'data.json')
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((actual_JSON) => {
+                            reprlist = stage.compList[0].reprList
+                            for (let i = 0; i < reprlist.length; i++) {
+                                const e = reprlist[i];
+                                if (e.name == "surface") {
+
+                                    surface.setParameters({
+                                        colorScheme: "white"
+                                    })
+
+                                    e.parent.structure.atomStore.bfactor = actual_JSON[bfactor_to_load]
+                                    surface.setParameters({
+                                        colorScheme: "bfactor"
+                                    })
+
+                                }
+                            }
+                        });
+                };
+
+                document.getElementById("button_heatmap").value = "Hide Contact Heatmap"
+                document.getElementById("button_heatmap").state = true;
+
+            }
+        }
+    })
+    addElement(heatmapButton)
+    document.getElementById("button_heatmap").state = false;
+
+    addElement(createElement("span", {
+        id: 'heatmap_text',
+        innerText: "Heatmaps:"
+    }))
+
+
 
     // A few surface representations for the density maps.
     var surfaceSelect = createSelect([
@@ -393,6 +668,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+    // Button to toggle the visibility of the label representaion.
+    var toggleLabelButton = createElement("input", {
+        id: "label_button",
+        type: "button",
+        value: "Show Labels",
+        onclick: function (e) {
+
+            heatmap_state = document.getElementById("button_heatmap").state;
+            label_state = document.getElementById("label_button").state;
+
+            var slider2 = document.getElementById("slider2")
+
+            if (heatmap_state) {
+                //
+                var bf = Array.from(labels.parent.structure.atomStore.bfactor);
+                var bfMax = Math.max.apply(null, bf);
+                labels.setParameters({
+                    radiusType: "bfactor",
+                    radiusScale: getBfMax(bfMax)
+                })
+                labels.toggleVisibility();
+                set_label_state(label_state);
+
+                document.getElementById("label_text").hidden = false;
+                document.getElementById("label_slider").hidden = false;
+
+
+                slider2.max = bfMax + 0.1;
+
+
+            } else {
+
+                labels.setParameters({
+                    radiusType: "",
+                    radiusScale: 5
+                })
+
+                labels.toggleVisibility();
+                set_label_state(label_state);
+
+                document.getElementById("label_text").hidden = true;
+                document.getElementById("label_slider").hidden = true;
+
+            }
+
+        }
+    })
+    addElement(toggleLabelButton)
+    document.getElementById("label_button").state = false;
+
+
+    addElement(createElement("span", {
+        id: 'label_header',
+        innerText: "Residue labeling:"
+    }))
+
+
     // Slider button to controll the position of the slice representation.
     addElement(createElement("span", {
         id: 'slice_text',
@@ -415,6 +747,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById('slice_text').hidden = true;
     document.getElementById('slice_slider').hidden = true;
+    // document.getElementById('slice_slider').disabled = true;
+
+
+
+    // Slider button to controll the cutoff of the label representation.
+    addElement(createElement("span", {
+        id: 'label_text',
+        innerText: "Residue label cutoff:"
+    }))
+    var lMax = 60.0
+    var labelPosition = createElement("input", {
+        id: "label_slider",
+        type: "range",
+        value: 10,
+        min: 0,
+        max: parseFloat(lMax),
+        step: 0.1,
+        oninput: function (e) {
+            var labelUpdate = stage.getRepresentationsByName("label");
+            labelUpdate = labelUpdate['list'][0]
+
+            stage.getRepresentationsByName("label").setParameters({
+                showL: showLabel(labelUpdate, e.target.value)
+            })
+        }
+    })
+    addElement(labelPosition)
+    document.getElementById("label_text").hidden = true;
+    document.getElementById("label_slider").hidden = true;
 
     // Button to take a screenshot.
     var screenshotButton = createElement("input", {
@@ -440,16 +801,34 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     addElement(isolevelCHOLText)
 
+    // Add the text "GPCR structure:" to the screen. That's it.
+    var gpcrStructureText = createElement("div", {
+        innerText: "",
+        id: 'gpcr_struc_text'
+    })
+    addElement(gpcrStructureText)
+
+    // Text position for the name of each GPCR. The names are defined
+    // when the structure is loaded.
+    var gpcrNameText = createElement("div", {
+        innerText: "",
+        id: 'gpcr_text'
+    })
+    addElement(gpcrNameText)
+
+
     addElement(createElement("span", {
         id: 'lipid_text',
         innerText: "Showing lipid: "
     }))
 
+
+
     // Add the ctrl+scroll mouse behaviour to controll the density isolevels.
     stage.mouseControls.add("scroll-shift", function () {
         if (surfCHOL) {
             var levelCHOL = surfCHOL.getParameters().isolevel.toFixed(2)
-            isolevelCHOLText.innerText = "Density isolevel: " + levelCHOL + "\u03C3"
+            isolevelCHOLText.innerText = "Lipid level: " + levelCHOL + "\u03C3"
         }
     })
 
@@ -484,6 +863,15 @@ document.addEventListener("DOMContentLoaded", function () {
         })
 
         if (prot_loaded == false) {
+            fetch('/media/user-data/' + username + '/' + task_id + '/' + 'data.json')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((json_file) => {
+                    for (let [key, value] of Object.entries(json_file)) {
+                        bfactors[key] = value
+                    }
+                });
 
             function numb() {
                 loadStructure("/media/user-data/" + username + "/" + task_id + "/" + prot_name + "_BB.pdb");
@@ -508,19 +896,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 colorScheme: "white"
             })
 
+
             document.getElementById('surface_type').hidden = true;
-            document.getElementById("button_loaddx").state = false;
-            document.getElementById("button_loaddx").value = "Load Density";
-            document.getElementById("toggle_density").hidden = true;
-            document.getElementById("toggle_slice").hidden = true;
-            document.getElementById('slice_text').hidden = true;
-            document.getElementById('slice_slider').hidden = true;
-            document.getElementById('slice_direction').hidden = true;
-            document.getElementById('density_warning').hidden = false;
+
             document.getElementById("button_loaddx").state = false;
             document.getElementById("button_loaddx").value = "Load Density";
 
+            document.getElementById("toggle_density").hidden = true;
+            document.getElementById("toggle_slice").hidden = true;
+
+            document.getElementById('slice_text').hidden = true;
+            document.getElementById('slice_slider').hidden = true;
+            document.getElementById('slice_direction').hidden = true;
+
+            document.getElementById('density_warning').hidden = false;
+
             isolevelCHOLText.innerText = ""
+
+
+
+            document.getElementById("button_heatmap").state = false;
+            document.getElementById("button_heatmap").value = "Show Contact Heatmaps"
+
+            document.getElementById("button_loaddx").state = false;
+            document.getElementById("button_loaddx").value = "Load Density";
 
         }
     }
@@ -528,10 +927,13 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("button_loaddx").classList.add('primary-btn')
     document.getElementById("toggle_density").classList.add('primary-btn')
     document.getElementById("toggle_slice").classList.add('primary-btn')
+    document.getElementById("button_heatmap").classList.add('primary-btn')
+    document.getElementById("label_button").classList.add('primary-btn')
     document.getElementById("button5").classList.add('primary-btn')
     document.getElementById("slice_slider").classList.add('slider')
-
-    //NOTE: select a rondom lipid
+    document.getElementById("label_slider").classList.add('slider')
+    // The default GPCR to load.
+    //NOTE: select the first lipid
     loadGPCR(task_result[0]);
 
 });

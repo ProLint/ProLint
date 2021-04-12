@@ -4,7 +4,7 @@
 {% block header %}
 <section id="hero">
   <div class="hero-container">
-    <h1>Interactive Applications</h1>
+    <h1></h1>
     <!-- <h2>Role and purpose of the web server</h2> -->
   </div>
 </section>
@@ -60,6 +60,10 @@
     #radii_select {
       width: 100px;
     }
+    h1 {
+      margin-bottom: -50px !important;
+    }
+
   </style>
 
 
@@ -71,14 +75,14 @@
 
         <br>
         <p class="docp">
-          Lipids and proteins are represented as nodes and their interactions with each other as edges.
-          The width of the latter corresponds to the degree of the underlying interaction.
-          The size of lipid nodes corresponds to the ratio of that particular lipid in the simulated system.
-          The size of residue nodes corresponds to the relative content of each residue in the corresponding protein.
-          <br>
-          For more information, please see the Visualization Reference on the documenation pages.
+          Network Graphs can be used to visualize relationships between member elements. We can, for instance, visualize interacting elements as nodes and their pairwise interactions as links (or vertices).
+          We are completely free to choose the interacting elements and how we want to model their relationship.
+          In the context of lipid-protein interactions, for example, nodes can be individual lipids, or groups of lipids, and we can visualize their interactions with protein residues by choosing appropriate links. <br>
+          In the application below, we use such a tool to highlight lipid-protein interactions. We group lipids as described above and each group is represented by a node.
+          These lipid nodes are surrounded by 20 residue nodes, 1 for each possible amino acid present in the corresponding protein (non-standard aminoacids are currently not supported).
+          Each of the residue nodes can be clicked, which will trigger it to expand and reveal the individual residues present in the protein being shown.
         </p>
-        <div id="network-container" style="border: 2px solid black">
+        <div id="network-container" style="border: 2px solid black;">
         <div id="network-parent-parent"
           style="display: flex; justify-content: space-around; margin-bottom: -30px; color: black">
           <p style="width:200px; padding-left: 65px;">Protein</p>
@@ -86,8 +90,29 @@
           <p style="width:200px; padding-left: 65px;">Metric</p>
         </div>
         <div id="network-parent" style="display: flex; justify-content: space-around;"></div>
-        <div id="gpcr-network" class="network" style="max-width: 100em; height: 45em; text-align: justify;"></div>
+        <div id="gpcr-network" class="network" style="
+        /* height: inherit; */
+        /* width: inherit; */
+        height: 700px;
+        width: 930px;
+        text-align: justify;
+        "></div>
       </div>
+      <p class="docp">
+        <ul>
+          <span style="margin-bottom: 10px">Further features/details of the graph are highlighted here:</span>
+          <li>You can click on the nodes and move them around.</li>
+          <li>The size of lipid nodes corresponds to the ratio of that particular lipid group in simulated systems.</li>
+          <li>The size of residue nodes corresponds to the relative content of each residue in the protein being shown.</li>
+          <li>Hovering the mouse over individual nodes will lower the visibility of all other nodes and links except those that share a connection with it.</li>
+          <li>The connections/links between nodes represent the metric selected from the dropdown menu and the size/width of the links relates to the magnitute.
+            If there is no link between two nodes that means that there was no interaction between them (or that interactions was really, really small) so, for clarity, we toggle their transparency to hide them from view</li>
+          <li>If a residue does not interact with any lipid at all (either because it is buried inside the protein core, or it is distantly placed from the membrane) then it is not shown in the graph.
+            This is done because the information these residues would provide by their inclusion is also available by their absence. This also ensures that large proteins do not overcrowd the graph with too many nodes and overburden the browser.</li>
+          <li>The movement of the individual nodes and links is done by integrating their positions using velocity Verlet and simulating physical forces on the lipid/protein nodes.
+            As such, in extremely rare cases you may get an unexpected behaviour or observe the graph not as pliable as intended. If this happens, simply refresh the page.</li>
+        </ul>
+      </p>
       </div>
     </div>
   </section>
