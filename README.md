@@ -37,7 +37,7 @@ If Docker asks to share the image, make sure to click **Share It** (I think this
 
 When installation finishes, open a browser and navigate to: **127.0.0.1:8000** (not 0.0.0.0:8000).
 
-Note that Docker has a default memory allocation that it uses. So if you submit large (and multiple) files make sure to increase the memory allocation otherwise the jobs will fail. 
+Note that Docker has a default memory allocation that it uses. So if you submit large (and multiple) files make sure to **increase the memory allocation** otherwise the calculations will fail, with the following error: _WorkerLostError: Worker exited prematurely: signal 9 (SIGKILL)_. 
 
 #### Docker Installation Tested
 The installation process above has been test on MacOS and confirmed to work. Linux should work too. I assume WSL 2 would also work, although I have not tested it yet. <br>
