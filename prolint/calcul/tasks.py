@@ -11,7 +11,7 @@ from pathlib import Path
 from io import StringIO, BytesIO
 from django.conf import settings
 from celery import shared_task, Celery
-from prolint.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
+from prolint.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND, FROM_SENDER, EMAIL_CONFIGURED
 
 app = Celery('tasks', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
 
@@ -406,5 +406,11 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
         web_server_name="ProLint",
         web_server_version="v2.0",
     )
+
+    if isinstance(type(user_inputs.get('email')), type(str)) and EMAIL_CONFIGURED:
+        from django.core.mail import send_mail
+        link = f"http://127.0.0.1:8000/results/{username}/{task_id}/"
+        message = f"Your job with id: {task_id} submitted to ProLint has finished calculating.\nPlease use the following link to access it: {link}."
+        send_mail('ProLint Job Submission', message, FROM_SENDER, [user_inputs.get('email')], fail_silently=False)
 
     return rent_or_maratonomak

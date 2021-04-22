@@ -144,3 +144,13 @@ SITE_ID = 1
 ACCOUNT_FORMS = {'signup': 'users.forms.CustomUserCreationForm'}
 THEMES_DIR = join(MODULE_DIR, "themes")
 CELERY_IMPORTS = ['calcul', 'calcul.tasks']
+
+# Email configuration. Define the options below and
+# set EMAIL_CONFIGURED to True for it to take effect.
+EMAIL_CONFIGURED = False
+FROM_SENDER = ''
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 000
+EMAIL_USE_TLS = True
