@@ -131,7 +131,6 @@ class NoUserResultsListView(ListView):
     def get(self, request, username, task_id):
 
         submission = FileMD.objects.filter(task_id=task_id)
-        print (len(submission))
         if len(submission) == 1:
             submission = submission[0]
         else:
@@ -158,6 +157,9 @@ class NoUserResultsListView(ListView):
 
         if os.path.isfile(os.path.join('media', 'user-data', username, task_id, 'logs.log')):
             fh = open(os.path.join('media', 'user-data', username, task_id, 'logs.log'), 'r').read()
+            return render(request, "results/nouser_upload.html", {'user_uploads' : user_uploads_w_status, 'submission': submission, 'username' : username, 'logs': fh})
+        elif os.path.isfile(os.path.join('media', 'user-data', username, task_id, 'progress.log')):
+            fh = open(os.path.join('media', 'user-data', username, task_id, 'progress.log'), 'r').read()
             return render(request, "results/nouser_upload.html", {'user_uploads' : user_uploads_w_status, 'submission': submission, 'username' : username, 'logs': fh})
         else:
             return render(request, "results/nouser_upload.html", {'user_uploads' : user_uploads_w_status, 'submission': submission, 'username' : username})

@@ -171,7 +171,25 @@
                 <ul style="list-style: none; text-align: left;">
                   <li>
                     <span style="color: black; font-weight: 500;">
-                      Your submission has not yet been completed. The calculations are intensive and time-consuming, so
+                      Your submission has been received and put into a task queue.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <ul style="list-style: none; text-align: left;">
+                  <li style="color: black; font-weight: 900;">STARTED:</li>
+                </ul>
+              </div>
+              <div class="col-10">
+                <ul style="list-style: none; text-align: left;">
+                  <li>
+                    <span style="color: black; font-weight: 500;">
+                      Processing and calculations have started. The calculations are intensive and time-consuming, so
                       please be patient.
                     </span>
                   </li>
@@ -239,8 +257,12 @@
                     {{ logs | linebreaks }}
                   {% elif upload.status == "FAILURE" %}
                     {{ logs | linebreaks }}
+                  {% elif upload.status == "PENDING" %}
+                    Your job has been received and has been put into the queue.
                   {% else %}
-                    Your job is either in the queue or already running. Watch this space for updates.
+                    Your job is running. Watch this space for updates.
+                    <br><br>
+                    {{ logs | linebreaks }}
                   {% endif %}
                 </code>
               </div>
