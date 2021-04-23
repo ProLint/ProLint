@@ -340,7 +340,7 @@
                         {{ upload.coor|filename }}
                       </td>
                       <td class="column100 column5" data-column="column5">
-                        {% if upload.status != "PENDING" %}
+                        {% if upload.status != "PENDING" and upload.status != "STARTED" %}
                         <form method="post" action="{% url 'download_task' username upload.task_id %}">
                           {% csrf_token %}
                           <button type="submit" class="btn btn-primary btn-sm">Download</button>
@@ -348,7 +348,7 @@
                         {% endif %}
                       </td>
                       <td class="column100 column6" data-column="column6">
-                        {% if upload.status != "PENDING" %}
+                        {% if upload.status != "PENDING" and upload.status != "STARTED"  %}
                         <form method="post" action="{% url 'delete_task' username upload.task_id %}">
                           {% csrf_token %}
                           <button type="submit" class="btn btn-danger btn-sm">Delete</button>

@@ -760,6 +760,7 @@ def contacts_dataframe(n, p, t, radius, resolution="martini", co=0, custom_metri
 
                 for lipid, values in result.items():
                     RESULTS[v].append(values[0])
+                    RESULTS[v + '_Error'].append(values[1])
                     if k == list(metrics.keys())[-1]:
                         RESULTS["Protein"].append(protein)
                         RESULTS["Lipids"].append(lipid)

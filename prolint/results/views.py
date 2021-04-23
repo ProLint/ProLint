@@ -379,6 +379,15 @@ class TaskView3Ddensity(View):
         task = current_app.AsyncResult(task_id)
         response_data = {'task_status': task.status, 'task_id': task.id}#, 'task_result_og': task.result}
 
+        try:
+            metrics = task.result['metrics']
+            html_metrics = "<script>var metrics = ["
+            for tr in metrics:
+                html_metrics = html_metrics + "'" + tr + "', "
+            html_metrics = html_metrics + "];</script>"
+        except:
+            html_metrics = '<script>var metrics = [];</script>'
+
         task_result = task.result['lipid_groups']
         html_result = "<script>var task_result = ["
         for tr in task_result:
@@ -396,6 +405,7 @@ class TaskView3Ddensity(View):
 
 
         response_data["task_result"] = html_result
+        response_data["metrics"] = html_metrics
         response_data["prot_name"] = task.result['prot_name']
         response_data["username"] = username
         response_data['radii'] = task.result['radii']
