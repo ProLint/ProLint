@@ -26,6 +26,10 @@ def radar_handler(doc: Document) -> None:
     conn = os.path.join(path_to_db, task_id + '.csv')
     df = pd.read_csv(conn)
 
+    for col in df.columns:
+        if col.endswith('Error'):
+            del df[col]
+
     # NOTE: How does this fare with multiple different proteins? And should we care?
     gpcrs = list(df.Protein.unique())
     lipids = list(df.Lipids.unique())
