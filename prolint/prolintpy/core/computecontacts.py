@@ -46,7 +46,7 @@ class ComputeContacts(object):
         self.proteins = proteins
         self.lipids = lipids
 
-    def compute_neighbors(self, t, residues=None, cutoff=0.7, proteins=None, atom_names=[], grouped=True, mdtraj=False, leightweight=False):
+    def compute_neighbors(self, t, residues=None, cutoff=0.7, proteins=None, atom_names=[], grouped=True, mdtraj=False, upload_dir='.'):
         """Compute contacts between proteins and given lipids in the system.
 
         Parameters
@@ -93,7 +93,27 @@ class ComputeContacts(object):
             proteins = self.proteins
 
         prolint_contacts = defaultdict(dict)
+
+        import os
+        import time
+        from io import StringIO
+        import shutil
+        start = time.process_time()
+        OUTPUT_COLLECTION = StringIO()
+        total_residues = 0
+
+        OUTPUT_COLLECTION.write(f"ProLint found {len(proteins)} type(s) of protein(s) in the submitted system.\n")
         for protein in proteins:
+            OUTPUT_COLLECTION.write(f"Protein with name {protein.name} has {protein.counter} replicates.\n")
+
+            for pc in np.arange(protein.counter):
+                residue_indices = protein.get_indices(residues=protein.residues, df=protein.dataframe[pc])
+                total_residues += len(residue_indices)
+
+            OUTPUT_COLLECTION.write(f"ProLint found {len(residue_indices)} residues for protein {protein.name}.\n")
+
+        for protein in proteins:
+            progress = True
             for pc in np.arange(protein.counter):
                 print ("Working on protein copy: {}".format(pc))
 
@@ -105,7 +125,24 @@ class ComputeContacts(object):
                 for chain in range(1, protein.chains+1):
 
                     for r, idxs in enumerate(residue_indices):
-                        # print (residues[r])
+
+                        if r == 30 and progress:
+                            OUTPUT_COLLECTION.write("\nMeasuring time required to calculate contacts...\n")
+                            elapsed_time = time.process_time() - start
+                            per_residue_elapsed_time = elapsed_time / r
+                            eta = per_residue_elapsed_time * (total_residues - r)
+                            time_required = eta * protein.counter * len(proteins)
+
+
+                            OUTPUT_COLLECTION.write(f"  Based on the first 30 residues, ProLint takes {np.round(per_residue_elapsed_time, 2)} seconds for each residue.\n")
+                            OUTPUT_COLLECTION.write(f"  We estimate that the required time to calculate all contacts is {np.round((time_required / 60), 1)} minutes.\n")
+                            OUTPUT_COLLECTION.write("Please note that this is a rough estimate and the actual calculation time may differ from the one quoted above.\n")
+                            OUTPUT_COLLECTION.write("Calculation time depends on several factors (cutoff, nr. proteins, nr. lipids, system size, etc.) and it is difficult to give an exact estimate.\n")
+                            with open(os.path.join(upload_dir, 'progress.log'), 'w') as fd:
+                                OUTPUT_COLLECTION.seek(0)
+                                shutil.copyfileobj(OUTPUT_COLLECTION, fd)
+
+                            progress = False
 
                         atoms_count = int(idxs.size / protein.chains)
                         idx = idxs[atoms_count*(chain-1):atoms_count*chain]
@@ -119,77 +156,6 @@ class ComputeContacts(object):
                 prolint_contacts[protein.name][pc] = per_residue_results
 
         return dict(prolint_contacts)
-
-    # def compute_lipid_distances(self, t, protein, distances_dict, residue_atom=None, distance_co=0.7, percentile_co=0.05, n=None):
-
-    #     import itertools
-
-    #     lipid_residue_distances = {}
-    #     lipids = list(distances_dict.keys())
-
-    #     for lipid in lipids:
-    #         headgroup = martini_headgroups(lipid, False)[lipid]
-    #         for residue in distances_dict[lipid]:
-    #             residue_distances = {}
-    #             for prot_idx in range(protein.counter):
-    #                 indices = protein.get_indices([residue], copy=prot_idx, suppress=True)[0]
-
-    #                 df_res = protein.dataframe[prot_idx].loc[indices]
-    #                 if residue_atom is None:
-    #                     if protein.resolution == "martini":
-    #                         residue_atom = "BB"
-    #                     elif protein.resolution == "atomistic":
-    #                         residue_atom = "CA"
-
-    #                 bb = df_res[df_res.name == residue_atom].index.to_list()
-    #                 if len(bb) == 0:
-    #                     continue
-
-    #                 ldf = t.topology.to_dataframe()[0]
-    #                 if n is None:
-    #                     lipid_idxs = ldf[
-    #                         (ldf.name == headgroup) &
-    #                         (ldf.resName == lipid)
-    #                     ].index.to_list()
-
-    #                 else:
-    #                     lipid_idxs = []
-    #                     lipid_resIDs = n[protein.name][prot_idx][residue].lipids[lipid]
-    #                     if len(lipid_resIDs) == 0:
-    #                         continue
-    #                     for resid in lipid_resIDs:
-    #                         lipid_idx = ldf[
-    #                             (ldf.name == headgroup) &
-    #                             (ldf.resSeq == resid)
-    #                         ].index.to_list()[0]
-
-    #                         lipid_idxs.append(lipid_idx)
-
-    #                 d = md.compute_distances(t, list(itertools.product(bb, lipid_idxs)))
-
-    #                 dist_dict_values = {}
-    #                 dist_sum_list = []
-    #                 dist_label_list = []
-    #                 for dist in range(d.shape[1]):
-    #                     sort_array = d[:, dist].copy()
-    #                     sort_array.sort()
-    #                     max_allowed = sort_array[int(len(sort_array)*percentile_co)]
-
-    #                     if max_allowed < distance_co:
-    #                         dist_sum_list.append(sum(sort_array[-int(len(sort_array)*0.1):]))
-    #                         dist_label_list.append(lipid_idxs[dist])
-    #                         dist_dict_values[lipid_idxs[dist]] = d[:, dist]
-
-    #                 if len(dist_sum_list) != 0:
-    #                     strongest_binding_label = dist_label_list[np.argmin(dist_sum_list)]
-    #                     residue_distances[prot_idx] = dist_dict_values[strongest_binding_label]
-
-    #             if lipid_residue_distances.get(lipid):
-    #                 lipid_residue_distances[lipid][residue] = residue_distances
-    #             else:
-    #                 lipid_residue_distances[lipid] = {residue: residue_distances}
-
-    #     return lipid_residue_distances, dict(time=t.time, protein=[protein.name])
 
     def compute_lipid_distances(self, t, protein, distances_dict, PLASMA_LIPIDS, lipids_found, resolution="martini", p=False, grouped=True):
 
@@ -794,6 +760,7 @@ def contacts_dataframe(n, p, t, radius, resolution="martini", co=0, custom_metri
 
                 for lipid, values in result.items():
                     RESULTS[v].append(values[0])
+                    RESULTS[v + '_Error'].append(values[1])
                     if k == list(metrics.keys())[-1]:
                         RESULTS["Protein"].append(protein)
                         RESULTS["Lipids"].append(lipid)

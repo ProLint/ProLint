@@ -298,81 +298,90 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     addElement(radiiButton)
 
-    var paramButton = createSelect([
-        ["Sum of Contacts", "Sum of Contacts"],
-        ["Longest Contact", "Longest Contact"],
-        ["Average Contacts", "Average Contacts"],
-        ["Nr. Lipids per Residue", "Nr. Lipids per Residue"],
-        ["Occupancy", "Occupancy"],
-    ], {
-        id: 'paramSelect',
-        onchange: function (e) {
-            state = document.getElementById("button_heatmap").state;
-            label_state = document.getElementById("label_button").state;
 
-            if (state) {
+    metrics_select_list = []
+    for (i = 0; i < metrics.length; i++) {
+        metrics_select_list.push([metrics[i], metrics[i]])
+    }
+    if (metrics_select_list.length == 0) {
+        metrics_select_list = [
+            ["Sum of Contacts", "Sum of Contacts"],
+            ["Longest Contact", "Longest Contact"],
+            ["Average Contacts", "Average Contacts"],
+            ["Nr. Lipids per Residue", "Nr. Lipids per Residue"],
+            ["Occupancy", "Occupancy"],
+        ]
+    }
+    var paramButton = createSelect(
+        metrics_select_list, {
+            id: 'paramSelect',
+            onchange: function (e) {
+                state = document.getElementById("button_heatmap").state;
+                label_state = document.getElementById("label_button").state;
 
-                radius = document.getElementById("radiiSelect").value;
-                lipid = document.getElementById("lipidSelect").value;
-                param = document.getElementById("paramSelect").value;
+                if (state) {
 
-                bfactor_to_load = radius + '_' + lipid + '_' + param
-                if (bfactors.hasOwnProperty(bfactor_to_load)) {
-                    reprlist = stage.compList[0].reprList
-                    for (let i = 0; i < reprlist.length; i++) {
-                        const e = reprlist[i];
-                        if (e.name == "surface") {
+                    radius = document.getElementById("radiiSelect").value;
+                    lipid = document.getElementById("lipidSelect").value;
+                    param = document.getElementById("paramSelect").value;
 
-                            surface.setParameters({
-                                colorScheme: "white"
-                            })
+                    bfactor_to_load = radius + '_' + lipid + '_' + param
+                    if (bfactors.hasOwnProperty(bfactor_to_load)) {
+                        reprlist = stage.compList[0].reprList
+                        for (let i = 0; i < reprlist.length; i++) {
+                            const e = reprlist[i];
+                            if (e.name == "surface") {
 
-                            e.parent.structure.atomStore.bfactor = bfactors[bfactor_to_load]
-                            surface.setParameters({
-                                colorScheme: "bfactor"
-                            })
+                                surface.setParameters({
+                                    colorScheme: "white"
+                                })
 
+                                e.parent.structure.atomStore.bfactor = bfactors[bfactor_to_load]
+                                surface.setParameters({
+                                    colorScheme: "bfactor"
+                                })
+
+                            }
                         }
+
+                    } else {
+
+                        fetch('/media/user-data/' + username + '/' + task_id + '/' + 'data.json')
+                            .then((response) => {
+                                return response.json();
+                            })
+                            .then((actual_JSON) => {
+                                reprlist = stage.compList[0].reprList
+                                for (let i = 0; i < reprlist.length; i++) {
+                                    const e = reprlist[i];
+                                    if (e.name == "surface") {
+
+                                        surface.setParameters({
+                                            colorScheme: "white"
+                                        })
+
+                                        e.parent.structure.atomStore.bfactor = actual_JSON[bfactor_to_load]
+                                        surface.setParameters({
+                                            colorScheme: "bfactor"
+                                        })
+
+                                    }
+                                }
+                            });
                     }
 
-                } else {
 
-                    fetch('/media/user-data/' + username + '/' + task_id + '/' + 'data.json')
-                        .then((response) => {
-                            return response.json();
-                        })
-                        .then((actual_JSON) => {
-                            reprlist = stage.compList[0].reprList
-                            for (let i = 0; i < reprlist.length; i++) {
-                                const e = reprlist[i];
-                                if (e.name == "surface") {
+                    if (label_state) {
+                        labels.toggleVisibility();
+                        set_label_state(label_state);
+                        document.getElementById("label_text").hidden = true;
+                        document.getElementById("label_slider").hidden = true;
 
-                                    surface.setParameters({
-                                        colorScheme: "white"
-                                    })
-
-                                    e.parent.structure.atomStore.bfactor = actual_JSON[bfactor_to_load]
-                                    surface.setParameters({
-                                        colorScheme: "bfactor"
-                                    })
-
-                                }
-                            }
-                        });
-                }
-
-
-                if (label_state) {
-                    labels.toggleVisibility();
-                    set_label_state(label_state);
-                    document.getElementById("label_text").hidden = true;
-                    document.getElementById("label_slider").hidden = true;
+                    }
 
                 }
-
             }
-        }
-    })
+        })
     addElement(paramButton)
 
     addElement(createElement("span", {

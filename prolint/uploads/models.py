@@ -58,10 +58,6 @@ APP_CHOICES = (
 
 
 class FileMD(models.Model):
-    # user = models.ForeignKey(
-    #     settings.AUTH_USER_MODEL,
-    #     on_delete=models.CASCADE,
-    # )
     title = models.CharField(max_length=100)
     prot_name = models.CharField(max_length=100, null=False, blank=False, default="Protein")
     traj = models.FileField(upload_to=user_directory_path, null=True, blank=False)
@@ -74,6 +70,7 @@ class FileMD(models.Model):
     resolution = models.CharField(max_length=25, choices=RESOLUTION_CHOICES, default="martini")
     chains = models.BooleanField(null=False, default=True)
     apps = MultiSelectField(choices=APP_CHOICES)
+    email = models.EmailField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.title

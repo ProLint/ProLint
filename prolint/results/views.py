@@ -131,7 +131,6 @@ class NoUserResultsListView(ListView):
     def get(self, request, username, task_id):
 
         submission = FileMD.objects.filter(task_id=task_id)
-        print (len(submission))
         if len(submission) == 1:
             submission = submission[0]
         else:
@@ -158,6 +157,9 @@ class NoUserResultsListView(ListView):
 
         if os.path.isfile(os.path.join('media', 'user-data', username, task_id, 'logs.log')):
             fh = open(os.path.join('media', 'user-data', username, task_id, 'logs.log'), 'r').read()
+            return render(request, "results/nouser_upload.html", {'user_uploads' : user_uploads_w_status, 'submission': submission, 'username' : username, 'logs': fh})
+        elif os.path.isfile(os.path.join('media', 'user-data', username, task_id, 'progress.log')):
+            fh = open(os.path.join('media', 'user-data', username, task_id, 'progress.log'), 'r').read()
             return render(request, "results/nouser_upload.html", {'user_uploads' : user_uploads_w_status, 'submission': submission, 'username' : username, 'logs': fh})
         else:
             return render(request, "results/nouser_upload.html", {'user_uploads' : user_uploads_w_status, 'submission': submission, 'username' : username})
@@ -377,6 +379,15 @@ class TaskView3Ddensity(View):
         task = current_app.AsyncResult(task_id)
         response_data = {'task_status': task.status, 'task_id': task.id}#, 'task_result_og': task.result}
 
+        try:
+            metrics = task.result['metrics']
+            html_metrics = "<script>var metrics = ["
+            for tr in metrics:
+                html_metrics = html_metrics + "'" + tr + "', "
+            html_metrics = html_metrics + "];</script>"
+        except:
+            html_metrics = '<script>var metrics = [];</script>'
+
         task_result = task.result['lipid_groups']
         html_result = "<script>var task_result = ["
         for tr in task_result:
@@ -394,6 +405,7 @@ class TaskView3Ddensity(View):
 
 
         response_data["task_result"] = html_result
+        response_data["metrics"] = html_metrics
         response_data["prot_name"] = task.result['prot_name']
         response_data["username"] = username
         response_data['radii'] = task.result['radii']

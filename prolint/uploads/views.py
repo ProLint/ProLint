@@ -40,6 +40,11 @@ class UploadDataView(View):
             traj_path = request.FILES['traj'].name
             coor_path = request.FILES['coor'].name
 
+            print ('#' * 20)
+            print (form.cleaned_data.get('email'))
+            # print (request.POST.)
+            print ('#' * 20)
+
             user_inputs = dict(
                 proteins=[x.strip(' ') for x in request.POST.get('prot_name').split(',') if len(x.strip(' ')) != 0], # list of strings (no whitespace)
                 group_lipids=form.cleaned_data.get('group'), # boolean
@@ -48,6 +53,7 @@ class UploadDataView(View):
                 lipids=findall(r"[\w']+", request.POST.get('lipids')), # list of strings (no whitespace)
                 resolution=form.cleaned_data.get('resolution'), # string
                 apps=request.POST.getlist('apps'),  # list of strings
+                email=form.cleaned_data.get('email'), # string
                 )
 
             # Exec task asynchronously

@@ -24,6 +24,11 @@ def scatter_handler(doc: Document) -> None:
     conn = os.path.join(path_to_db, task_id + '.csv')
     df = pd.read_csv(conn)
 
+    for col in df.columns:
+        if col.endswith('Error'):
+            if df[col].max() == 0:
+                del df[col]
+
     # widgets
     radii = [str(x) for x in df.Radius.unique()]
     number = Slider(title="Value Cutoff", value=0, start=0, end=4, step=0.1, width=150)

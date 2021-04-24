@@ -11,7 +11,7 @@ from pathlib import Path
 from io import StringIO, BytesIO
 from django.conf import settings
 from celery import shared_task, Celery
-from prolint.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
+from prolint.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND, FROM_SENDER, EMAIL_CONFIGURED
 
 app = Celery('tasks', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
 
@@ -104,7 +104,7 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
 
     if CALCULATIONS_REQUESTED['contacts']:
         try:
-            n = contacts.compute_neighbors(t, cutoff=radii[0], grouped=group_lipids)
+            n = contacts.compute_neighbors(t, cutoff=radii[0], grouped=group_lipids, upload_dir=upload_dir)
             protein_dataframe = pl.contacts_dataframe(n, proteins, t, radii[0], resolution)
             if len(radii) == 2:
                 m = contacts.compute_neighbors(t, cutoff=radii[1], grouped=group_lipids)
@@ -265,10 +265,18 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
                     'Lipid_Number': 'Nr. Lipids per Residue',
                     'Occupancy': 'Occupancy',
                 }
+
+                if df.Longest_Duration_Error.max() > 0:
+                    column_axis['Sum_of_all_Contacts_Error'] = 'Sum of Contacts Error'
+                    column_axis['Longest_Duration_Error'] = 'Longest Contact Error'
+                    column_axis['Mean_Duration_Error'] = 'Average Contacts Error'
+                    column_axis['Lipid_Number_Error'] = 'Nr. Lipids per Residue Error'
+                    column_axis['Occupancy_Error'] = 'Occupancy Error'
+
                 json_data = {}
                 for r in radii_list:
                     for l in lipids_list:
-                        for column in ['Sum_of_all_Contacts', 'Longest_Duration', 'Mean_Duration', 'Lipid_Number', 'Occupancy']:
+                        for column in list(column_axis.keys()):
                             if merge:
                                 bfactor = save_heatmap(l, r, column, df, proteins[0].counter)
                                 json_data[f'{r}_{l}_{column_axis[column]}'] = list(bfactor)
@@ -403,8 +411,15 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
         radii=radii,
         groups=group_lipids,
         errors={k:str(v).lower() for k,v in APPS_CALCULATED_SUCCESSFULLY.items()},
+        metrics=list(column_axis.values()),
         web_server_name="ProLint",
         web_server_version="v2.0",
     )
+
+    if isinstance(type(user_inputs.get('email')), type(str)) and EMAIL_CONFIGURED:
+        from django.core.mail import send_mail
+        link = f"http://127.0.0.1:8000/results/{username}/{task_id}/"
+        message = f"Your job with id: {task_id} submitted to ProLint has finished calculating.\nPlease use the following link to access it: {link}."
+        send_mail('ProLint Job Submission', message, FROM_SENDER, [user_inputs.get('email')], fail_silently=False)
 
     return rent_or_maratonomak
