@@ -402,6 +402,11 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
         OUTPUT_COLLECTION.seek(0)
         shutil.copyfileobj(OUTPUT_COLLECTION, fd)
 
+    if CALCULATED_CONTACTS:
+        metrics = list(protein_dataframe.columns)[:-5]
+    else:
+        metrics = []
+
     # Important: The metadata has to be JSON serializable
     rent_or_maratonomak = dict(
         prot_name=str(prot_name),
@@ -411,7 +416,7 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
         radii=radii,
         groups=group_lipids,
         errors={k:str(v).lower() for k,v in APPS_CALCULATED_SUCCESSFULLY.items()},
-        metrics=list(column_axis.values()),
+        metrics=metrics,
         web_server_name="ProLint",
         web_server_version="v2.0",
     )
