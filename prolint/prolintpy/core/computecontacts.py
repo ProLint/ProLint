@@ -46,7 +46,7 @@ class ComputeContacts(object):
         self.proteins = proteins
         self.lipids = lipids
 
-    def compute_neighbors(self, t, residues=None, cutoff=0.7, proteins=None, atom_names=[], grouped=True, mdtraj=False, upload_dir='.'):
+    def compute_neighbors(self, t, residues=None, cutoff=0.7, proteins=None, atom_names=[], grouped=True, mdtraj=False, upload_dir=None):
         """Compute contacts between proteins and given lipids in the system.
 
         Parameters
@@ -127,22 +127,24 @@ class ComputeContacts(object):
                     for r, idxs in enumerate(residue_indices):
 
                         if r == 30 and progress:
-                            OUTPUT_COLLECTION.write("\nMeasuring time required to calculate contacts...\n")
-                            elapsed_time = time.process_time() - start
-                            per_residue_elapsed_time = elapsed_time / r
-                            eta = per_residue_elapsed_time * (total_residues - r)
-                            time_required = eta * protein.counter * len(proteins)
+                            if upload_dir is not None:
+
+                                OUTPUT_COLLECTION.write("\nMeasuring time required to calculate contacts...\n")
+                                elapsed_time = time.process_time() - start
+                                per_residue_elapsed_time = elapsed_time / r
+                                eta = per_residue_elapsed_time * (total_residues - r)
+                                time_required = eta * protein.counter * len(proteins)
 
 
-                            OUTPUT_COLLECTION.write(f"  Based on the first 30 residues, ProLint takes {np.round(per_residue_elapsed_time, 2)} seconds for each residue.\n")
-                            OUTPUT_COLLECTION.write(f"  We estimate that the required time to calculate all contacts is {np.round((time_required / 60), 1)} minutes.\n")
-                            OUTPUT_COLLECTION.write("Please note that this is a rough estimate and the actual calculation time may differ from the one quoted above.\n")
-                            OUTPUT_COLLECTION.write("Calculation time depends on several factors (cutoff, nr. proteins, nr. lipids, system size, etc.) and it is difficult to give an exact estimate.\n")
-                            with open(os.path.join(upload_dir, 'progress.log'), 'w') as fd:
-                                OUTPUT_COLLECTION.seek(0)
-                                shutil.copyfileobj(OUTPUT_COLLECTION, fd)
+                                OUTPUT_COLLECTION.write(f"  Based on the first 30 residues, ProLint takes {np.round(per_residue_elapsed_time, 2)} seconds for each residue.\n")
+                                OUTPUT_COLLECTION.write(f"  We estimate that the required time to calculate all contacts is {np.round((time_required / 60), 1)} minutes.\n")
+                                OUTPUT_COLLECTION.write("Please note that this is a rough estimate and the actual calculation time may differ from the one quoted above.\n")
+                                OUTPUT_COLLECTION.write("Calculation time depends on several factors (cutoff, nr. proteins, nr. lipids, system size, etc.) and it is difficult to give an exact estimate.\n")
+                                with open(os.path.join(upload_dir, 'progress.log'), 'w') as fd:
+                                    OUTPUT_COLLECTION.seek(0)
+                                    shutil.copyfileobj(OUTPUT_COLLECTION, fd)
 
-                            progress = False
+                                progress = False
 
                         atoms_count = int(idxs.size / protein.chains)
                         idx = idxs[atoms_count*(chain-1):atoms_count*chain]
