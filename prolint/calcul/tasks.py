@@ -58,6 +58,14 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
         if app in apps:
             CALCULATIONS_REQUESTED[app] = True
 
+    column_axis = {
+        'Sum_of_all_Contacts': "Sum of Contacts",
+        'Longest_Duration': "Longest Contact",
+        'Mean_Duration': 'Average Contacts',
+        'Lipid_Number': 'Nr. Lipids per Residue',
+        'Occupancy': 'Occupancy',
+    }
+
     ####################################################
     ########   MDTraj and ProLint definitions  #########
     ####################################################
@@ -258,14 +266,6 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
                 radii_list = df.Radius.unique().tolist()
                 lipids_list = df.Lipids.unique().tolist()
 
-                column_axis = {
-                    'Sum_of_all_Contacts': "Sum of Contacts",
-                    'Longest_Duration': "Longest Contact",
-                    'Mean_Duration': 'Average Contacts',
-                    'Lipid_Number': 'Nr. Lipids per Residue',
-                    'Occupancy': 'Occupancy',
-                }
-
                 if df.Longest_Duration_Error.max() > 0:
                     column_axis['Sum_of_all_Contacts_Error'] = 'Sum of Contacts Error'
                     column_axis['Longest_Duration_Error'] = 'Longest Contact Error'
@@ -402,11 +402,6 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
         OUTPUT_COLLECTION.seek(0)
         shutil.copyfileobj(OUTPUT_COLLECTION, fd)
 
-    if CALCULATED_CONTACTS:
-        metrics = list(protein_dataframe.columns)[:-5]
-    else:
-        metrics = []
-
     # Important: The metadata has to be JSON serializable
     rent_or_maratonomak = dict(
         prot_name=str(prot_name),
@@ -416,9 +411,9 @@ def calcul_contacts(traj_path, coor_path, username, task_id, upload_dir, user_in
         radii=radii,
         groups=group_lipids,
         errors={k:str(v).lower() for k,v in APPS_CALCULATED_SUCCESSFULLY.items()},
-        metrics=metrics,
+        metrics=list(column_axis.values()),
         web_server_name="ProLint",
-        web_server_version="v2.0",
+        web_server_version="v2.1",
     )
 
     if isinstance(type(user_inputs.get('email')), type(str)) and EMAIL_CONFIGURED:
