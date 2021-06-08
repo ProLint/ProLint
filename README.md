@@ -116,3 +116,22 @@ These updates are, however, not transmitted when you make changes to the `calcul
   
 ## Bug report
 Please feel free to open an issue or contact us if you encounter any problem or bug while working with ProLint. 
+  
+## Citation
+ProLint is research software. If you make use of it in work which you publish, please cite it. The BibTeX reference is
+
+```
+@article{10.1093/nar/gkab409,
+    author = {Sejdiu, Besian I and Tieleman, D Peter},
+    title = "{ProLint: a web-based framework for the automated data analysis and visualization of lipid–protein interactions}",
+    journal = {Nucleic Acids Research},
+    year = {2021},
+    month = {05},
+    issn = {0305-1048},
+    doi = {10.1093/nar/gkab409},
+    url = {https://doi.org/10.1093/nar/gkab409},
+    note = {gkab409},
+    eprint = {https://academic.oup.com/nar/advance-article-pdf/doi/10.1093/nar/gkab409/38270894/gkab409.pdf},
+}
+```
+  
